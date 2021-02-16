@@ -6,7 +6,11 @@ class Home extends Component {
     this.state = {};
   }
   render() {
-    return <div></div>;
+    return (
+      <div>
+        <input type="button" class="ui primary button" value="hello" />
+      </div>
+    );
   }
 }
 
