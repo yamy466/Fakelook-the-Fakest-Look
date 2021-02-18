@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { useState } from 'react';
 import { Button, Header, Image, Modal } from 'semantic-ui-react'
 
@@ -18,3 +19,16 @@ const Login = () => {
 }
  
 export default Login;
+=======
+import React from "react";
+
+function Login() {
+  return (
+    <div>
+      <p>Login!</p>
+    </div>
+  );
+}
+
+export default Login;
+>>>>>>> 08a246a67968e8dab492e2edf8a8f38c14ee9e4c
