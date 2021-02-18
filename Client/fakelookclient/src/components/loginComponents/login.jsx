@@ -1,34 +1,55 @@
-<<<<<<< HEAD
-import { useState } from 'react';
-import { Button, Header, Image, Modal } from 'semantic-ui-react'
+import { useState } from "react";
+import {
+  Button,
+  Form,
+  Grid,
+  GridColumn,
+  Header,
+  Message,
+  Modal,
+  Segment,
+} from "semantic-ui-react";
 
 const Login = () => {
-    const [open, setOpen] = useState(false)
-    return (
-        <Modal
-        onClose={() => setOpen(false)}
-        onOpen={() => setOpen(true)}
-        open={open}
-        trigger={<Button>Show Modal</Button>}
-        >
-            <Modal.Header>
-                test
-            </Modal.Header>
-        </Modal>
-    )
-}
- 
-export default Login;
-=======
-import React from "react";
-
-function Login() {
+  const [open, setOpen] = useState(false);
   return (
-    <div>
-      <p>Login!</p>
-    </div>
+    <Modal
+      style={{ maxWidth: 500 }}
+      onClose={() => setOpen(false)}
+      onOpen={() => setOpen(true)}
+      open={open}
+      trigger={<Button>Show Modal</Button>}
+    >
+      <Modal.Content>
+        <Grid textAlign="center" verticalAlign="middle">
+          <GridColumn>
+            <Header>Welcome To Fakelook!</Header>
+            <Form>
+              <Form.Input
+                fluid
+                icon="user"
+                iconPosition="left"
+                placeholder="Username"
+              />
+              <Form.Input
+                fluid
+                icon="lock"
+                iconPosition="left"
+                placeholder="Password"
+                type="password"
+              />
+              <Button color="teal" fluid size="large">
+                Login
+              </Button>
+              <Message>
+                Not registered? <Button href="#">Sign Up</Button>
+              </Message>
+            </Form>
+          </GridColumn>
+        </Grid>
+      </Modal.Content>
+    </Modal>
   );
-}
+};
 
 export default Login;
->>>>>>> 08a246a67968e8dab492e2edf8a8f38c14ee9e4c
