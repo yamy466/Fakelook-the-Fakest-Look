@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 
 class Home extends Component {
   constructor(props) {
@@ -8,7 +9,9 @@ class Home extends Component {
   render() {
     return (
       <div>
-        <input type="button" class="ui primary button" value="hello" />
+        <Link className="ui primary button" to="/login">
+          Move to Login
+        </Link>
       </div>
     );
   }
