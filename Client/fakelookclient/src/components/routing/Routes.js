@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import Home from "../components/homeComponents/home";
-import Login from "../components/loginComponents/login";
-import AboutUs from "../components/aboutUsComponents/aboutUs";
+import Home from "../homeComponents/home";
+import Login from "../loginComponents/login";
+import AboutUs from "../aboutUsComponents/aboutUs";
 import { Switch, Route } from "react-router-dom";
 
 export default class Routes extends Component {

@@ -18,8 +18,7 @@ const Login = () => {
       onClose={() => setOpen(false)}
       onOpen={() => setOpen(true)}
       open={open}
-      trigger={<Button>Show Modal</Button>}
-    >
+      trigger={<Button>Show Modal</Button>}>
       <Modal.Content>
         <Grid textAlign="center" verticalAlign="middle">
           <GridColumn>

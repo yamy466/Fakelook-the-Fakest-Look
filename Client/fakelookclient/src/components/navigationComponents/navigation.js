@@ -4,14 +4,13 @@ import { Image, Menu, MenuItem } from "semantic-ui-react";
 import logo from "../../logo/logo_transparent.png";
 
 const Navigation = () => {
-  const [active, setActive] = useState("Home");
+  const pathName = window.location.pathname;
   const [home, aboutUs, login] = ["Home", "About Us", "Login"];
 
   const history = useHistory();
 
-  const onItemClick = (name, path) => {
+  const onItemClick = (path) => {
     history.push(path);
-    setActive(name);
   };
 
   return (
@@ -19,18 +18,19 @@ const Navigation = () => {
       <Image src={logo} size="tiny" />
       <MenuItem
         name={home}
-        active={active === home}
-        onClick={() => onItemClick(home, "/")}
+        active={pathName === "/"}
+        onClick={() => onItemClick("/")}
       />
       <MenuItem
         name={aboutUs}
-        active={active === aboutUs}
-        onClick={() => onItemClick(aboutUs, "/aboutus")}
+        active={pathName === "/aboutus"}
+        onClick={() => onItemClick("/aboutus")}
       />
       <MenuItem
+        className="right menu"
         name={login}
-        active={active === login}
-        onClick={() => onItemClick(login, "/login")}
+        active={pathName === "/login"}
+        onClick={() => onItemClick("/login")}
       />
     </Menu>
   );
