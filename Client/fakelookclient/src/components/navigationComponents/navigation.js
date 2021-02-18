@@ -1,36 +1,30 @@
 import React from "react";
-import { Navbar, Nav, NavbarBrand } from "react-bootstrap";
 import { withRouter, Link } from "react-router-dom";
 
-const Navigation = (props) => {
+const Navigation = () => {
   return (
-    <div className="ui inverted segment">
-      <Navbar bg="primary" variant="dark">
-        <NavbarBrand>Fakelook</NavbarBrand>
-        {/* <Navbar.Toggle aria-controls="basic-navbar-nav" /> */}
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="ui inverted menu">
-            <div>
-              <Link
-                className={
-                  window.location.pathname === "/" ? "active item" : "item"
-                }
-                to="/">
-                Home
-              </Link>
-            </div>
-            <div class="right menu">
-              <Link
-                className={
-                  window.location.pathname === "/login" ? "active item" : "item"
-                }
-                to="/">
-                Login
-              </Link>
-            </div>
-          </Nav>
-        </Navbar.Collapse>
-      </Navbar>
+    <div className="ui secondary pointing menu">
+      <a
+        href="/"
+        className={window.location.pathname === "/" ? "active item" : "item"}>
+        Home
+      </a>
+      <a
+        href="/aboutus"
+        className={
+          window.location.pathname === "/aboutus" ? "active item" : "item"
+        }>
+        About Us
+      </a>
+      <div class="right menu">
+        <Link
+          className={
+            window.location.pathname === "/login" ? "active item" : "item"
+          }
+          to="/login">
+          Login
+        </Link>
+      </div>
     </div>
   );
 };

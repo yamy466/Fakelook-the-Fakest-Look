@@ -1,4 +1,5 @@
-import Routes from "../../routing/routes";
+import React from "react";
+import Routes from "../../routing/Routes";
 import Navigation from "../navigationComponents/navigation";
 import "./App.css";
 
