@@ -18,6 +18,9 @@ class Home extends Component {
           <Link className="ui primary button" to="/login">
             Move to Login
           </Link>
+          <Link className="ui primary button" to="/map">
+            Move to Map
+          </Link>
         </div>
       </div>
     );
