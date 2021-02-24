@@ -1,65 +1,71 @@
-import React, { Component } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "./map.css";
 
-class FakelookMap extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      latitude: 32.09754044645131,
-      longitude: 34.826256097397454,
-    };
-  }
+const FakelookMap = () => {
+  const defaultLocation = {
+    latitude: 32.09754044645131,
+    longitude: 34.826256097397454,
+  };
+  const [center, setCenter] = useState({
+    latitude: 32.09754044645131,
+    longitude: 34.826256097397454,
+  });
+  const mapRef = useRef();
 
-  getAllLocations = () => {
+  useEffect(() => {
+    console.log(mapRef, "Mapppp");
+    const { current = {} } = mapRef;
+    const { leafletElement: map } = current;
+    getCurrentLocation();
+  }, [mapRef]);
+
+  function getAllLocations() {
     const locations = [
-      this.createLocation(32.157658, 34.822759),
-      this.createLocation(32.162580580196845, 34.806576938890494),
-      this.createLocation(32.162637168702574, 34.81450406550532),
+      createLocation(32.157658, 34.822759),
+      createLocation(32.162580580196845, 34.806576938890494),
+      createLocation(32.162637168702574, 34.81450406550532),
     ];
     return locations;
-  };
-
-  createLocation = (lat, lon) => {
-    const location = { lat: lat, lon: lon };
-    return location;
-  };
-
-  componentDidMount() {
-    navigator.geolocation.getCurrentPosition(
-      this.success,
-      this.error,
-      this.options
-    );
   }
 
-  success = (position) => {
+  function createLocation(lat, lon) {
+    const location = { lat: lat, lon: lon };
+    return location;
+  }
+
+  function getCurrentLocation() {
+    navigator.geolocation.getCurrentPosition(success, error, options);
+  }
+
+  function success(position) {
     let crds = position.coords;
-    this.setState({
-      latitude: crds.latitude,
-      longitude: crds.longitude,
-    });
-    console.log("ok did it", crds.longitude, "long");
-  };
+    let newCenter = { latitude: crds.latitude, longitude: crds.longitude };
+    setCenter(newCenter);
+    flyTo(crds);
+    console.log("ok did it");
+  }
 
-  error = () => {
-    this.setState({
-      latitude: 32.09754044645131,
-      longitude: 34.826256097397454,
-    });
-    console.log("failed");
-  };
+  function error() {
+    setCenter(defaultLocation);
+    flyTo(defaultLocation);
+    alert("Could not determine your current location");
+  }
 
-  options = () => {
+  function options() {
     let options;
     return (options = {
-      enableHighAccuracy: true,
+      enableHighAccuracy: false,
       timeout: 5000,
     });
-  };
+  }
 
-  renderLocations = () => {
-    let locations = this.getAllLocations();
+  function flyTo(location) {
+    // map.flyTo([location.latitude, location.longitude], 16);
+  }
+
+  function renderLocations() {
+    let locations = getAllLocations();
     return locations.map((location, index) => {
       return (
         <Marker position={location}>
@@ -69,25 +75,26 @@ class FakelookMap extends Component {
         </Marker>
       );
     });
-  };
+  }
 
-  renderMap = () => {
-    const { latitude, longitude } = this.state;
+  function renderMap() {
     return (
-      <MapContainer className="map" center={[latitude, longitude]} zoom={15}>
+      <MapContainer
+        ref={mapRef}
+        className="map"
+        center={[center.latitude, center.longitude]}
+        zoom={15}>
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         />
-        {this.renderLocations()}
+        {renderLocations()}
       </MapContainer>
     );
-  };
-
-  render() {
-    return <div>{this.renderMap()}</div>;
   }
-}
+
+  return <div>{renderMap()}</div>;
+};
 
 export default FakelookMap;
 //32.09754044645131 34.826256097397454
