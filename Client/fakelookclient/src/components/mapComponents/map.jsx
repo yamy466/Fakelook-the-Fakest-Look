@@ -1,72 +1,107 @@
-import React, { Component } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import Post from "../../models/post";
 import customIcon from "./CustomIcon";
 import "./map.css";
 
-class FakelookMap extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      latitude: 32.162580580196845,
-      longitude: 34.806576938890494,
-    };
-  }
+const FakelookMap = () => {
+  const defaultLocation = {
+    latitude: 32.09754044645131,
+    longitude: 34.826256097397454,
+  };
+  const [center, setCenter] = useState({
+    latitude: 32.09754044645131,
+    longitude: 34.826256097397454,
+  });
+  const mapRef = useRef();
 
-  getAllPosts = () => {
+  useEffect(() => {
+    console.log(mapRef, "Mapppp");
+    const { current = {} } = mapRef;
+    const { leafletElement: map } = current;
+    getCurrentLocation();
+  }, [mapRef]);
+
+  const getAllPosts = () => {
     const posts = [
-      new Post(1,1,2,32.177658,34.822759,"first post",[1,2],{},["new"],[]),
-      new Post(1,1,2,32.157658,34.822759,"second post",[3,4],{},["friday"],[]),
-      new Post(1,1,2,32.127658,34.822759,"third post",[5,6],{},["resturant"],[]),
+      new Post(
+        1,
+        1,
+        2,
+        32.177658,
+        34.822759,
+        "first post",
+        [1, 2],
+        {},
+        ["new"],
+        []
+      ),
+      new Post(
+        1,
+        1,
+        2,
+        32.157658,
+        34.822759,
+        "second post",
+        [3, 4],
+        {},
+        ["friday"],
+        []
+      ),
+      new Post(
+        1,
+        1,
+        2,
+        32.127658,
+        34.822759,
+        "third post",
+        [5, 6],
+        {},
+        ["resturant"],
+        []
+      ),
     ];
     return posts;
   };
 
-  
-
-  createLocation = ({latitude,longitude}) => {
+  const createLocation = ({ latitude, longitude }) => {
     return { lat: latitude, lon: longitude };
   };
 
-  componentDidMount() {
-    navigator.geolocation.getCurrentPosition(
-      this.success,
-      this.error,
-      this.options
-    );
+  function getCurrentLocation() {
+    navigator.geolocation.getCurrentPosition(success, error, options);
   }
 
-  success = (position) => {
+  function success(position) {
     let crds = position.coords;
-    this.setState({
-      latitude: crds.latitude,
-      longitude: crds.longitude,
-    });
-    console.log("ok did it", crds.longitude, "long");
-  };
+    let newCenter = { latitude: crds.latitude, longitude: crds.longitude };
+    setCenter(newCenter);
+    flyTo(crds);
+    console.log("ok did it");
+  }
 
-  error = () => {
-    this.setState({
-      latitude: 32.09754044645131,
-      longitude: 34.826256097397454,
-    });
-    console.log("failed");
-  };
+  function error() {
+    setCenter(defaultLocation);
+    flyTo(defaultLocation);
+    alert("Could not determine your current location");
+  }
 
-  options = () => {
-    let options;
-    return (options = {
-      enableHighAccuracy: true,
+  function options() {
+    return {
+      enableHighAccuracy: false,
       timeout: 5000,
-    });
-  };
+    };
+  }
 
+  function flyTo(location) {
+    // map.flyTo([location.latitude, location.longitude], 16);
+  }
 
-  renderLocations = () => {
-    let posts = this.getAllPosts();
+  const renderLocations = () => {
+    let posts = getAllPosts();
     return posts.map((post, index) => {
       return (
-        <Marker icon={customIcon()} position={this.createLocation(post)}>
+        <Marker icon={customIcon()} position={createLocation(post)}>
           <Popup>
             A pretty CSS3 popup. <br /> Easily customizable.
           </Popup>
@@ -75,23 +110,25 @@ class FakelookMap extends Component {
     });
   };
 
-  renderMap = () => {
-    const { latitude, longitude } = this.state;
+  function renderMap() {
     return (
-      <MapContainer className="map" center={[latitude, longitude]}  zoom={15}>
+      <MapContainer
+        ref={mapRef}
+        className="map"
+        center={[center.latitude, center.longitude]}
+        zoom={15}
+      >
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         />
-        {this.renderLocations()}
+        {renderLocations()}
       </MapContainer>
     );
-  };
-
-  render() {
-    return <div>{this.renderMap()}</div>;
   }
-}
+
+  return <div>{renderMap()}</div>;
+};
 
 export default FakelookMap;
 //32.09754044645131 34.826256097397454
