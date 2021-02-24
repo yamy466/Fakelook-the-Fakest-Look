@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-import Home from "../components/homeComponents/home";
-import Login from "../components/loginComponents/login";
-import AboutUs from "../components/aboutUsComponents/aboutUs";
+import Home from "../homeComponents/home";
+import Login from "../loginComponents/login";
+import AboutUs from "../aboutUsComponents/aboutUs";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
-import History from "../History/history";
+import History from "../../History/history";
 
 export default class Routes extends Component {
   render() {
