@@ -5,10 +5,6 @@ function AboutUs() {
   return (
     <div>
       <div>
-        <Navigation />
-      </div>
-      <br />
-      <div>
         <p>
           FakeLook is the fakest social network on earth... seriously it's fake
           as fuck, it's just a small project

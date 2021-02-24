@@ -11,7 +11,6 @@ export default class Routes extends Component {
       <div>
         <Switch>
           <Route exact path="/" component={Home} />
-          <Route exact path="/login" component={Login} />
           <Route exact path="/map" component={FakeLookMap} />
           <Route exact path="/aboutus" component={AboutUs} />
         </Switch>
