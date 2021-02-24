@@ -1,28 +1,31 @@
 import React, { Component } from "react";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import Post from "../../models/post";
+import customIcon from "./CustomIcon";
 import "./map.css";
 
 class FakelookMap extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      latitude: 32.09754044645131,
-      longitude: 34.826256097397454,
+      latitude: 32.162580580196845,
+      longitude: 34.806576938890494,
     };
   }
 
-  getAllLocations = () => {
-    const locations = [
-      this.createLocation(32.157658, 34.822759),
-      this.createLocation(32.162580580196845, 34.806576938890494),
-      this.createLocation(32.162637168702574, 34.81450406550532),
+  getAllPosts = () => {
+    const posts = [
+      new Post(1,1,2,32.177658,34.822759,"first post",[1,2],{},["new"],[]),
+      new Post(1,1,2,32.157658,34.822759,"second post",[3,4],{},["friday"],[]),
+      new Post(1,1,2,32.127658,34.822759,"third post",[5,6],{},["resturant"],[]),
     ];
-    return locations;
+    return posts;
   };
 
-  createLocation = (lat, lon) => {
-    const location = { lat: lat, lon: lon };
-    return location;
+  
+
+  createLocation = ({latitude,longitude}) => {
+    return { lat: latitude, lon: longitude };
   };
 
   componentDidMount() {
@@ -58,11 +61,12 @@ class FakelookMap extends Component {
     });
   };
 
+
   renderLocations = () => {
-    let locations = this.getAllLocations();
-    return locations.map((location, index) => {
+    let posts = this.getAllPosts();
+    return posts.map((post, index) => {
       return (
-        <Marker position={location}>
+        <Marker icon={customIcon()} position={this.createLocation(post)}>
           <Popup>
             A pretty CSS3 popup. <br /> Easily customizable.
           </Popup>
@@ -74,7 +78,7 @@ class FakelookMap extends Component {
   renderMap = () => {
     const { latitude, longitude } = this.state;
     return (
-      <MapContainer className="map" center={[latitude, longitude]} zoom={15}>
+      <MapContainer className="map" center={[latitude, longitude]}  zoom={15}>
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
