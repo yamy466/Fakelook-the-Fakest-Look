@@ -2,7 +2,6 @@
 
 # dependencies
 /node_modules
-/src/components/mapComponents
 /.pnp
 .pnp.js
 
