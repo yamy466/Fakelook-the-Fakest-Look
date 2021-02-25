@@ -34,6 +34,7 @@ function RecenterMap(props) {
   function flyTo(location) {
     map.flyTo([location.latitude, location.longitude], 16);
   }
-}
 
+  return null;
+}
 export default RecenterMap;
