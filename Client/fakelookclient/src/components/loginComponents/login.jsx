@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Button,
   Form,
@@ -10,15 +10,26 @@ import {
   Segment,
 } from "semantic-ui-react";
 
-const Login = () => {
+const Login = (props) => {
   const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    setOpen(props.open)
+    
+  }, [props.open])
+
+  const onClose = () => {
+    props.onClose();
+  }
   return (
     <Modal
+      closeIcon
       style={{ maxWidth: 500 }}
-      onClose={() => setOpen(false)}
+      onClose={onClose}
       onOpen={() => setOpen(true)}
       open={open}
-      trigger={<Button>Show Modal</Button>}>
+      /* trigger={<Button>Show Modal</Button>} */
+    >
       <Modal.Content>
         <Grid textAlign="center" verticalAlign="middle">
           <GridColumn>

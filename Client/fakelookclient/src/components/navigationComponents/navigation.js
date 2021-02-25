@@ -1,22 +1,43 @@
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
-import { Image, Menu, MenuItem } from "semantic-ui-react";
+import { Button, Image, Menu, MenuItem } from "semantic-ui-react";
 import logo from "../../logo/logo_transparent.png";
 
-const Navigation = () => {
-  const pathName = window.location.pathname;
-  const [home, aboutUs, login] = ["Home", "About Us", "Login"];
+const Navigation = (props) => {
+  const { loggedIn } = props;
+  const [pathName, setPathName] = useState(window.location.pathname);
+  const [home, aboutUs, map, feed] = ["Home", "About Us", "Map", "Feed"];
 
   const history = useHistory();
 
   const onItemClick = (path) => {
     history.push(path);
+    setPathName(window.location.pathname);
   };
 
   return (
-    <Menu pointing secondary>
-      <Image src={logo} size="tiny" />
-      <MenuItem
+    <>
+      <Image src={logo} size="tiny" onClick={() => onItemClick("/")}/>
+
+      
+      {loggedIn ? (
+        <>
+          <MenuItem
+            name={map}
+            active={pathName === "/map"}
+            onClick={() => onItemClick("/map")}
+          />
+          <MenuItem
+            name={feed}
+            active={pathName === "/feed"}
+            onClick={() => onItemClick("/feed")}
+          />
+        </>
+        
+      ):
+      (
+        <>
+        <MenuItem
         name={home}
         active={pathName === "/"}
         onClick={() => onItemClick("/")}
@@ -26,13 +47,9 @@ const Navigation = () => {
         active={pathName === "/aboutus"}
         onClick={() => onItemClick("/aboutus")}
       />
-      <MenuItem
-        className="right menu"
-        name={login}
-        active={pathName === "/login"}
-        onClick={() => onItemClick("/login")}
-      />
-    </Menu>
+      </>
+      )}
+    </>
   );
 };
 

@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import RecenterMap from "./mapManager";
+import Post from "../../models/post";
+import customIcon from "./CustomIcon";
 import "./map.css";
 
 const FakelookMap = () => {
@@ -9,32 +11,64 @@ const FakelookMap = () => {
     longitude: 34.826256097397454,
   };
 
-  function getAllLocations() {
-    const locations = [
-      createLocation(32.157658, 34.822759),
-      createLocation(32.162580580196845, 34.806576938890494),
-      createLocation(32.162637168702574, 34.81450406550532),
+  const getAllPosts = () => {
+    const posts = [
+      new Post(
+        1,
+        1,
+        2,
+        32.177658,
+        34.822759,
+        "first post",
+        [1, 2],
+        {},
+        ["new"],
+        []
+      ),
+      new Post(
+        1,
+        1,
+        2,
+        32.157658,
+        34.822759,
+        "second post",
+        [3, 4],
+        {},
+        ["friday"],
+        []
+      ),
+      new Post(
+        1,
+        1,
+        2,
+        32.127658,
+        34.822759,
+        "third post",
+        [5, 6],
+        {},
+        ["resturant"],
+        []
+      ),
     ];
-    return locations;
-  }
+    return posts;
+  };
 
-  function createLocation(lat, lon) {
-    const location = { lat: lat, lon: lon };
-    return location;
-  }
+  const createLocation = ({ latitude, longitude }) => {
+    return { lat: latitude, lon: longitude };
+  };
 
-  function renderLocations() {
-    let locations = getAllLocations();
-    return locations.map((location, index) => {
+  const renderLocations = () => {
+    let posts = getAllPosts();
+    return posts.map((post, index) => {
       return (
-        <Marker position={location}>
+        <Marker icon={customIcon()} position={createLocation(post)}>
           <Popup>
             A pretty CSS3 popup. <br /> Easily customizable.
           </Popup>
         </Marker>
       );
     });
-  }
+  };
 
   function renderMap() {
     return (
