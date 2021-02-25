@@ -10,16 +10,16 @@ export default class Post {
   tags: string[];
   taggedUsersId: number[];
   constructor(
-    id :number,
-    userId:number,
-    pictureId:number,
-    latitude:number,
-    longitude:number,
+    id: number,
+    userId: number,
+    pictureId: number,
+    latitude: number,
+    longitude: number,
     text = "",
-    likesId :number[],
+    likesId: number[],
     postedTime = new Date(),
     tags: string[],
-    taggedUsersId :number[]
+    taggedUsersId: number[]
   ) {
     this.id = id;
     this.userId = userId;

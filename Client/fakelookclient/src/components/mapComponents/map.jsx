@@ -1,5 +1,6 @@
-import React, { useRef, useEffect, useState } from "react";
+import React from "react";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import RecenterMap from "./mapManager";
 import Post from "../../models/post";
 import customIcon from "./CustomIcon";
 import "./map.css";
@@ -9,18 +10,6 @@ const FakelookMap = () => {
     latitude: 32.09754044645131,
     longitude: 34.826256097397454,
   };
-  const [center, setCenter] = useState({
-    latitude: 32.09754044645131,
-    longitude: 34.826256097397454,
-  });
-  const mapRef = useRef();
-
-  useEffect(() => {
-    console.log(mapRef, "Mapppp");
-    const { current = {} } = mapRef;
-    const { leafletElement: map } = current;
-    getCurrentLocation();
-  }, [mapRef]);
 
   const getAllPosts = () => {
     const posts = [
@@ -68,35 +57,6 @@ const FakelookMap = () => {
     return { lat: latitude, lon: longitude };
   };
 
-  function getCurrentLocation() {
-    navigator.geolocation.getCurrentPosition(success, error, options);
-  }
-
-  function success(position) {
-    let crds = position.coords;
-    let newCenter = { latitude: crds.latitude, longitude: crds.longitude };
-    setCenter(newCenter);
-    flyTo(crds);
-    console.log("ok did it");
-  }
-
-  function error() {
-    setCenter(defaultLocation);
-    flyTo(defaultLocation);
-    alert("Could not determine your current location");
-  }
-
-  function options() {
-    return {
-      enableHighAccuracy: false,
-      timeout: 5000,
-    };
-  }
-
-  function flyTo(location) {
-    // map.flyTo([location.latitude, location.longitude], 16);
-  }
-
   const renderLocations = () => {
     let posts = getAllPosts();
     return posts.map((post, index) => {
@@ -113,15 +73,14 @@ const FakelookMap = () => {
   function renderMap() {
     return (
       <MapContainer
-        ref={mapRef}
         className="map"
-        center={[center.latitude, center.longitude]}
-        zoom={15}
-      >
+        center={[defaultLocation.latitude, defaultLocation.longitude]}
+        zoom={15}>
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         />
+        <RecenterMap default={defaultLocation} />
         {renderLocations()}
       </MapContainer>
     );

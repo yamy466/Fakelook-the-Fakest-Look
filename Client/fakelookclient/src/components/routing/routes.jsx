@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import Home from "../homeComponents/home";
-import Login from "../loginComponents/login";
 import FakeLookMap from "../mapComponents/map.jsx";
 import AboutUs from "../aboutUsComponents/aboutUs";
 import { Switch, Route } from "react-router-dom";
