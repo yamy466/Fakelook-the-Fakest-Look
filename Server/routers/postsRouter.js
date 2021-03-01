@@ -8,7 +8,20 @@ router.get(
   "/getPosts",
   asyncHandler(async (req, res) => {
     const data = await controller.getAllPosts();
+    console.log(data, "current data - router");
     res.send(data);
+  })
+);
+
+router.post(
+  "/addPost",
+  asyncHandler(async (req, res) => {
+    try {
+      const data = await controller.addPost(req.body);
+      res.status(200).send(data);
+    } catch (err) {
+      res.status(400).send(err);
+    }
   })
 );
 
