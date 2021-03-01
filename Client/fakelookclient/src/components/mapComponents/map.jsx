@@ -4,6 +4,7 @@ import RecenterMap from "./mapManager";
 import Post from "../../models/post";
 import customIcon from "./CustomIcon";
 import "./map.css";
+import AboutUs from "../aboutUsComponents/aboutUs";
 
 const FakelookMap = () => {
   const defaultLocation = {
@@ -63,7 +64,7 @@ const FakelookMap = () => {
       return (
         <Marker icon={customIcon()} position={createLocation(post)}>
           <Popup>
-            A pretty CSS3 popup. <br /> Easily customizable.
+            <AboutUs />
           </Popup>
         </Marker>
       );
@@ -82,6 +83,11 @@ const FakelookMap = () => {
         />
         <RecenterMap default={defaultLocation} />
         {renderLocations()}
+        <Marker position={createLocation(defaultLocation)}>
+          <Popup>
+            <AboutUs />
+          </Popup>
+        </Marker>
       </MapContainer>
     );
   }

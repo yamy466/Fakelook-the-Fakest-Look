@@ -26,7 +26,7 @@ const customIcon = (
     iconUrl: iconUrl,
     iconRetinaUrl: null,
     iconAnchor: [22, 94],
-    popupAnchor: [-3, -76],
+    popupAnchor: [13, -70],
     shadowUrl: null,
     shadowSize: null,
     shadowAnchor: null,
