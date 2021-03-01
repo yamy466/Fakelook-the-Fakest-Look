@@ -4,6 +4,7 @@ import Login from "../loginComponents/login";
 import "./header.css"
 
 import Navigation from "../navigationComponents/navigation";
+import env from "../../enviroments/enviroment";
 
 const Header = () => {
   const [loginOpen, setLoginOpen] = useState(false);
@@ -25,7 +26,7 @@ const Header = () => {
       <Navigation loggedIn={loggedIn}/>
       <Menu.Menu position="right">
         {!loggedIn && <Button onClick={onRegisterClick}>Register</Button>}
-        <Button primary className="right" onClick={onAuthClick}>
+        <Button style={{backgroundColor: env.mainColor}} className="right" onClick={onAuthClick}>
           {loggedIn ? "Logout" : "Login"}
         </Button>
       </Menu.Menu>

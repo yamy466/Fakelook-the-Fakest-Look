@@ -9,6 +9,7 @@ import {
   Modal,
   Segment,
 } from "semantic-ui-react";
+import env from "../../enviroments/enviroment";
 
 const Login = (props) => {
   const [open, setOpen] = useState(false);
@@ -48,7 +49,7 @@ const Login = (props) => {
                 placeholder="Password"
                 type="password"
               />
-              <Button color="teal" fluid size="large">
+              <Button style={{backgroundColor: env.mainColor}} fluid size="large">
                 Login
               </Button>
               <Message>
