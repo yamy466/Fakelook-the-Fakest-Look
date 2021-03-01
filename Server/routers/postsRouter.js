@@ -12,4 +12,16 @@ router.get(
   })
 );
 
+router.post(
+  "/addPost",
+  asyncHandler(async (req, res) => {
+    try {
+      const data = await controller.addPost(req.body);
+      res.status(200).send(data);
+    } catch (err) {
+      res.status(400).send(err);
+    }
+  })
+);
+
 module.exports = router;

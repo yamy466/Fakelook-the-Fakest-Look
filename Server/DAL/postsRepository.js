@@ -3,6 +3,10 @@ class PostsRepository {
     const data = getData();
     return data;
   }
+
+  async createNewPost(post) {
+    console.log(post, "this is the post to create");
+  }
 }
 
 module.exports = new PostsRepository();

@@ -5,6 +5,10 @@ class PostsController {
   getAllPosts() {
     return db.getAllPosts();
   }
+
+  addPost(post) {
+    return db.createNewPost(post);
+  }
 }
 
 module.exports = new PostsController();
