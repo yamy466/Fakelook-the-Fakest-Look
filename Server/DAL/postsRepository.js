@@ -1,15 +1,9 @@
-const sql = require("mssql");
-const config = require("./dbconfig");
+const { Post } = require("./dbconfig");
 
 class PostsRepository {
   async getAllPosts() {
-    try {
-      let data = await sql.connect(config);
-      let posts = await data.request().query("SELECT * from Posts");
-      return posts.recordsets;
-    } catch (error) {
-      console.log(error);
-    }
+    var result = Post.findAll({});
+    return result;
   }
 
   async createNewPost(post) {

@@ -1,0 +1,46 @@
+import { Marker, Popup } from "react-leaflet";
+import React, { Component } from "react";
+import PostsService from "../../services/postsService";
+import customIcon from "./CustomIcon";
+import AboutUs from "../aboutUsComponents/aboutUs";
+import { connect } from "react-redux";
+import { fetchPosts } from "../../actions/index";
+
+class ShowPosts extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { posts: [] };
+    props.fetchPosts();
+  }
+
+  createLocation = (location) => {
+    return { lat: location.x, lon: location.y };
+  };
+
+  renderLocations = () => {
+    console.log(this.state.posts, "current posts");
+    return this.state.posts.map((post, index) => {
+      return (
+        <Marker
+          icon={customIcon()}
+          position={this.createLocation(post.location)}>
+          <Popup>
+            <AboutUs />
+          </Popup>
+        </Marker>
+      );
+    });
+  };
+
+  render() {
+    return this.renderLocations();
+  }
+}
+
+const mapStateToProps = (state) => {
+  return {
+    posts: state.posts,
+  };
+};
+
+export default connect(mapStateToProps, { fetchPosts })(ShowPosts);

@@ -8,7 +8,6 @@ router.get(
   "/getPosts",
   asyncHandler(async (req, res) => {
     const data = await controller.getAllPosts();
-    console.log(data, "current data - router");
     res.send(data);
   })
 );
