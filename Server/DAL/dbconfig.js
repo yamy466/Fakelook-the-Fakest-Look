@@ -1,11 +1,11 @@
-const Sequelize = require("sequelize");
+const sequelize = require("sequelize");
 const PostModel = require("../Models/post");
 
-const sequelize = new Sequelize("FakelookDB", "postgres", "potato", {
+const connection = new sequelize("FakelookDB", "postgres", "potato", {
   dialect: "postgres",
 });
 
-const Post = PostModel(sequelize, Sequelize);
+const Post = PostModel(connection, sequelize);
 
 module.exports = {
   Post,

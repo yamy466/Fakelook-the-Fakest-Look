@@ -1,22 +1,22 @@
-module.exports = (sequelize, type) => {
-  return sequelize.define(
+module.exports = (connection, sequelize) => {
+  return connection.define(
     "post",
     {
       // Model attributes are defined here
       id: {
-        type: type.SMALLINT,
+        type: sequelize.SMALLINT,
         primaryKey: true,
         allowNull: false,
         autoIncrement: true,
       },
 
       text: {
-        type: type.TEXT,
+        type: sequelize.TEXT,
         allowNull: true,
       },
       location: {
         type: `Point`,
-        allowNull: true,
+        allowNull: false,
       },
     },
     {
