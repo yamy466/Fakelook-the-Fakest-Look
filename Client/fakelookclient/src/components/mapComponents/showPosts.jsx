@@ -9,17 +9,24 @@ import { fetchPosts } from "../../actions/index";
 class ShowPosts extends Component {
   constructor(props) {
     super(props);
-    this.state = { posts: [] };
+    this.state = {};
     props.fetchPosts();
+    this.initPosts();
   }
+
+  initPosts = () => {
+    this.props.posts?.data?.map((res) => {
+      this.setState({ posts: res });
+    });
+  };
 
   createLocation = (location) => {
     return { lat: location.x, lon: location.y };
   };
 
   renderLocations = () => {
-    console.log(this.state.posts, "current posts");
-    return this.state.posts.map((post, index) => {
+    console.log(this.props.posts, "current posts");
+    return this.props.posts.map((post, index) => {
       return (
         <Marker
           icon={customIcon()}
