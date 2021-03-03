@@ -11,7 +11,6 @@ const UserMenuItem = ({ header, title, active, setActive,icon }) => {
         setActive(title);
       }}
     >
-        {console.log(icon)}
       <i className={`fas fa-${icon}`} style={{fontSize: 30}}></i>
     </MenuItem>
   );
