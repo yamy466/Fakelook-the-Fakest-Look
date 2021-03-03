@@ -28,8 +28,22 @@ const Filter = () => {
   ]);
   const [selectedPublishers, setSelectedPublishers] = useState([]);
   const [radius, setRadius] = useState("");
-  const [photoTags, setPhotoTags] = useState([]);
+  const [selectedPhotoTags, setSelectedPhotoTags] = useState([]);
   const [selectedGroups, setSelectedGroups] = useState([]);
+
+  const onClearClick = () => {
+    setSelectedGroups([]);
+    setSelectedPublishers([]);
+    setSelectedPhotoTags([]);
+    setRadius("");
+    setDatesRange([
+      {
+        startDate: null,
+        endDate: null,
+        key: "selection",
+      },
+    ]);
+  };
 
   const onRadiusChange = (num) => {
     if (!/^\d*$/.test(num)) {
@@ -66,6 +80,7 @@ const Filter = () => {
           })}
         />
         <Form.Field
+          id="radius"
           control={Input}
           value={radius}
           label="Radius"
@@ -76,14 +91,14 @@ const Filter = () => {
         />
         <Form.Field
           control={Dropdown}
-          value={photoTags}
+          value={selectedPhotoTags}
           label="Photo Tags"
           search
           selection
           multiple
           placeholder="photo tag"
           onChange={(e, { value }) => {
-            setPhotoTags(value);
+            setSelectedPhotoTags(value);
           }}
           options={photoTagsMock.map((p) => {
             return { text: p.title, key: p.id, value: p };
@@ -105,23 +120,16 @@ const Filter = () => {
           })}
         />
         <Form.Group floated="right">
-
-        <Form.Field
-        control={Button}
-          className="right"
-          onClick={() => {}}
-          style={{ backgroundColor: "#7EB1CC" }}
-          content="Filter"
-          
+          <Form.Button
+            onClick={() => {}}
+            style={{ backgroundColor: "#7EB1CC" }}
+            content="Filter"
           />
-          <Form.Field
-          control={Button}
-          className="right"
-          onClick={() => {}}
-          content="Clear"
+          <Form.Button
+            onClick={onClearClick}
+            content="Clear"
           />
-          
-          </Form.Group>
+        </Form.Group>
       </Form>
     </Segment>
   );

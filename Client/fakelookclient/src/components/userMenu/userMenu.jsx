@@ -36,7 +36,7 @@ const UserMenu = ({ visible, setVisible }) => {
             />
           );
         })}
-        <Menu.Menu className="right">
+        <Menu.Menu position="right">
           <i
             class="fas fa-times"
             onClick={() => {
