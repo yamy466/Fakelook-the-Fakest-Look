@@ -7,4 +7,5 @@ const PostsService = {
     return await http.get(serverRoute + "getPosts");
   },
 };
+
 export default PostsService;

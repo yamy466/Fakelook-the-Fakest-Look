@@ -16,7 +16,7 @@ module.exports = (connection, sequelize) => {
       },
       location: {
         type: `Point`,
-        allowNull: true,
+        allowNull: false,
       },
     },
     {

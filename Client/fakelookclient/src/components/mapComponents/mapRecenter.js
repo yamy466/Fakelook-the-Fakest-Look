@@ -1,5 +1,5 @@
 import { useMap } from "react-leaflet";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 
 function RecenterMap(props) {
   const map = useMap();
@@ -9,30 +9,25 @@ function RecenterMap(props) {
     getCurrentLocation();
   }, [map]);
 
-  function getCurrentLocation() {
+  const getCurrentLocation = () =>
     navigator.geolocation.getCurrentPosition(success, error, options);
-  }
 
-  function success(position) {
-    flyTo(position.coords);
-  }
+  const success = (position) => flyTo(position.coords);
 
-  function error() {
+  const error = () => {
     flyTo(defaultLocation);
     alert("Could not determine your current location");
-  }
+  };
 
-  function options() {
-    let options;
-    return (options = {
+  const options = () => {
+    return {
       enableHighAccuracy: false,
       timeout: 5000,
-    });
-  }
+    };
+  };
 
-  function flyTo(location) {
+  const flyTo = (location) =>
     map.flyTo([location.latitude, location.longitude], 16);
-  }
 
   return null;
 }

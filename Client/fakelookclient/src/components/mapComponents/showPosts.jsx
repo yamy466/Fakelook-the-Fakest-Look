@@ -4,7 +4,7 @@ import PostsService from "../../services/postsService";
 import customIcon from "./CustomIcon";
 import AboutUs from "../aboutUsComponents/aboutUs";
 import { connect } from "react-redux";
-import { fetchPosts } from "../../actions/index";
+import { fetchPosts } from "../../actions";
 
 class ShowPosts extends Component {
   constructor(props) {
@@ -45,9 +45,9 @@ class ShowPosts extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = ({posts}) => {
   return {
-    posts: state.posts,
+    posts
   };
 };
 
