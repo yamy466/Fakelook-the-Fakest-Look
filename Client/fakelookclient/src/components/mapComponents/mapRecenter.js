@@ -15,7 +15,6 @@ function RecenterMap(props) {
 
   function success(position) {
     flyTo(position.coords);
-    console.log("ok did it");
   }
 
   function error() {
