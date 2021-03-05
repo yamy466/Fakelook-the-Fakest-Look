@@ -1,5 +1,4 @@
 import React from "react";
-import Navigation from "../navigationComponents/navigation";
 import fakelookLogo from "../../logo/logo_transparent.png";
 function AboutUs() {
   return (
