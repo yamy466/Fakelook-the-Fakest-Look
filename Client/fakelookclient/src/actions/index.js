@@ -8,7 +8,6 @@ export const fetchPosts = () => async (dispatch) => {
 };
 
 export const selectLocation = (location) => async (dispatch) => {
-  console.log("in select location");
   dispatch({type:types.SELECTED_LOCATION,payload: location})
 }
 

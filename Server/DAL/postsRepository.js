@@ -1,4 +1,4 @@
-const { Post } = require("./dbconfig");
+const { Post } = require("./config/dbconfig");
 
 class PostsRepository {
   async getAllPosts() {
