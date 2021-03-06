@@ -15,14 +15,15 @@ class AuthRepository {
   }
 
   async login(userName, password) {
-    const user = await User.findAll({
+    let user = await User.findAll({
       where: {
         userName,
       },
     });
-    if (user.length > 0 && (await bcrypt.compare(password, user[0].password)))
-      return JSON.stringify(user[0]);
-    return "Denied!!";
+    user = user[0]
+    if (user && (await bcrypt.compare(password, user.password)))
+      return JSON.stringify(user);
+    return null;
   }
 }
 

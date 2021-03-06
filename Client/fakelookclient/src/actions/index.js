@@ -11,4 +11,8 @@ export const selectLocation = (location) => async (dispatch) => {
   dispatch({type:types.SELECTED_LOCATION,payload: location})
 }
 
+export const loginChange = (user) => async (dispatch) => {
+  dispatch ({type: types.LOGIN_CHANGE, payload: user })
+}
+
 
