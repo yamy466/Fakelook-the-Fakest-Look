@@ -14,10 +14,10 @@ class AuthRepository {
     return;
   }
 
-  async login(userName, password) {
+  async login(username, password) {
     let user = await User.findAll({
       where: {
-        userName,
+        username,
       },
     });
     user = user[0]

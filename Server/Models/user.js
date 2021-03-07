@@ -36,18 +36,6 @@ module.exports = (sequelize, type) => {
         type: type.ARRAY(type.INTEGER),
         allowNull: true,
       },
-      groups:{
-        type: type.ARRAY(type.BIGINT),
-        allowNull: true
-      },
-      posts:{
-        type:type.ARRAY(type.BIGINT),
-        allowNull:true
-      },
-      comments:{
-        type:type.ARRAY(type.BIGINT),
-        allowNull:true
-      },
       password: {
         type: type.STRING,
         allowNull: false,

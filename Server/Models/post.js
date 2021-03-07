@@ -4,7 +4,7 @@ module.exports = (connection, sequelize) => {
     {
       // Model attributes are defined here
       id: {
-        type: sequelize.SMALLINT,
+        type: sequelize.BIGINT,
         primaryKey: true,
         allowNull: false,
         autoIncrement: true,
@@ -21,6 +21,22 @@ module.exports = (connection, sequelize) => {
       publisher: {
         type: sequelize.TEXT,
         allowNull: false
+      },
+      postedTime: {
+        type: sequelize.DATE,
+        allowNull: false
+      },
+      likes: {
+        type: sequelize.ARRAY(sequelize.INTEGER),
+        allowNull: true
+      },
+      tags: {
+        type: sequelize.ARRAY(sequelize.TEXT),
+        allowNull: true
+      },
+      taggedUsers: {
+        type: sequelize.ARRAY(sequelize.INTEGER),
+        allowNull: true
       }
     },
     {
