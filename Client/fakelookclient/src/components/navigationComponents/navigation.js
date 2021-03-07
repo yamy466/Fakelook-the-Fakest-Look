@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import { useHistory } from "react-router-dom";
-import { Button, Image, Menu, MenuItem } from "semantic-ui-react";
+import {  Image, MenuItem } from "semantic-ui-react";
 import logo from "../../logo/logo_transparent.png";
 
 const Navigation = (props) => {

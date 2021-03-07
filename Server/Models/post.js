@@ -18,6 +18,10 @@ module.exports = (connection, sequelize) => {
         type: `Point`,
         allowNull: false,
       },
+      publisher: {
+        type: sequelize.TEXT,
+        allowNull: false
+      }
     },
     {
       tableName: "Posts",

@@ -5,6 +5,7 @@ import customIcon from "./CustomIcon";
 import AboutUs from "../aboutUsComponents/aboutUs";
 import { connect } from "react-redux";
 import { fetchPosts } from "../../actions";
+import Post from "../post/post";
 
 class ShowPosts extends Component {
   constructor(props) {
@@ -33,7 +34,7 @@ class ShowPosts extends Component {
           icon={customIcon()}
           position={this.createLocation(post.location)}>
           <Popup>
-            <AboutUs />
+            <Post post={post} />
           </Popup>
         </Marker>
       );

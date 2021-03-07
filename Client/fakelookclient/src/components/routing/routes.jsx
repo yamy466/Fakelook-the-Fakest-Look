@@ -3,17 +3,28 @@ import Home from "../homeComponents/home";
 import AboutUs from "../aboutUsComponents/aboutUs";
 import { Switch, Route } from "react-router-dom";
 import MapFeed from "../mapFeed/mapFeed";
+import { connect } from "react-redux";
 
-export default class Routes extends Component {
+class Routes extends Component {
   render() {
     return (
       <div>
         <Switch>
           <Route exact path="/" component={Home} />
-          <Route exact path="/map" component={MapFeed} />
           <Route exact path="/aboutus" component={AboutUs} />
+          {this.props.loggedInUser && (
+            <Route exact path="/map" component={MapFeed} />
+          )}
         </Switch>
       </div>
     );
   }
 }
+
+const mapStateToProps = ({  loggedInUser }) => {
+  return {
+    loggedInUser,
+  };
+};
+
+export default connect(mapStateToProps)(Routes);

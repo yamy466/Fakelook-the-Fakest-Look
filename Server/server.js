@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const postsRouter = require("./routers/postsRouter");
+const authRouter = require("./routers/authRouter");
 const URLS = require("./settings/URLS");
 const bodyParser = require("body-parser");
 
@@ -15,3 +16,4 @@ app.listen(URLS.serverPort, () => {
 });
 
 app.use("/api/Posts", postsRouter);
+app.use("/api/auth", authRouter);

@@ -4,12 +4,18 @@ module.exports = (sequelize, type) => {
     {
       // Model attributes are defined here
       id: {
-        type: type.SMALLINT,
+        type: type.INTEGER,
         primaryKey: true,
         allowNull: false,
+        unique: true,
         autoIncrement: true,
       },
-
+      userName:{
+        type: type.STRING,
+        allowNull: false,
+        unique: true,
+        primaryKey: true
+      },
       firstName: {
         type: type.STRING,
         allowNull: false,
@@ -23,14 +29,24 @@ module.exports = (sequelize, type) => {
       email: {
         type: type.STRING,
         allowNull: false,
+        unique: true,
+        primaryKey: true
       },
-
-      createDate: {
-        type: type.TIME,
+      friends:{
+        type: type.ARRAY(type.INTEGER),
+        allowNull: true,
       },
-
-      modifiedOn: {
-        type: type.TIME,
+      groups:{
+        type: type.ARRAY(type.BIGINT),
+        allowNull: true
+      },
+      posts:{
+        type:type.ARRAY(type.BIGINT),
+        allowNull:true
+      },
+      comments:{
+        type:type.ARRAY(type.BIGINT),
+        allowNull:true
       },
       password: {
         type: type.STRING,
@@ -38,8 +54,9 @@ module.exports = (sequelize, type) => {
       },
     },
     {
-      tableName: "User",
+      tableName: "Users",
       timestamps: false,
+      freezeTableName: true
     }
   );
 };
