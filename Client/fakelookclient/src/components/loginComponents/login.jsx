@@ -1,28 +1,18 @@
-import { useEffect, useState } from "react";
-import { Button, Form, Header, Message, Modal } from "semantic-ui-react";
+import {  useState } from "react";
+import { Button, Form, Header, Input, Message, Modal } from "semantic-ui-react";
 import env from "../../enviroments/enviroment";
-import validationService from "../../services/validationService";
 import { login } from "../../services/authService.js";
 import { connect } from "react-redux";
 import { loginChange } from "../../actions";
-import {useHistory} from "react-router-dom"
+import { useHistory } from "react-router-dom";
 
 const [LOADING, INCORRECT] = ["loading", "incorrcet"];
 
 const Login = (props) => {
-  const [open, setOpen] = useState(false);
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [loginStatus, setLoginStatus] = useState("");
-  const history = useHistory()
-
-  useEffect(() => {
-    setOpen(props.open);
-  }, [props.open]);
-
-  const onClose = () => {
-    props.onClose();
-  };
+  const history = useHistory();
 
   const onLoginClick = async (e) => {
     setLoginStatus(LOADING);
@@ -31,8 +21,8 @@ const Login = (props) => {
       setLoginStatus("");
       if (user) {
         props.loginChange(user);
-        onClose();
-        history.push("/map")
+        props.onClose();
+        history.push("/map");
       } else {
         //incorrect
         setLoginStatus(INCORRECT);
@@ -44,15 +34,16 @@ const Login = (props) => {
     <Modal
       closeIcon
       style={{ maxWidth: 500 }}
-      onClose={onClose}
-      onOpen={() => setOpen(true)}
-      open={open}
+      onClose={props.onClose}
+      open={props.open}
       /* trigger={<Button>Show Modal</Button>} */
     >
       <Modal.Content>
         <Header textAlign="center">Welcome To Fakelook!</Header>
         <Form>
-          <Form.Input
+          <Form.Field
+            control={Input}
+            id="usernameForm"
             label="UserName"
             icon="user"
             iconPosition="left"
@@ -60,7 +51,9 @@ const Login = (props) => {
             onChange={(e) => setName(e.target.value.trim())}
             value={name}
           />
-          <Form.Input
+          <Form.Field
+            id="passwordForm"
+            control={Input}
             label="Password"
             icon="lock"
             iconPosition="left"

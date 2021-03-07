@@ -7,4 +7,9 @@ const login = async (name,password) => {
     return user.data;
 }
 
-export {login}
+const register = async (user) => {
+    user = await http.post(`${serviceRoute}/register`,user)
+    return user.data;
+}
+
+export {login,register}

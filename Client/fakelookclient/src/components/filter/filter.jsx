@@ -59,12 +59,14 @@ const Filter = () => {
     <Segment attached>
       <Form size="large">
         <Form.Field
+          id="datesRangeField"
           control={DatesRangeAccordion}
           datesRange={datesRange}
           setDatesRange={setDatesRange}
           label="Dates Range"
         />
         <Form.Field
+          id="publisherField"
           control={Dropdown}
           value={selectedPublishers}
           onChange={(e, { value }) => {
@@ -80,7 +82,7 @@ const Filter = () => {
           })}
         />
         <Form.Field
-          id="radius"
+          id="radiusField"
           control={Input}
           value={radius}
           label="Radius"
@@ -90,6 +92,7 @@ const Filter = () => {
           }}
         />
         <Form.Field
+          id="photoTagsField"
           control={Dropdown}
           value={selectedPhotoTags}
           label="Photo Tags"
@@ -105,6 +108,7 @@ const Filter = () => {
           })}
         />
         <Form.Field
+          id="groupsField"
           control={Dropdown}
           value={selectedGroups}
           onChange={(e, { value }) => {
@@ -125,10 +129,7 @@ const Filter = () => {
             style={{ backgroundColor: "#7EB1CC" }}
             content="Filter"
           />
-          <Form.Button
-            onClick={onClearClick}
-            content="Clear"
-          />
+          <Form.Button onClick={onClearClick} content="Clear" />
         </Form.Group>
       </Form>
     </Segment>
