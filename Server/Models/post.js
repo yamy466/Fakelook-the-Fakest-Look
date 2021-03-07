@@ -4,12 +4,11 @@ module.exports = (connection, sequelize) => {
     {
       // Model attributes are defined here
       id: {
-        type: sequelize.SMALLINT,
+        type: sequelize.BIGINT,
         primaryKey: true,
         allowNull: false,
         autoIncrement: true,
       },
-
       text: {
         type: sequelize.TEXT,
         allowNull: true,
@@ -20,8 +19,20 @@ module.exports = (connection, sequelize) => {
       },
       publisher: {
         type: sequelize.TEXT,
-        allowNull: false
-      }
+        allowNull: false,
+      },
+      tags: {
+        type: type.ARRAY(type.TEXT),
+        allowNull: true,
+      },
+      taggedUsers: {
+        type: type.ARRAY(type.TEXT),
+        allowNull: true,
+      },
+      likes: {
+        type: type.ARRAY(type.TEXT),
+        allowNull: true,
+      },
     },
     {
       tableName: "Posts",

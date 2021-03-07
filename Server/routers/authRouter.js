@@ -7,11 +7,11 @@ router.post(
   "/login",
   asyncHandler(async (req, res) => {
     try {
-        const {name,password} = req.body;
-        const data = await controller.login(name,password.toString())
-        res.send(data);
+      const { name, password } = req.body;
+      const data = await controller.login(name, password.toString());
+      res.send(data);
     } catch (error) {
-        res.status(400).send(error)
+      res.status(400).send(error);
     }
   })
 );
@@ -21,6 +21,7 @@ router.post(
   asyncHandler(async (req, res) => {
     try {
       const data = await controller.register(req.body.user);
+      console.log(data, "user recieved");
       res.send(data);
     } catch (error) {
       res.status(400).send(error);

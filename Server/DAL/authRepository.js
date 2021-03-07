@@ -14,13 +14,13 @@ class AuthRepository {
     return;
   }
 
-  async login(userName, password) {
+  async login(username, password) {
     let user = await User.findAll({
       where: {
-        userName,
+        username,
       },
     });
-    user = user[0]
+    user = user[0];
     if (user && (await bcrypt.compare(password, user.password)))
       return JSON.stringify(user);
     return null;
