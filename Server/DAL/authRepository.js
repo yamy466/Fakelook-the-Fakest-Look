@@ -2,10 +2,10 @@ const { User } = require("./config/dbconfig");
 const bcrypt = require("bcrypt");
 
 class AuthRepository {
-  async register({ name, password, firstName, lastName, email }) {
+  async register({ username, password, firstName, lastName, email }) {
     const hashedPassword = await bcrypt.hash(password, 10);
     await User.create({
-      userName: name,
+      username,
       password: hashedPassword,
       firstName,
       lastName,
