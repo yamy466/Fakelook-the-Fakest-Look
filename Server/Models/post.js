@@ -27,7 +27,7 @@ module.exports = (connection, sequelize) => {
         allowNull: false
       },
       likes: {
-        type: sequelize.ARRAY(sequelize.INTEGER),
+        type: sequelize.ARRAY(sequelize.TEXT),
         allowNull: true
       },
       tags: {
@@ -35,7 +35,7 @@ module.exports = (connection, sequelize) => {
         allowNull: true
       },
       taggedUsers: {
-        type: sequelize.ARRAY(sequelize.INTEGER),
+        type: sequelize.ARRAY(sequelize.TEXT),
         allowNull: true
       }
     },

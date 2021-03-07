@@ -4,14 +4,14 @@ const bcrypt = require("bcrypt");
 class AuthRepository {
   async register({ username, password, firstName, lastName, email }) {
     const hashedPassword = await bcrypt.hash(password, 10);
-    await User.create({
+    const user = await User.create({
       username,
       password: hashedPassword,
       firstName,
       lastName,
       email,
     });
-    return;
+    return user;
   }
 
   async login(username, password) {

@@ -20,7 +20,7 @@ router.post(
   "/register",
   asyncHandler(async (req, res) => {
     try {
-      const data = await controller.register(req.body.user);
+      const data = await controller.register({...req.body});
       res.send(data);
     } catch (error) {
       res.status(400).send(error);
