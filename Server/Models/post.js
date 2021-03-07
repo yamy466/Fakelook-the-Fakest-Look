@@ -21,16 +21,20 @@ module.exports = (connection, sequelize) => {
         type: sequelize.TEXT,
         allowNull: false,
       },
+      postedTime: {
+        type: sequelize.DATE,
+        allowNull: false,
+      },
+      likes: {
+        type: sequelize.ARRAY(sequelize.TEXT),
+        allowNull: true,
+      },
       tags: {
-        type: type.ARRAY(type.TEXT),
+        type: sequelize.ARRAY(sequelize.TEXT),
         allowNull: true,
       },
       taggedUsers: {
-        type: type.ARRAY(type.TEXT),
-        allowNull: true,
-      },
-      likes: {
-        type: type.ARRAY(type.TEXT),
+        type: sequelize.ARRAY(sequelize.TEXT),
         allowNull: true,
       },
     },
