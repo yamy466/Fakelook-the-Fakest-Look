@@ -10,11 +10,11 @@ module.exports = (sequelize, type) => {
         unique: true,
         autoIncrement: true,
       },
-      userName:{
+      userName: {
         type: type.STRING,
         allowNull: false,
         unique: true,
-        primaryKey: true
+        primaryKey: true,
       },
       firstName: {
         type: type.STRING,
@@ -30,23 +30,27 @@ module.exports = (sequelize, type) => {
         type: type.STRING,
         allowNull: false,
         unique: true,
-        primaryKey: true
+        primaryKey: true,
       },
-      friends:{
+      friends: {
         type: type.ARRAY(type.INTEGER),
         allowNull: true,
       },
-      groups:{
+      groups: {
         type: type.ARRAY(type.BIGINT),
-        allowNull: true
+        allowNull: true,
       },
-      posts:{
-        type:type.ARRAY(type.BIGINT),
-        allowNull:true
+      posts: {
+        type: type.ARRAY(type.BIGINT),
+        allowNull: true,
       },
-      comments:{
-        type:type.ARRAY(type.BIGINT),
-        allowNull:true
+      comments: {
+        type: type.ARRAY(type.BIGINT),
+        allowNull: true,
+      },
+      likes: {
+        type: type.ARRAY(type.BIGINT),
+        allowNull: true,
       },
       password: {
         type: type.STRING,
@@ -56,7 +60,7 @@ module.exports = (sequelize, type) => {
     {
       tableName: "Users",
       timestamps: false,
-      freezeTableName: true
+      freezeTableName: true,
     }
   );
 };
