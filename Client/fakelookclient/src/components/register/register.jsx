@@ -1,6 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import { useHistory } from "react-router-dom";
 import {
   Button,
   Form,
@@ -15,9 +14,8 @@ import {
   Modal,
   ModalContent,
 } from "semantic-ui-react";
-import { loginChange } from "../../actions";
+import { register } from "../../actions";
 import env from "../../enviroments/enviroment";
-import { register } from "../../services/authService.js";
 import {
   usernameValidation,
   passwordValidation,
@@ -51,8 +49,18 @@ const Register = (props) => {
   const [passwordError, setPasswordError] = useState("");
   const [repeatedPasswordError, setRepeatedPasswordError] = useState("");
   const [emailError, setEmailError] = useState("");
+  const [serverErrors, setServerErrors] = useState([])
 
-  const history = useHistory();
+
+
+  useEffect(() => {
+    if(!props.registerError) return;
+    const errors = [];
+    const { fields } = props.registerError?.data;
+    if (fields?.email) errors.push("email already in use");
+    if (fields?.username) errors.push("username already in use");
+    setServerErrors(errors)
+  }, [props.registerError]);
 
   const onFieldChange = (
     val,
@@ -80,19 +88,18 @@ const Register = (props) => {
   };
 
   const onSubmitClick = async () => {
-    const user = await register({
+    await props.register({
       username,
       firstName,
       lastName,
       password,
       email,
     });
-    if (user) {
-      props.loginChange(user);
-      props.onClose();
-      history.push("/map");
-    }
   };
+
+  useEffect(() => {
+    if (props.registerStatus === "success") props.onClose();
+  }, [props.registerStatus]);
 
   return (
     <Modal
@@ -227,8 +234,20 @@ const Register = (props) => {
                   )
                 }
               />
+              {serverErrors.length > 0 && (
+                <FormField>
+                  <Message negative>
+                    <MessageList>
+                      {serverErrors.map((err, index) => {
+                        return <MessageItem key={index}>{err}</MessageItem>;
+                      })}
+                    </MessageList>
+                  </Message>
+                </FormField>
+              )}
               <FormField
                 as={Button}
+                loading={props.registerStatus === "loading"}
                 disabled={!isFormValid()}
                 content="Submit"
                 onClick={onSubmitClick}
@@ -260,10 +279,15 @@ const Register = (props) => {
   );
 };
 
-const mapStateToProps = ({ loggedInUser }) => {
+const mapStateToProps = ({ login, register }) => {
+  const { accessToken, path } = login;
+  const { registerStatus, registerError } = register;
   return {
-    loggedInUser,
+    accessToken,
+    path,
+    registerStatus,
+    registerError,
   };
 };
 
-export default connect(mapStateToProps, { loginChange })(Register);
+export default connect(mapStateToProps, { register })(Register);

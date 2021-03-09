@@ -1,29 +1,34 @@
-const { User } = require("./config/dbconfig");
-const bcrypt = require("bcrypt");
+const { Users, Tokens } = require("./config/dbconfig");
 
 class AuthRepository {
-  async register({ username, password, firstName, lastName, email }) {
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const user = await User.create({
-      username,
-      password: hashedPassword,
-      firstName,
-      lastName,
-      email,
-    });
-    return user;
+  async addUser(user) {
+    return await Users.create({ ...user });
   }
 
-  async login(username, password) {
-    let user = await User.findAll({
+  async getUserByUsername(username) {
+    let user = await Users.findOne({
       where: {
         username,
       },
     });
-    user = user[0]
-    if (user && (await bcrypt.compare(password, user.password)))
-      return JSON.stringify(user);
-    return null;
+    return user;
+  }
+
+  async deleteToken(token){
+    await Tokens.destroy({
+      where: {
+        token : token
+      },
+      force: true
+    });
+  }
+
+  async addRefreshToken(token) {
+    return await Tokens.create({token})
+  }
+
+  async checkRefreshToken(token) {
+    return await Tokens.findOne({ where: { token } });
   }
 }
 

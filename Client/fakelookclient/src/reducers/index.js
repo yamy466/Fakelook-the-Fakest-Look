@@ -1,10 +1,12 @@
-import PostsReducer from "./postsReducer";
+import posts from "./postsReducer";
 import { combineReducers } from "redux";
-import LocationReducer from "./locationsReducer";
-import LoginReducer from "./loginReducer";
+import selectedLocation from "./locationsReducer";
+import login from "./loginReducer";
+import register from "./registerReducer";
 
 export default combineReducers({
-  posts: PostsReducer,
-  selectedLocation: LocationReducer ,
-  loggedInUser: LoginReducer
+  posts,
+  selectedLocation ,
+  login,
+  register
 });
