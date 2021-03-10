@@ -9,9 +9,7 @@ class GoogleLogin extends Component {
     window.gapi.load("client:auth2", () => {
       window.gapi.client
         .init({
-          clientId:
-            658500331512 -
-            b8brj0s76i3mpopna77q75vpjodbe1c6.apps.googleusercontent.com,
+          clientId: 111,
           scope: "email",
         })
         .then(() => {
