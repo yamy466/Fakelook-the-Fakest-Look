@@ -4,7 +4,7 @@ const app = express();
 const cors = require("cors");
 const postsRouter = require("./routers/postsRouter");
 const authRouter = require("./routers/authRouter");
-const URLS = require("./URLS");
+const URLS = require("./Settings/URLS");
 const bodyParser = require("body-parser");
 const jwt = require("jsonwebtoken");
 
