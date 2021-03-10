@@ -10,17 +10,11 @@ import "./map.css";
 import ShowPosts from "./showPosts";
 import LocationMarker from "./locationMarker";
 import {connect} from "react-redux"
-import { selectLocation } from "../../actions";
 import { Button } from "semantic-ui-react";
 import MyLocation from "./MyLocation.jsx";
 
 const FakelookMap = (props) => {
-  const [selectedLocation, setSelectedLocation] = useState(null);
   const defaultLocation = [32.09754044645131, 34.826256097397454];
-
-  useEffect(() => {
-    props.selectLocation(selectedLocation)
-  }, [props, selectedLocation])
 
   function renderMap() {
     return (
@@ -31,11 +25,8 @@ const FakelookMap = (props) => {
         />
         <RecenterMap default={defaultLocation} />
         <MyLocation movedToMyLocation={props.movedToMyLocation} myLocationClicked={props.myLocationClicked}/>
-        <LocationMarker
-          setSelectedLocation={(location) => setSelectedLocation(location)}
-        />
+        <LocationMarker/>
         <Marker position={props.selectedLocation || defaultLocation}>
-          {console.log(props.selectedLocation)}
           <Popup>selected location</Popup>
         </Marker>
         <Button onClick={() => {}}>
@@ -55,4 +46,4 @@ const mapStateToProps = ({selectedLocation}) => {
   };
 };
 
-export default connect(mapStateToProps,{selectLocation})(FakelookMap);
+export default connect(mapStateToProps)(FakelookMap);
