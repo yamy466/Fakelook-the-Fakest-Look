@@ -1,21 +1,21 @@
-import { useEffect } from "react"
-import { useMapEvents } from "react-leaflet"
+import { useEffect } from "react";
+import { useMapEvents } from "react-leaflet";
 
-const LocationMarker = ({setSelectedLocation}) => {
+const LocationMarker = ({ setSelectedLocation }) => {
   const map = useMapEvents({
-    click({latlng}) {
-      setSelectedLocation(latlng)
+    click({ latlng }) {
+      setSelectedLocation(latlng);
     },
-    locationfound({latlng}) {
-      setSelectedLocation(latlng)
+    locationfound({ latlng }) {
+      setSelectedLocation(latlng);
     },
-  })
+  });
 
   useEffect(() => {
-    map.locate()
-  }, [])
+    map.locate();
+  }, []);
 
   return null;
-}
+};
 
 export default LocationMarker;

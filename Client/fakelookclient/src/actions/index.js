@@ -15,11 +15,6 @@ export const fetchPosts = () => async (dispatch, getState) => {
     res = await fetch();
   } catch ({ response }) {
     if (response.status === 403) {
-      // const resToken = await refreshTokenService(getState().login.refreshToken);
-      // if (resToken.status < 400) {
-      //   dispatch({ type: types.REFRESH_TOKEN, payload: resToken.data });
-      //   res = await fetch();
-      // }
       try {
         res = await refreshToken(fetch, null, dispatch, getState);
       } catch (error) {
@@ -63,10 +58,8 @@ export const register = (user) => async (dispatch) => {
   try {
     const res = await registerService(user);
     dispatch({ type: types.REGISTER_SUCCESS, payload: { ...res.data } });
-    
   } catch (error) {
-    dispatch({ type: types.REGISTER_ERROR ,payload: error.response})
-    
+    dispatch({ type: types.REGISTER_ERROR, payload: error.response });
   }
   // res.status > 399
 };

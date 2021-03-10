@@ -1,12 +1,15 @@
 import { useState, useEffect } from "react";
 import { Form, Image, Input, Segment } from "semantic-ui-react";
+import { connect } from "react-redux";
+import { selectLocation } from "../../actions";
 import env from "../../enviroments/enviroment";
+import PostsService from "../../services/postsService";
 
 const friendsMock = [
   { name: "shiki", id: 1 },
   { name: "almog", id: 2 },
 ];
-const Publish = () => {
+const Publish = (props) => {
   const [photo, setPhoto] = useState("");
   const [photoTagsMock, setPhotoTasgMock] = useState([
     { title: "new", id: 1 },
@@ -24,7 +27,12 @@ const Publish = () => {
   const getCurrentLocation = () =>
     navigator.geolocation.getCurrentPosition(success, error, options);
 
-  const success = (position) => setCurrentLocation(position);
+  const success = (position) => {
+    let location = position.coords;
+    let lon = location.longitude;
+    let lat = location.latitude;
+    setCurrentLocation({ lat, lon });
+  };
 
   const error = () => {
     alert("Error! Could not determine your current location");
@@ -32,7 +40,7 @@ const Publish = () => {
 
   const options = () => {
     return {
-      enableHighAccuracy: false,
+      enableHighAccuracy: true,
       timeout: 5000,
     };
   };
@@ -67,21 +75,27 @@ const Publish = () => {
   };
 
   const createPost = () => {
-    let location = "";
+    let loc = "";
     if (isMyLocation) {
-      location = currentLocation;
+      loc = currentLocation;
+    } else {
+      loc = props.selectedLocation;
     }
+    console.log(loc, "the selected location of the post");
     const post = {
       tags: selectedPhotoTags,
       taggedFriends: selectedFriends,
       photoURL: photo,
-      location: currentLocation,
+      location: loc,
     };
+    return post;
   };
 
-  const onPublishClick = (e) => {
+  const onPublishClick = async (e) => {
     const post = createPost();
+    console.log("post created");
   };
+
   return (
     <Segment attached>
       <Form size="large">
@@ -151,4 +165,10 @@ const Publish = () => {
   );
 };
 
-export default Publish;
+const mapStateToProps = ({ selectedLocation }) => {
+  return {
+    selectedLocation,
+  };
+};
+
+export default connect(mapStateToProps, { selectLocation })(Publish);

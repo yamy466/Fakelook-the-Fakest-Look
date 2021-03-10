@@ -20,7 +20,7 @@ router.post(
   "/addPost",
   asyncHandler(async (req, res) => {
     try {
-      const data = await controller.addPost(req.body);
+      const data = await controller.addPost(req.body.post);
       res.send(data);
     } catch (err) {
       res.send(errorHandler(error));
