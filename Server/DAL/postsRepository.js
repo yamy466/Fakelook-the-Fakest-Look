@@ -2,7 +2,7 @@ const { Post } = require("./config/dbconfig");
 
 class PostsRepository {
   async getAllPosts() {
-    var result = Post.findAll({});
+    let result = Post.findAll({});
     return result;
   }
 

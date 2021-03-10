@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Form, Image, Input, Segment } from "semantic-ui-react";
 import env from "../../enviroments/enviroment";
 
@@ -14,7 +14,28 @@ const Publish = () => {
   ]);
   const [selectedPhotoTags, setSelectedPhotoTags] = useState([]);
   const [selectedFriends, setSelectedFriends] = useState([]);
-  const [isMyLocation, setisMyLocation] = useState(false)
+  const [isMyLocation, setisMyLocation] = useState(false);
+  const [currentLocation, setCurrentLocation] = useState("");
+
+  useEffect(() => {
+    getCurrentLocation();
+  }, []);
+
+  const getCurrentLocation = () =>
+    navigator.geolocation.getCurrentPosition(success, error, options);
+
+  const success = (position) => setCurrentLocation(position);
+
+  const error = () => {
+    alert("Error! Could not determine your current location");
+  };
+
+  const options = () => {
+    return {
+      enableHighAccuracy: false,
+      timeout: 5000,
+    };
+  };
 
   const onPhotoChange = (e) => {
     setPhoto("");
@@ -28,10 +49,10 @@ const Publish = () => {
   };
 
   const onClearClick = () => {
-      setPhoto("")
-      setSelectedPhotoTags([])
-      setSelectedFriends([])
-  }
+    setPhoto("");
+    setSelectedPhotoTags([]);
+    setSelectedFriends([]);
+  };
 
   const onAddTag = (tag) => {
     if (photoTagsMock.find((t) => t.title === tag)) return;
@@ -45,9 +66,22 @@ const Publish = () => {
     setSelectedPhotoTags(tag);
   };
 
+  const createPost = () => {
+    let location = "";
+    if (isMyLocation) {
+      location = currentLocation;
+    }
+    const post = {
+      tags: selectedPhotoTags,
+      taggedFriends: selectedFriends,
+      photoURL: photo,
+      location: currentLocation,
+    };
+  };
+
   const onPublishClick = (e) => {
-      console.log("Publish!!");
-  }
+    const post = createPost();
+  };
   return (
     <Segment attached>
       <Form size="large">
@@ -89,32 +123,28 @@ const Publish = () => {
           value={selectedFriends}
         />
         <Segment compact>
-
-        <Form.Checkbox 
-          label="My Location"
-          toggle
-          name="locationRG"
-          checked={isMyLocation}
-          onChange={() => setisMyLocation(true)}
-        />
-        <Form.Checkbox 
-          label="Selected Location"
-          toggle
-          name="locationRG"
-          checked={!isMyLocation}
-          onChange={() => setisMyLocation(false)}
+          <Form.Checkbox
+            label="My Location"
+            toggle
+            name="locationRG"
+            checked={isMyLocation}
+            onChange={() => setisMyLocation(true)}
           />
-          </Segment>
+          <Form.Checkbox
+            label="Selected Location"
+            toggle
+            name="locationRG"
+            checked={!isMyLocation}
+            onChange={() => setisMyLocation(false)}
+          />
+        </Segment>
         <Form.Group>
           <Form.Button
             content="Publish"
             style={{ backgroundColor: env.mainColor }}
             onClick={onPublishClick}
           />
-          <Form.Button
-            content="Clear"
-            onClick={onClearClick}
-          />
+          <Form.Button content="Clear" onClick={onClearClick} />
         </Form.Group>
       </Form>
     </Segment>
