@@ -280,11 +280,10 @@ const Register = (props) => {
 };
 
 const mapStateToProps = ({ login, register }) => {
-  const { accessToken, path } = login;
+  const { accessToken } = login;
   const { registerStatus, registerError } = register;
   return {
     accessToken,
-    path,
     registerStatus,
     registerError,
   };

@@ -17,7 +17,8 @@ class AuthContoller {
 
   async login(name, password) {
     const user = await authRepository.getUserByUsername(name);
-    if (!user || !(await bcrypt.compare(password, user.password))) return null;
+    if (!user || !(await bcrypt.compare(password, user.password)))
+      throw "incorrect username or password";
 
     const accessToken = this.generateAccessToken(user);
     const refreshToken = this.generateRefreshToken(user);
@@ -41,13 +42,13 @@ class AuthContoller {
     return token;
   }
 
-  async logout(token){
+  async logout(token) {
     await authRepository.deleteToken(token);
   }
 
   generateAccessToken = ({ username }) =>
     jwt.sign({ username }, process.env.ACCESS_TOKEN_SECRET, {
-      expiresIn: "15m",
+      expiresIn: "10s",
     });
 
   generateRefreshToken = ({ username }) =>

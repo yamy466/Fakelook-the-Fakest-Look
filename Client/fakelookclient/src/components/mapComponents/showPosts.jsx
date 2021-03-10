@@ -9,8 +9,11 @@ class ShowPosts extends Component {
   constructor(props) {
     super(props);
     this.state = {};
-    props.fetchPosts();
-    this.initPosts();
+    setTimeout(() => {
+      
+      props.fetchPosts();
+      this.initPosts();
+    }, 10000);
   }
 
   initPosts = () => {

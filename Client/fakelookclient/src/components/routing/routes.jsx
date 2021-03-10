@@ -23,7 +23,6 @@ class Routes extends Component {
 
 const mapStateToProps = ({  login }) => {
   return {
-    path: login.path,
     accessToken : login.accessToken,
   };
 };

@@ -59,10 +59,10 @@ const Navigation = (props) => {
   );
 };
 
-const mapStateToProps = ({login}) => {
+const mapStateToProps = ({login,path}) => {
   return {
     accessToken: login.accessToken,
-    path: login.path
+    path
   };
 };
 

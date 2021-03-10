@@ -35,6 +35,7 @@ const FakelookMap = (props) => {
           setSelectedLocation={(location) => setSelectedLocation(location)}
         />
         <Marker position={props.selectedLocation || defaultLocation}>
+          {console.log(props.selectedLocation)}
           <Popup>selected location</Popup>
         </Marker>
         <Button onClick={() => {}}>
