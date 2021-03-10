@@ -25,6 +25,24 @@ export const selectLocation = (location) => async (dispatch) => {
   dispatch({ type: types.SELECTED_LOCATION, payload: location });
 };
 
+export const addPost = (post) => async (dispatch, getState) => {
+  const sendPost = async () =>
+    await PostsService.addNewPost(getState().login.accessToken, post);
+  let res;
+  try {
+    res = await sendPost();
+  } catch ({ response }) {
+    res = await actionErrorHandler(
+      response,
+      sendPost,
+      null,
+      dispatch,
+      getState
+    );
+  }
+  if (res?.status < 400) dispatch({ type: types.ADD_POST, payload: res.data });
+};
+
 export const login = (name, password) => async (dispatch) => {
   dispatch({ type: types.LOGIN_LOADING });
   try {

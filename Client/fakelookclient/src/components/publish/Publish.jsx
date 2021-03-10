@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Form, Image, Input, Segment } from "semantic-ui-react";
 import { connect } from "react-redux";
-import { selectLocation } from "../../actions";
+import { selectLocation, addPost } from "../../actions";
 import env from "../../enviroments/enviroment";
 import PostsService from "../../services/postsService";
 
@@ -81,7 +81,6 @@ const Publish = (props) => {
     } else {
       loc = props.selectedLocation;
     }
-    console.log(loc, "the selected location of the post");
     const post = {
       tags: selectedPhotoTags,
       taggedFriends: selectedFriends,
@@ -94,6 +93,7 @@ const Publish = (props) => {
   const onPublishClick = async (e) => {
     const post = createPost();
     console.log("post created");
+    props.addPost(post);
   };
 
   return (
@@ -171,4 +171,4 @@ const mapStateToProps = ({ selectedLocation }) => {
   };
 };
 
-export default connect(mapStateToProps, { selectLocation })(Publish);
+export default connect(mapStateToProps, { selectLocation, addPost })(Publish);

@@ -6,7 +6,7 @@ class PostsController {
     return await db.getAllPosts();
   }
 
-  addPost(post) {
+  async addPost(post) {
     return db.createNewPost(post);
   }
 }

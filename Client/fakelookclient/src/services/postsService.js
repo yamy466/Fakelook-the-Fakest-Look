@@ -11,7 +11,7 @@ const PostsService = {
     });
   },
   async addNewPost(token, post) {
-    return await http.get(serverRoute + "addPost", {
+    return await http.post(serverRoute + "addPost", {
       headers: {
         Authorization: "Bearer " + token,
       },
