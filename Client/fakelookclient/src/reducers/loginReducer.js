@@ -5,7 +5,7 @@ const login = (state = [], action) => {
     case types.LOGIN_LOADING:
       return { ...state, loginStatus: "loading" };
     case types.LOGIN_SUCCESS:
-      return { ...state, loginStatus: "success", ...action.payload, path: "/map" };
+      return { ...state, loginStatus: "success", ...action.payload };
     case types.LOGIN_ERROR:
       return { ...state, loginStatus: "incorrect" };
     case types.LOGOUT:
@@ -13,13 +13,12 @@ const login = (state = [], action) => {
         ...state,
         accessToken: null,
         loginStatus: "",
-        refreshToken: null, 
-        path: "/"
+        refreshToken: null
       };
     case types.REFRESH_TOKEN:
       return { ...state, accessToken: action.payload };
     case types.REGISTER_SUCCESS:
-      return { ...state, ...action.payload, path: "/map" };
+      return { ...state, ...action.payload };
     default:
       return state;
   }

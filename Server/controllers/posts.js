@@ -2,8 +2,8 @@ const db = require("../DAL/postsRepository");
 
 class PostsController {
   // Get Posts
-  getAllPosts() {
-    return db.getAllPosts();
+  async getAllPosts() {
+    return await db.getAllPosts();
   }
 
   addPost(post) {

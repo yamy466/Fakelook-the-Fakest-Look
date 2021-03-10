@@ -6,7 +6,6 @@ const register = (state = [], action) => {
       return {
         ...state,
         ...action.payload,
-        path: "/map",
         registerStatus: "success",
         registerError: null,
       };

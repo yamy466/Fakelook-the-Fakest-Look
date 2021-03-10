@@ -14,7 +14,7 @@ const Publish = () => {
   ]);
   const [selectedPhotoTags, setSelectedPhotoTags] = useState([]);
   const [selectedFriends, setSelectedFriends] = useState([]);
-  const [isMyLocation, setisMyLocation] = useState(false)
+  const [isMyLocation, setIsMyLocation] = useState(false)
 
   const onPhotoChange = (e) => {
     setPhoto("");
@@ -95,14 +95,14 @@ const Publish = () => {
           toggle
           name="locationRG"
           checked={isMyLocation}
-          onChange={() => setisMyLocation(true)}
+          onChange={() => setIsMyLocation(true)}
         />
         <Form.Checkbox 
           label="Selected Location"
           toggle
           name="locationRG"
           checked={!isMyLocation}
-          onChange={() => setisMyLocation(false)}
+          onChange={() => setIsMyLocation(false)}
           />
           </Segment>
         <Form.Group>
