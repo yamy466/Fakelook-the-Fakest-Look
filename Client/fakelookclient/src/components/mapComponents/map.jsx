@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   MapContainer,
   Marker,
@@ -15,7 +15,7 @@ import { Button } from "semantic-ui-react";
 import MyLocation from "./MyLocation.jsx";
 
 const FakelookMap = (props) => {
-  const [selectedLocation, setselectedLocation] = useState(null);
+  const [selectedLocation, setSelectedLocation] = useState(null);
   const defaultLocation = [32.09754044645131, 34.826256097397454];
 
   useEffect(() => {
@@ -32,7 +32,7 @@ const FakelookMap = (props) => {
         <RecenterMap default={defaultLocation} />
         <MyLocation movedToMyLocation={props.movedToMyLocation} myLocationClicked={props.myLocationClicked}/>
         <LocationMarker
-          setSelectedLocation={(location) => setselectedLocation(location)}
+          setSelectedLocation={(location) => setSelectedLocation(location)}
         />
         <Marker position={props.selectedLocation || defaultLocation}>
           <Popup>selected location</Popup>
@@ -55,5 +55,3 @@ const mapStateToProps = ({selectedLocation}) => {
 };
 
 export default connect(mapStateToProps,{selectLocation})(FakelookMap);
-
-//32.09754044645131 34.826256097397454

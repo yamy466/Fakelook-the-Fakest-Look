@@ -7,8 +7,12 @@ const asyncHandler = require("../helpers/asyncHandler");
 router.get(
   "/getPosts",
   asyncHandler(async (req, res) => {
-    const data = await controller.getAllPosts();
-    res.send(data);
+    try {
+      const data = await controller.getAllPosts();
+      res.send(data);
+    } catch (error) {
+      res.send(errorHandler(error));
+    }
   })
 );
 
@@ -17,9 +21,9 @@ router.post(
   asyncHandler(async (req, res) => {
     try {
       const data = await controller.addPost(req.body);
-      res.status(200).send(data);
+      res.send(data);
     } catch (err) {
-      res.status(400).send(err);
+      res.send(errorHandler(error));
     }
   })
 );

@@ -1,10 +1,11 @@
-import {  useState } from "react";
+import { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
-import {  Image, MenuItem } from "semantic-ui-react";
+import { Image, MenuItem } from "semantic-ui-react";
 import logo from "../../logo/logo_transparent.png";
+import { connect } from 'react-redux'
+
 
 const Navigation = (props) => {
-  const { loggedIn } = props;
   const [pathName, setPathName] = useState(window.location.pathname);
   const [home, aboutUs, map, feed] = ["Home", "About Us", "Map", "Feed"];
 
@@ -12,15 +13,22 @@ const Navigation = (props) => {
 
   const onItemClick = (path) => {
     history.push(path);
-    setPathName(window.location.pathname);
+    setPathName(path);
   };
+
+  useEffect(() => {
+    history.push(props.path)
+  }, [props.path])
+
+  useEffect(() => {
+    setPathName(window.location.pathname);
+  }, [props.accessToken,history]);
 
   return (
     <>
-      <Image src={logo} size="tiny" onClick={() => onItemClick("/")}/>
+      <Image src={logo} size="tiny" onClick={() => onItemClick("/")} />
 
-      
-      {loggedIn ? (
+      {props.accessToken ? (
         <>
           <MenuItem
             name={map}
@@ -33,24 +41,29 @@ const Navigation = (props) => {
             onClick={() => onItemClick("/feed")}
           />
         </>
-        
-      ):
-      (
+      ) : (
         <>
-        <MenuItem
-        name={home}
-        active={pathName === "/"}
-        onClick={() => onItemClick("/")}
-      />
-      <MenuItem
-        name={aboutUs}
-        active={pathName === "/aboutus"}
-        onClick={() => onItemClick("/aboutus")}
-      />
-      </>
+          <MenuItem
+            name={home}
+            active={pathName === "/"}
+            onClick={() => onItemClick("/")}
+          />
+          <MenuItem
+            name={aboutUs}
+            active={pathName === "/aboutus"}
+            onClick={() => onItemClick("/aboutus")}
+          />
+        </>
       )}
     </>
   );
 };
 
-export default Navigation;
+const mapStateToProps = ({login}) => {
+  return {
+    accessToken: login.accessToken,
+    path: login.path
+  };
+};
+
+export default connect(mapStateToProps)(Navigation);

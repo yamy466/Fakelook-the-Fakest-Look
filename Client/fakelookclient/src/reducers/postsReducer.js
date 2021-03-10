@@ -1,12 +1,11 @@
 import types from "../enviroments/actionTypes";
 
-const PostsReducer = (state = [], action) => {
+const posts = (state = [], action) => {
   if (action.type === types.FETCH_POSTS) {
-    console.log("in posts");
-    return action.payload;
+    return action.payload
   }
 
   return state;
 };
 
-export default PostsReducer;
+export default posts;

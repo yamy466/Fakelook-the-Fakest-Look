@@ -1,8 +1,6 @@
 import { Marker, Popup } from "react-leaflet";
 import React, { Component } from "react";
-import PostsService from "../../services/postsService";
 import customIcon from "./CustomIcon";
-import AboutUs from "../aboutUsComponents/aboutUs";
 import { connect } from "react-redux";
 import { fetchPosts } from "../../actions";
 import Post from "../post/post";
@@ -26,13 +24,13 @@ class ShowPosts extends Component {
   };
 
   renderLocations = () => {
-    console.log(this.props.posts, "current posts");
     return this.props.posts.map((post) => {
       return (
         <Marker
           key={post.id}
           icon={customIcon()}
-          position={this.createLocation(post.location)}>
+          position={this.createLocation(post.location)}
+        >
           <Popup>
             <Post post={post} />
           </Popup>
@@ -46,9 +44,9 @@ class ShowPosts extends Component {
   }
 }
 
-const mapStateToProps = ({posts}) => {
+const mapStateToProps = ({ posts }) => {
   return {
-    posts
+    posts,
   };
 };
 

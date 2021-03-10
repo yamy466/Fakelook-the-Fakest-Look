@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import { Component } from "react";
 import Home from "../homeComponents/home";
 import AboutUs from "../aboutUsComponents/aboutUs";
 import { Switch, Route } from "react-router-dom";
@@ -12,7 +12,7 @@ class Routes extends Component {
         <Switch>
           <Route exact path="/" component={Home} />
           <Route exact path="/aboutus" component={AboutUs} />
-          {this.props.loggedInUser && (
+          {this.props.accessToken && (
             <Route exact path="/map" component={MapFeed} />
           )}
         </Switch>
@@ -21,9 +21,10 @@ class Routes extends Component {
   }
 }
 
-const mapStateToProps = ({  loggedInUser }) => {
+const mapStateToProps = ({  login }) => {
   return {
-    loggedInUser,
+    path: login.path,
+    accessToken : login.accessToken,
   };
 };
 
