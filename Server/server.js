@@ -1,10 +1,10 @@
-require("dotenv").config()
+require("dotenv").config();
 const express = require("express");
 const app = express();
 const cors = require("cors");
 const postsRouter = require("./routers/postsRouter");
 const authRouter = require("./routers/authRouter");
-const URLS = require("./settings/URLS");
+const URLS = require("./URLS");
 const bodyParser = require("body-parser");
 const jwt = require("jsonwebtoken");
 
@@ -19,15 +19,15 @@ app.listen(URLS.serverPort, () => {
 
 app.use("/api/auth", authRouter);
 
-app.use((req,res,next) => {
+app.use((req, res, next) => {
   const authHeader = req.headers["authorization"];
   const token = authHeader && authHeader.split(" ")[1];
-  if(!token) return res.sendStatus(401);
-  jwt.verify(token,process.env.ACCESS_TOKEN_SECRET,(err,user) => {
-    if(err) return res.sendStatus(403);
+  if (!token) return res.sendStatus(401);
+  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+    if (err) return res.sendStatus(403);
     req.user = user;
-    next()
-  })
-})
+    next();
+  });
+});
 
 app.use("/api/Posts", postsRouter);
