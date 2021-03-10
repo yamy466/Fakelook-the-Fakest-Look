@@ -1,13 +1,15 @@
+import { connect } from 'react-redux'
 import { useEffect } from "react";
 import { useMapEvents } from "react-leaflet";
+import {selectLocation} from "../../actions"
 
-const LocationMarker = ({ setSelectedLocation }) => {
+const LocationMarker = (props) => {
   const map = useMapEvents({
     click({ latlng }) {
-      setSelectedLocation(latlng);
+      props.selectLocation(latlng);
     },
     locationfound({ latlng }) {
-      setSelectedLocation(latlng);
+      props.selectLocation(latlng);
     },
   });
 
@@ -18,4 +20,4 @@ const LocationMarker = ({ setSelectedLocation }) => {
   return null;
 };
 
-export default LocationMarker;
+export default connect(null,{selectLocation})(LocationMarker);

@@ -2,13 +2,7 @@ import types from "../enviroments/actionTypes";
 import { refreshToken as refreshTokenService } from "../services/authService";
 
 //NOT for auth actions!
-const actionErrorHandler = async (
-  response,
-  fetchFunc,
-  args = null,
-  dispatch,
-  getState
-) => {
+const actionErrorHandler = async (response, fetchFunc, args = null, dispatch, getState) => {
   if (response.status === 403) {
     try {
       return await refreshToken(fetchFunc, args, dispatch, getState);
