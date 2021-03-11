@@ -21,7 +21,7 @@ class Feed extends Component {
   };
 
   renderPosts = () => {
-    return this.props.posts?.map((post) => {
+    return this.props.posts?.reverse().map((post) => {
       return (
         <div>
           <Post post={post} />
@@ -41,7 +41,7 @@ class Feed extends Component {
             setVisible={() => alert("Can not close the window here")}
           />
           <SidebarPusher>
-            <div className="center">{this.renderPosts()}</div>
+            <div className="mid">{this.renderPosts()}</div>
           </SidebarPusher>
         </Sidebar.Pushable>
       </div>
