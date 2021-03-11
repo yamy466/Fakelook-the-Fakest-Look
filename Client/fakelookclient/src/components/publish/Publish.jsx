@@ -11,7 +11,7 @@ const friendsMock = [
 ];
 const Publish = (props) => {
   const [photo, setPhoto] = useState("");
-  const [text, setText] = useState("");
+  const [postText, setText] = useState("");
   const [photoTagsMock, setPhotoTasgMock] = useState([
     { title: "new", id: 1 },
     { title: "food", id: 2 },
@@ -30,9 +30,9 @@ const Publish = (props) => {
 
   const success = (position) => {
     let location = position.coords;
-    let lon = location.longitude;
+    let lng = location.longitude;
     let lat = location.latitude;
-    setCurrentLocation({ lat, lng: lon });
+    setCurrentLocation({ lat, lng });
   };
 
   const error = () => {
@@ -71,12 +71,13 @@ const Publish = (props) => {
     setSelectedPhotoTags([...selectedPhotoTags, newTag]);
   };
 
-  const onTextChange = (text) => {
-    setText(text);
-  };
-
   const onSelectedPhotoTagsChange = (tag) => {
     setSelectedPhotoTags(tag);
+  };
+
+  const onTextChange = (e) => {
+    let text = e.target.value;
+    setText(text);
   };
 
   const createPost = () => {
@@ -91,14 +92,13 @@ const Publish = (props) => {
       taggedFriends: selectedFriends,
       photo,
       location,
-      text: text,
+      text: postText,
     };
     return post;
   };
 
   const onPublishClick = async (e) => {
     const post = createPost();
-    console.log("post created");
     props.addPost(post);
   };
 
@@ -111,7 +111,7 @@ const Publish = (props) => {
           accept="image/*"
           onChange={onPhotoChange}
         />
-        <Form.Input label="Text" type="text" onChange={onTextChange} />
+        <Form.Input label="Text" onChange={onTextChange} />
         {photo && <Form.Field control={Image} src={photo} size="medium" />}
         <Form.Dropdown
           search
