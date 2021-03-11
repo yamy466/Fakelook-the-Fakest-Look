@@ -37,6 +37,7 @@ class Feed extends Component {
         <Sidebar.Pushable as={Segment}>
           <UserMenu
             visible={true}
+            showClose={false}
             setVisible={() => alert("Can not close the window here")}
           />
           <SidebarPusher>

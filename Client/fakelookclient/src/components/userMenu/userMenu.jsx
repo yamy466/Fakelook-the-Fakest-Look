@@ -5,7 +5,7 @@ import Friends from "../friends/friends";
 import Publish from "../publish/Publish";
 import UserMenuItem from "../userMenuItem/userMenuItem";
 
-const UserMenu = ({ visible, setVisible }) => {
+const UserMenu = ({ visible, setVisible, showClose }) => {
   const [FILTER, PUBLISH, FRIENDS] = ["Filter", "Publish", "Friends"];
 
   //font-awesome icons
@@ -35,14 +35,16 @@ const UserMenu = ({ visible, setVisible }) => {
             />
           );
         })}
-        <Menu.Menu position="right">
-          <i
-            class="fas fa-times"
-            onClick={() => {
-              setVisible(false);
-            }}
-            style={{ fontSize: 20, cursor: "pointer" }}></i>
-        </Menu.Menu>
+        {showClose && (
+          <Menu.Menu position="right">
+            <i
+              class="fas fa-times"
+              onClick={() => {
+                setVisible(false);
+              }}
+              style={{ fontSize: 20, cursor: "pointer" }}></i>
+          </Menu.Menu>
+        )}
       </Menu>
 
       {(() => {
