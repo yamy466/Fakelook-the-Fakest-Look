@@ -10,7 +10,6 @@ class ShowPosts extends Component {
     super(props);
     this.state = {};
     setTimeout(() => {
-      
       props.fetchPosts();
       this.initPosts();
     }, 10000);
@@ -27,13 +26,12 @@ class ShowPosts extends Component {
   };
 
   renderLocations = () => {
-    return this.props.posts.map((post) => {
+    return this.props.posts?.map((post) => {
       return (
         <Marker
           key={post.id}
           icon={customIcon()}
-          position={this.createLocation(post.location)}
-        >
+          position={this.createLocation(post.location)}>
           <Popup>
             <Post post={post} />
           </Popup>

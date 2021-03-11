@@ -2,8 +2,7 @@ import { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { Image, MenuItem } from "semantic-ui-react";
 import logo from "../../logo/logo_transparent.png";
-import { connect } from 'react-redux'
-
+import { connect } from "react-redux";
 
 const Navigation = (props) => {
   const [pathName, setPathName] = useState(window.location.pathname);
@@ -17,12 +16,12 @@ const Navigation = (props) => {
   };
 
   useEffect(() => {
-    history.push(props.path)
-  }, [props.path])
+    history.push(props.path);
+  }, [props.path]);
 
   useEffect(() => {
     setPathName(window.location.pathname);
-  }, [props.accessToken,history]);
+  }, [props.accessToken, history]);
 
   return (
     <>
@@ -59,10 +58,10 @@ const Navigation = (props) => {
   );
 };
 
-const mapStateToProps = ({login,path}) => {
+const mapStateToProps = ({ login, path }) => {
   return {
     accessToken: login.accessToken,
-    path
+    path,
   };
 };
 

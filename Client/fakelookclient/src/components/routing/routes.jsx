@@ -4,6 +4,7 @@ import AboutUs from "../aboutUsComponents/aboutUs";
 import { Switch, Route } from "react-router-dom";
 import MapFeed from "../mapFeed/mapFeed";
 import { connect } from "react-redux";
+import Feed from "../feed/postsFeed";
 
 class Routes extends Component {
   render() {
@@ -15,15 +16,18 @@ class Routes extends Component {
           {this.props.accessToken && (
             <Route exact path="/map" component={MapFeed} />
           )}
+          {this.props.accessToken && (
+            <Route exact path="/feed" component={Feed} />
+          )}
         </Switch>
       </div>
     );
   }
 }
 
-const mapStateToProps = ({  login }) => {
+const mapStateToProps = ({ login }) => {
   return {
-    accessToken : login.accessToken,
+    accessToken: login.accessToken,
   };
 };
 

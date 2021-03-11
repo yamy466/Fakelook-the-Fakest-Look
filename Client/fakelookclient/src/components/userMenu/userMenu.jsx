@@ -8,7 +8,7 @@ import UserMenuItem from "../userMenuItem/userMenuItem";
 const UserMenu = ({ visible, setVisible }) => {
   const [FILTER, PUBLISH, FRIENDS] = ["Filter", "Publish", "Friends"];
 
-  //font-awsome icons
+  //font-awesome icons
   const items = [
     { title: FILTER, icon: "filter" },
     { title: PUBLISH, icon: "image" },
@@ -21,8 +21,7 @@ const UserMenu = ({ visible, setVisible }) => {
       style={{ opacity: 0.9 }}
       animation="overlay"
       visible={visible}
-      width="very wide"
-    >
+      width="very wide">
       <Menu tabular>
         {items.map(({ title, icon }) => {
           return (
@@ -42,8 +41,7 @@ const UserMenu = ({ visible, setVisible }) => {
             onClick={() => {
               setVisible(false);
             }}
-            style={{ fontSize: 20, cursor: "pointer" }}
-          ></i>
+            style={{ fontSize: 20, cursor: "pointer" }}></i>
         </Menu.Menu>
       </Menu>
 
