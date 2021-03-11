@@ -17,13 +17,12 @@ class ShowPosts extends Component {
   };
 
   renderLocations = () => {
-    return this.props.posts.map((post) => {
+    return this.props.posts?.map((post) => {
       return (
         <Marker
           key={post.id}
-          icon={customIcon(post.photoURL)}
-          position={this.createLocation(post.location)}
-        >
+          icon={customIcon()}
+          position={this.createLocation(post.location)}>
           <Popup>
             <Post post={post} />
           </Popup>
