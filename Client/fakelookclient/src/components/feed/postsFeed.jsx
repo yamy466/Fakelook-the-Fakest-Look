@@ -41,7 +41,7 @@ class Feed extends Component {
             setVisible={() => alert("Can not close the window here")}
           />
           <SidebarPusher>
-            <div className="mid">{this.renderPosts()}</div>
+            <div className="Centered">{this.renderPosts()}</div>
           </SidebarPusher>
         </Sidebar.Pushable>
       </div>

@@ -11,6 +11,7 @@ const friendsMock = [
 ];
 const Publish = (props) => {
   const [photo, setPhoto] = useState("");
+  const [text, setText] = useState("");
   const [photoTagsMock, setPhotoTasgMock] = useState([
     { title: "new", id: 1 },
     { title: "food", id: 2 },
@@ -70,6 +71,10 @@ const Publish = (props) => {
     setSelectedPhotoTags([...selectedPhotoTags, newTag]);
   };
 
+  const onTextChange = (text) => {
+    setText(text);
+  };
+
   const onSelectedPhotoTagsChange = (tag) => {
     setSelectedPhotoTags(tag);
   };
@@ -86,6 +91,7 @@ const Publish = (props) => {
       taggedFriends: selectedFriends,
       photo,
       location,
+      text: text,
     };
     return post;
   };
@@ -105,6 +111,7 @@ const Publish = (props) => {
           accept="image/*"
           onChange={onPhotoChange}
         />
+        <Form.Input label="Text" type="text" onChange={onTextChange} />
         {photo && <Form.Field control={Image} src={photo} size="medium" />}
         <Form.Dropdown
           search
