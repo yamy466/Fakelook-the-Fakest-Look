@@ -9,17 +9,8 @@ class ShowPosts extends Component {
   constructor(props) {
     super(props);
     this.state = {};
-    setTimeout(() => {
       props.fetchPosts();
-      this.initPosts();
-    }, 10000);
   }
-
-  initPosts = () => {
-    this.props.posts?.data?.map((res) => {
-      this.setState({ posts: res });
-    });
-  };
 
   createLocation = (location) => {
     return { lat: location.x, lon: location.y };
@@ -30,8 +21,9 @@ class ShowPosts extends Component {
       return (
         <Marker
           key={post.id}
-          icon={customIcon()}
-          position={this.createLocation(post.location)}>
+          icon={customIcon(post.photoURL)}
+          position={this.createLocation(post.location)}
+        >
           <Popup>
             <Post post={post} />
           </Popup>

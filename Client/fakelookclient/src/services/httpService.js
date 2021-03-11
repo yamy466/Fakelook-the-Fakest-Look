@@ -1,7 +1,7 @@
 import axios from "axios";
 import environment from "../enviroments/enviroment";
 
-const axiosCreate = axios.create({ baseURL: environment.serverUrl });
+const axiosCreate = axios.create({ baseURL: environment.serverUrl  });
 
 axiosCreate.interceptors.response.use(null, (error) => {
   const expectedError =

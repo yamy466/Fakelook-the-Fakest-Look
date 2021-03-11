@@ -11,12 +11,17 @@ const PostsService = {
     });
   },
   async addNewPost(token, post) {
-    return await http.post(serverRoute + "addPost", {
-      headers: {
-        Authorization: "Bearer " + token,
+    return await http.post(
+      serverRoute + "addPost",
+      {
+        post: post,
       },
-      post: post,
-    });
+      {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      }
+    );
   },
 };
 

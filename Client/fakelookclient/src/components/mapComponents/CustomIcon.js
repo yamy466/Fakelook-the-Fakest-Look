@@ -3,8 +3,8 @@ import fakelookLogo from "../../logo/logo_transparent.png";
 
 const customIcon = (
   iconUrl = fakelookLogo,
-  iconWidth = 70,
-  iconHeight = 70,
+  iconWidth = 50,
+  iconHeight = 50,
   className = ""
 ) => {
   return new L.Icon({
@@ -16,7 +16,7 @@ const customIcon = (
     shadowSize: null,
     shadowAnchor: null,
     iconSize: new L.Point(iconWidth, iconHeight),
-    className: className,
+    className,
   });
 };
 

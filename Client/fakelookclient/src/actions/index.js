@@ -40,7 +40,7 @@ export const addPost = (post) => async (dispatch, getState) => {
       getState
     );
   }
-  if (res?.status < 400) dispatch({ type: types.ADD_POST, payload: res.data });
+  if (res?.status < 400) dispatch({ type: types.ADD_POST, payload: {...res.data.dataValues,photoURL: post.photo} });
 };
 
 export const login = (name, password) => async (dispatch) => {

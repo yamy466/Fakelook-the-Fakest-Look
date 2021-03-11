@@ -4,11 +4,11 @@ const app = express();
 const cors = require("cors");
 const postsRouter = require("./routers/postsRouter");
 const authRouter = require("./routers/authRouter");
-const URLS = require("./Settings/URLS");
+const URLS = require("./settings/URLS");
 const bodyParser = require("body-parser");
 const jwt = require("jsonwebtoken");
 
-app.use(bodyParser.json());
+app.use(bodyParser.json({limit: '50mb'}));
 app.use(cors());
 
 app.listen(URLS.serverPort, () => {
