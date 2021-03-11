@@ -7,7 +7,7 @@ class PostsRepository {
   }
 
   async createNewPost(post) {
-    console.log(post, "this is the post to create");
+    await Posts.create({ ...post });
   }
 
   // async getPostsByRadius(origin,radius){
