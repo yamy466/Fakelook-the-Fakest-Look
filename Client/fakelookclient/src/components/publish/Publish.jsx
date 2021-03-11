@@ -31,7 +31,7 @@ const Publish = (props) => {
     let location = position.coords;
     let lon = location.longitude;
     let lat = location.latitude;
-    setCurrentLocation({ lat, lon });
+    setCurrentLocation({ lat, lng: lon });
   };
 
   const error = () => {

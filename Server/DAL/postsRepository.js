@@ -32,7 +32,7 @@ class PostsRepository {
     writeFile(`${photosDirectory}/${createdPost.photoURL}.png`,buf,(err) => {
       if(err) throw err
      })
-    return {...createdPost, photoURL: null}
+    return {...createdPost}
   }
 
   // async getPostsByRadius(origin,radius){
