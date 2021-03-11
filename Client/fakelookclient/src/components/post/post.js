@@ -12,10 +12,10 @@ import logo from "../../logo/logo_transparent.png";
 
 const Post = ({ post }) => {
     
-  const { publisher, text } = post;
+  const { publisher, text, photoURL } = post;
   return (
     <Card>
-      <Image src={logo} />
+      <Image src={photoURL || logo} />
       <CardContent>
         <CardHeader>{publisher}</CardHeader>
         <CardDescription>{text}</CardDescription>

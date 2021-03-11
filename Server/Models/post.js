@@ -1,3 +1,5 @@
+const { DataTypes } = require("sequelize");
+
 module.exports = (connection, sequelize) => {
   return connection.define(
     "post",
@@ -13,9 +15,11 @@ module.exports = (connection, sequelize) => {
         type: sequelize.TEXT,
         allowNull: true,
       },
+      
       location: {
-        type: `Point`,
+        type: "Point",
         allowNull: false,
+        column: DataTypes.GEOMETRY("Point",4326)
       },
       publisher: {
         type: sequelize.TEXT,
@@ -37,10 +41,15 @@ module.exports = (connection, sequelize) => {
         type: sequelize.ARRAY(sequelize.TEXT),
         allowNull: true,
       },
+      photoURL: {
+        type: sequelize.BIGINT,
+        allowNull: true
+      }
     },
     {
       tableName: "Posts",
       timestamps: false,
+      
     }
   );
 };

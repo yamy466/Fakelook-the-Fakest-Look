@@ -75,17 +75,17 @@ const Publish = (props) => {
   };
 
   const createPost = () => {
-    let loc = "";
+    let location = "";
     if (isMyLocation) {
-      loc = currentLocation;
+      location = currentLocation;
     } else {
-      loc = props.selectedLocation;
+      location = props.selectedLocation;
     }
     const post = {
       tags: selectedPhotoTags,
       taggedFriends: selectedFriends,
-      photoURL: photo,
-      location: loc,
+      photo,
+      location,
     };
     return post;
   };
