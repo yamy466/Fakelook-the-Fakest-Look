@@ -8,7 +8,6 @@ const customIcon = (
   className = ""
 ) => {
   return new L.Icon({
-    
     iconUrl: iconUrl,
     iconRetinaUrl: null,
     iconAnchor: [22, 94],

@@ -21,8 +21,9 @@ class ShowPosts extends Component {
       return (
         <Marker
           key={post.id}
-          icon={customIcon()}
-          position={this.createLocation(post.location)}>
+          icon={customIcon(post.photoURL)}
+          position={this.createLocation(post.location)}
+        >
           <Popup>
             <Post post={post} />
           </Popup>
