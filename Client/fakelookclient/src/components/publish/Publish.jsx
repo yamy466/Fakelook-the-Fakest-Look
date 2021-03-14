@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
-import { Form, Image, Input, Segment } from "semantic-ui-react";
+import { Form, FormField, Image, Input, Segment } from "semantic-ui-react";
 import { connect } from "react-redux";
-import { selectLocation, addPost } from "../../actions";
+import { selectLocation, addPost, getTagsByQuery } from "../../actions";
 import env from "../../enviroments/enviroment";
+import PhotoTagsSelection from "../photoTagsSelection/photoTagsSelection";
 
 const friendsMock = [
   { name: "shiki", id: 1 },
@@ -11,10 +12,6 @@ const friendsMock = [
 const Publish = (props) => {
   const [photo, setPhoto] = useState("");
   const [postText, setText] = useState("");
-  const [photoTagsMock, setPhotoTasgMock] = useState([
-    { title: "new", id: 1 },
-    { title: "food", id: 2 },
-  ]);
   const [selectedPhotoTags, setSelectedPhotoTags] = useState([]);
   const [selectedFriends, setSelectedFriends] = useState([]);
   const [isMyLocation, setIsMyLocation] = useState(false);
@@ -62,18 +59,6 @@ const Publish = (props) => {
     setSelectedFriends([]);
   };
 
-  const onAddTag = (tag) => {
-    if (photoTagsMock.find((t) => t.title === tag)) return;
-    const newId = Math.max(...photoTagsMock.map(({ id }) => id)) + 1;
-    const newTag = { title: tag, id: newId };
-    setPhotoTasgMock([...photoTagsMock, newTag]);
-    setSelectedPhotoTags([...selectedPhotoTags, newTag]);
-  };
-
-  const onSelectedPhotoTagsChange = (tag) => {
-    setSelectedPhotoTags(tag);
-  };
-
   const onTextChange = (e) => {
     let text = e.target.value;
     setText(text);
@@ -112,21 +97,14 @@ const Publish = (props) => {
         />
         <Form.Input label="Text" onChange={onTextChange} />
         {photo && <Form.Field control={Image} src={photo} size="medium" />}
-        <Form.Dropdown
-          search
-          selection
-          allowAdditions
-          multiple
-          options={photoTagsMock.map((t) => {
-            return { text: t.title, key: t.id, value: t };
-          })}
-          onAddItem={(e, data) => onAddTag(data.value)}
+        <FormField
+          control={PhotoTagsSelection}
+          addition
           label="Photo Tags"
+          multiple
           placeholder="photo tags"
-          value={selectedPhotoTags}
-          onChange={(e, { value }) => {
-            onSelectedPhotoTagsChange(value);
-          }}
+          selectedTags={selectedPhotoTags}
+          onSelect={(tags) => setSelectedPhotoTags(tags)}
         />
         <Form.Dropdown
           search
@@ -171,9 +149,10 @@ const Publish = (props) => {
   );
 };
 
-const mapStateToProps = ({ selectedLocation }) => {
+const mapStateToProps = ({ selectedLocation, login }) => {
   return {
     selectedLocation,
+    accessToken: login.accessToken,
   };
 };
 

@@ -14,10 +14,10 @@ class Routes extends Component {
           <Route exact path="/" component={Home} />
           <Route exact path="/aboutus" component={AboutUs} />
           {this.props.accessToken && (
-            <Route exact path="/map" component={MapFeed} />
-          )}
-          {this.props.accessToken && (
-            <Route exact path="/feed" component={Feed} />
+            <>
+              <Route exact path="/map" component={MapFeed} />
+              <Route exact path="/feed" component={Feed} />
+            </>
           )}
         </Switch>
       </div>

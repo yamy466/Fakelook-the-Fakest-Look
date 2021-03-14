@@ -5,6 +5,9 @@ import login from "./loginReducer";
 import register from "./registerReducer";
 import path from "./pathReducer";
 import social from "./socialReducer";
+import photoTags from "./tagsReducer";
+import users from "./usersReducer";
+
 export default combineReducers({
   posts,
   selectedLocation,
@@ -12,4 +15,6 @@ export default combineReducers({
   register,
   path,
   social,
+  photoTags,
+  users,
 });
