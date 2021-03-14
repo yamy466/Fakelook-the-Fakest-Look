@@ -1,5 +1,6 @@
 import types from "../enviroments/actionTypes";
 import PostsService from "../services/postsService";
+import SocialServices from "../services/socialServices";
 import {
   login as loginService,
   refreshToken as refreshTokenService,
@@ -19,6 +20,23 @@ export const fetchPosts = () => async (dispatch, getState) => {
   }
   if (res?.status < 400)
     dispatch({ type: types.FETCH_POSTS, payload: res.data });
+};
+
+export const fetchFriendRequests = () => async (dispatch, getState) => {
+  const fetch = async () =>
+    await SocialServices.getFriendRequests(
+      getState().login.username,
+      getState().login.accessToken
+    );
+  let res;
+  try {
+    res = await fetch();
+    console.log(res.data, "actions");
+  } catch ({ response }) {
+    res = await actionErrorHandler(response, fetch, null, dispatch, getState);
+  }
+  if (res?.status < 400)
+    dispatch({ type: types.FETCH_REQUESTS, payload: res.data });
 };
 
 export const selectLocation = (location) => async (dispatch) => {
@@ -46,12 +64,36 @@ export const addPost = (post) => async (dispatch, getState) => {
       payload: { ...res.data.dataValues, photoURL: post.photo },
     });
 };
+export const addFriend = (friend) => async (dispatch, getState) => {
+  const sendFriend = async () =>
+    await SocialServices.addNewFriend(getState().login.accessToken, friend);
+  let res;
+  try {
+    res = await sendFriend();
+  } catch ({ response }) {
+    res = await actionErrorHandler(
+      response,
+      sendFriend,
+      null,
+      dispatch,
+      getState
+    );
+  }
+  if (res?.status < 400)
+    dispatch({
+      type: types.ADD_FRIEND,
+      payload: { ...res.data.dataValues },
+    });
+};
 
 export const login = (name, password) => async (dispatch) => {
   dispatch({ type: types.LOGIN_LOADING });
   try {
     const res = await loginService(name, password);
-    dispatch({ type: types.LOGIN_SUCCESS, payload: res.data });
+    dispatch({
+      type: types.LOGIN_SUCCESS,
+      payload: res.data,
+    });
   } catch (error) {
     dispatch({ type: types.LOGIN_ERROR });
   }
@@ -66,7 +108,7 @@ export const register = (user) => async (dispatch) => {
   dispatch({ type: types.REGISTER_LOADING });
   try {
     const res = await registerService(user);
-    dispatch({ type: types.REGISTER_SUCCESS, payload: { ...res.data } });
+    dispatch({ type: types.REGISTER_SUCCESS, payload: res.data });
   } catch (error) {
     dispatch({ type: types.REGISTER_ERROR, payload: error.response });
   }

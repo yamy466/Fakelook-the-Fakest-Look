@@ -3,7 +3,6 @@ import { Form, Image, Input, Segment } from "semantic-ui-react";
 import { connect } from "react-redux";
 import { selectLocation, addPost } from "../../actions";
 import env from "../../enviroments/enviroment";
-import PostsService from "../../services/postsService";
 
 const friendsMock = [
   { name: "shiki", id: 1 },

@@ -4,11 +4,12 @@ import selectedLocation from "./locationsReducer";
 import login from "./loginReducer";
 import register from "./registerReducer";
 import path from "./pathReducer";
-
+import social from "./socialReducer";
 export default combineReducers({
   posts,
-  selectedLocation ,
+  selectedLocation,
   login,
   register,
-  path
+  path,
+  social,
 });

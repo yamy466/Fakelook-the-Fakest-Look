@@ -14,6 +14,16 @@ class AuthRepository {
     return user;
   }
 
+  async getUsernameByID(userId) {
+    //gets an array of id's and returns the usernames of the users as an array
+    let user = await Users.findOne({
+      where: {
+        id: userId,
+      },
+    });
+    return user;
+  }
+
   async deleteToken(token) {
     await Tokens.destroy({
       where: {

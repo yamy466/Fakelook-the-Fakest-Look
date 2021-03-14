@@ -38,6 +38,10 @@ module.exports = (sequelize, type) => {
         type: type.STRING,
         allowNull: false,
       },
+      requests: {
+        type: type.ARRAY(type.INTEGER),
+        allowNull: true,
+      },
     },
     {
       tableName: "Users",
