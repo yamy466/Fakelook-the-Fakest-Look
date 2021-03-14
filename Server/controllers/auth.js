@@ -12,7 +12,7 @@ class AuthContoller {
     const accessToken = this.generateAccessToken(user);
     const refreshToken = this.generateRefreshToken(user);
     await authRepository.addRefreshToken(refreshToken);
-    return { accessToken, refreshToken,username: user.username };
+    return { accessToken, refreshToken, username: user.username };
   }
 
   async login(name, password) {
@@ -23,7 +23,7 @@ class AuthContoller {
     const accessToken = this.generateAccessToken(user);
     const refreshToken = this.generateRefreshToken(user);
     await authRepository.addRefreshToken(refreshToken);
-    return { accessToken, refreshToken,username: name };
+    return { accessToken, refreshToken, username: name };
   }
 
   async refreshToken(refreshToken) {

@@ -3,6 +3,7 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const postsRouter = require("./routers/postsRouter");
+const socialRouter = require("./routers/socialRouter");
 const authRouter = require("./routers/authRouter");
 const tagsRouter = require("./routers/tagsRouter");
 const usersRouter = require("./routers/usersRouter")
@@ -18,6 +19,7 @@ app.listen(URLS.serverPort, () => {
 });
 
 app.use("/api/auth", authRouter);
+app.use("/api/Social", socialRouter);
 
 app.use((req, res, next) => {
   const authHeader = req.headers["authorization"];

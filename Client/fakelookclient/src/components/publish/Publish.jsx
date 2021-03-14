@@ -9,7 +9,7 @@ const friendsMock = [
   { name: "shiki", id: 1 },
   { name: "almog", id: 2 },
 ];
-const Publish = props => {
+const Publish = (props) => {
   const [photo, setPhoto] = useState("");
   const [postText, setPostText] = useState("");
   const [selectedPhotoTags, setSelectedPhotoTags] = useState([]);
@@ -24,7 +24,7 @@ const Publish = props => {
   const getCurrentLocation = () =>
     navigator.geolocation.getCurrentPosition(success, error, options);
 
-  const success = position => {
+  const success = (position) => {
     let location = position.coords;
     let lng = location.longitude;
     let lat = location.latitude;
@@ -42,7 +42,7 @@ const Publish = props => {
     };
   };
 
-  const onPhotoChange = e => {
+  const onPhotoChange = (e) => {
     setPhoto("");
     if (e.target.files[0]) {
       const reader = new FileReader();
@@ -59,7 +59,7 @@ const Publish = props => {
     setSelectedFriends([]);
   };
 
-  const onTextChange = e => {
+  const onTextChange = (e) => {
     let text = e.target.value;
     setPostText(text);
   };
@@ -81,7 +81,7 @@ const Publish = props => {
     return post;
   };
 
-  const onPublishClick = async e => {
+  const onPublishClick = async (e) => {
     const post = createPost();
     props.addPost(post);
     onClearClick()
@@ -100,13 +100,13 @@ const Publish = props => {
           multiple
           placeholder="photo tags"
           selectedTags={selectedPhotoTags}
-          onSelect={tags => setSelectedPhotoTags(tags)}
+          onSelect={(tags) => setSelectedPhotoTags(tags)}
         />
         <Form.Dropdown
           search
           selection
           multiple
-          options={friendsMock.map(f => {
+          options={friendsMock.map((f) => {
             return { text: f.name, key: f.id, value: f };
           })}
           label="Friends Tags"
