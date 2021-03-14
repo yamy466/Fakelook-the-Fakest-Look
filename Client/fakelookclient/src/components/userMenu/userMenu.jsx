@@ -14,6 +14,22 @@ const UserMenu = ({ visible, setVisible, showClose }) => {
     { title: PUBLISH, icon: "image" },
     { title: FRIENDS, icon: "user-friends" },
   ];
+
+  const mapItems = () => {
+    return items.map(({ title, icon }) => {
+      return (
+        <UserMenuItem
+          icon={icon}
+          title={title}
+          key={title}
+          active={active}
+          header={true}
+          setActive={setActive}
+        />
+      );
+    });
+  };
+
   const [active, setActive] = useState("Filter");
   return (
     <Sidebar
@@ -23,18 +39,7 @@ const UserMenu = ({ visible, setVisible, showClose }) => {
       visible={visible}
       width="very wide">
       <Menu tabular>
-        {items.map(({ title, icon }) => {
-          return (
-            <UserMenuItem
-              icon={icon}
-              title={title}
-              key={title}
-              active={active}
-              header={true}
-              setActive={setActive}
-            />
-          );
-        })}
+        {mapItems()}
         {showClose && (
           <Menu.Menu position="right">
             <i

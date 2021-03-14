@@ -1,6 +1,7 @@
-.center {
-  margin: auto;
-  width: 25%;
+.Centered {
+  margin-top: 5%;
+  margin-left: 50%;
+  width: 100%;
   border: 3px;
   padding: 10px;
 }

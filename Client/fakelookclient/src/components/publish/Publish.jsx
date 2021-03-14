@@ -11,6 +11,7 @@ const friendsMock = [
 ];
 const Publish = props => {
   const [photo, setPhoto] = useState("");
+  const [postText, setText] = useState("");
   const [selectedPhotoTags, setSelectedPhotoTags] = useState([]);
   const [selectedFriends, setSelectedFriends] = useState([]);
   const [isMyLocation, setIsMyLocation] = useState(false);
@@ -58,6 +59,11 @@ const Publish = props => {
     setSelectedFriends([]);
   };
 
+  const onTextChange = e => {
+    let text = e.target.value;
+    setText(text);
+  };
+
   const createPost = () => {
     let location = "";
     if (isMyLocation) {
@@ -70,13 +76,13 @@ const Publish = props => {
       taggedFriends: selectedFriends,
       photo,
       location,
+      text: postText,
     };
     return post;
   };
 
   const onPublishClick = async e => {
     const post = createPost();
-    console.log("post created");
     props.addPost(post);
   };
 
@@ -84,6 +90,7 @@ const Publish = props => {
     <Segment attached>
       <Form size="large">
         <Form.Input label="Upload Photo" type="file" accept="image/*" onChange={onPhotoChange} />
+        <Form.Input label="Text" onChange={onTextChange} />
         {photo && <Form.Field control={Image} src={photo} size="medium" />}
         <FormField
           control={PhotoTagsSelection}
@@ -92,7 +99,7 @@ const Publish = props => {
           multiple
           placeholder="photo tags"
           selectedTags={selectedPhotoTags}
-          onSelect={(tags) => setSelectedPhotoTags(tags)}
+          onSelect={tags => setSelectedPhotoTags(tags)}
         />
         <Form.Dropdown
           search
