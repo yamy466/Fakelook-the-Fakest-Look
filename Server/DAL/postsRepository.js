@@ -19,7 +19,7 @@ class PostsRepository {
     const createdPost = await Posts.create({
       publisher: publisher,
       postedTime: new Date(),
-      tags: tags.map(t => t.title),
+      tags,
       taggedUsers: taggedFriends.map(t => t.name),
       location :  `(${location.lat},${location.lng})`,
       photoURL: -1,
@@ -35,15 +35,11 @@ class PostsRepository {
     return {...createdPost}
   }
 
-  // async getPostsByRadius(origin,radius){
-  //   const res = Posts.findAll({
-  //     where: {
-  //       location: {
-
-  //       }
-  //     }
-  //   })
-  // }
+//  async getFilteredPosts(fromDate,toDate,publishers,tags,groups,radius){
+//    const posts = await Posts.findAll({})
+//    if(fromDate && toDate)
+//    posts = posts.filter(p => p.)
+//  }
 }
 
 module.exports = new PostsRepository();
