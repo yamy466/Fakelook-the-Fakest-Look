@@ -1,5 +1,6 @@
 import types from "../enviroments/actionTypes";
 import PostsService from "../services/postsService";
+import {getUsersByQuery as getUsersByQueryService} from "../services/usersService"
 import {
   addTag as addTagService,
   getTagsByQuery as getTagsByQueryService,
@@ -86,3 +87,14 @@ export const addPhotoTag = tag => async (dispatch, getState) => {
   }
   if (res?.status < 400) dispatch({ type: types.NEW_PHOTO_TAG, payload: tag });
 };
+
+export const getUsersByQuery = query => async (dispatch,getState) => {
+  const getUsers = async () => await getUsersByQueryService(query,getState().login.accessToken);
+  let res;
+  try {
+    res = await getUsers();
+  } catch ({response}) {
+    if(response) res = await actionErrorHandler(response,getUsers,null,dispatch,getState);
+  }
+  if(res?.status < 400) dispatch({type: types.USERS_CHANGE,payload: res.data})
+}

@@ -4,13 +4,9 @@ import "react-date-range/dist/theme/default.css";
 import { useState } from "react";
 import DatesRangeAccordion from "../datesRangeAcconrdion/datesRangeAccordion";
 import PhotoTagsSelection from "../photoTagsSelection/photoTagsSelection";
+import PublisherSelection from "../publisherSelection/PublisherSelection";
 
 const MAX_RADIUS = 100;
-
-const publishers = [
-  { name: "shiki", id: 1 },
-  { name: "almog", id: 2 },
-];
 
 const groupsMock = [
   { name: "NBA Lovers", id: 1 },
@@ -64,20 +60,12 @@ const Filter = () => {
           label="Dates Range"
         />
         <Form.Field
-          id="publisherField"
-          control={Dropdown}
-          value={selectedPublishers}
-          onChange={(e, { value }) => {
-            setSelectedPublishers(value);
-          }}
+          control={PublisherSelection}
+          selectedPublishers={selectedPublishers}
           label="Publisher"
           multiple
-          selection
-          search
-          placeholder="publisher"
-          options={publishers.map(p => {
-            return { text: p.name, key: p.id, value: p };
-          })}
+          placeholder="publishers"
+          onSelect={publisher => setSelectedPublishers(publisher)}
         />
         <Form.Field
           id="radiusField"

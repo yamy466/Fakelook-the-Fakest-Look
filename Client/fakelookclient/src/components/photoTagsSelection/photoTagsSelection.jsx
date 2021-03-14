@@ -3,8 +3,8 @@ import { Dropdown } from "semantic-ui-react";
 import { getTagsByQuery, addPhotoTag } from "../../actions";
 
 const PhotoTagsSelection = props => {
-  const { addition, multiple, placeholder, selectedTags, onSelect } = props;
-  let photoTagsSearchQuery = ""
+  const { addition, multiple, placeholder, photoTags, selectedTags, onSelect } = props;
+  let photoTagsSearchQuery = "";
 
   const onPhotoTagsSearchChange = query => {
     photoTagsSearchQuery = query;
@@ -16,12 +16,10 @@ const PhotoTagsSelection = props => {
     }, 300);
   };
 
-  const onAddTag = (e,tag) => {
+  const onAddTag = (e, tag) => {
     if (props.photoTags.find(t => t === tag)) return;
-    props.addPhotoTag(tag)
-    onSelect([...selectedTags,tag]);
-    // setPhotoTags([...photoTags, tag]);
-    //add tag to server
+    props.addPhotoTag(tag);
+    onSelect([...selectedTags, tag]);
   };
 
   return (
@@ -29,16 +27,14 @@ const PhotoTagsSelection = props => {
       search
       selection
       allowAdditions={addition}
-      onAddItem={(e,{value}) => onAddTag(e,value)}
+      onAddItem={(e, { value }) => onAddTag(e, value)}
       multiple={multiple}
-      options={[...props.photoTags,...selectedTags]?.map((t) => {
+      options={[...photoTags, ...selectedTags]?.map(t => {
         return { text: t, key: t, value: t };
       })}
       placeholder={placeholder}
       value={selectedTags}
-      onChange={(e, { value }) => {
-        onSelect(value);
-      }}
+      onChange={(e, { value }) => onSelect(value)}
       onSearchChange={({ target }) => {
         onPhotoTagsSearchChange(target.value);
       }}
@@ -47,9 +43,7 @@ const PhotoTagsSelection = props => {
 };
 
 const mapStateToProps = ({ photoTags }) => {
-  return {
-    photoTags,
-  };
+  return { photoTags };
 };
 
-export default connect(mapStateToProps, { getTagsByQuery,addPhotoTag })(PhotoTagsSelection);
+export default connect(mapStateToProps, { getTagsByQuery, addPhotoTag })(PhotoTagsSelection);

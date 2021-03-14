@@ -5,6 +5,7 @@ const cors = require("cors");
 const postsRouter = require("./routers/postsRouter");
 const authRouter = require("./routers/authRouter");
 const tagsRouter = require("./routers/tagsRouter");
+const usersRouter = require("./routers/usersRouter")
 const URLS = require("./settings/URLS");
 const bodyParser = require("body-parser");
 const jwt = require("jsonwebtoken");
@@ -33,3 +34,4 @@ app.use((req, res, next) => {
 
 app.use("/api/posts", postsRouter);
 app.use("/api/tags", tagsRouter);
+app.use("/api/users", usersRouter);
