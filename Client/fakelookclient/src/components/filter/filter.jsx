@@ -1,18 +1,17 @@
-import { Button, Dropdown, Form, Input, Segment } from "semantic-ui-react";
+import { Dropdown, Form, Input, Segment } from "semantic-ui-react";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import DatesRangeAccordion from "../datesRangeAcconrdion/datesRangeAccordion";
+import PhotoTagsSelection from "../photoTagsSelection/photoTagsSelection";
+
 const MAX_RADIUS = 100;
+
 const publishers = [
   { name: "shiki", id: 1 },
   { name: "almog", id: 2 },
 ];
-const photoTagsMock = [
-  { title: "mountains", id: 1 },
-  { title: "food", id: 2 },
-  { title: "fitness", id: 3 },
-];
+
 const groupsMock = [
   { name: "NBA Lovers", id: 1 },
   { name: "Gamers", id: 2 },
@@ -45,12 +44,11 @@ const Filter = () => {
     ]);
   };
 
-  const onRadiusChange = (num) => {
+  const onRadiusChange = num => {
     if (!/^\d*$/.test(num)) {
       num = num.slice(0, num.length - 1);
     }
-    if (num > MAX_RADIUS || num.length > MAX_RADIUS.toString().length)
-      num = MAX_RADIUS;
+    if (num > MAX_RADIUS || num.length > MAX_RADIUS.toString().length) num = MAX_RADIUS;
     if (num < 0) num = "";
     setRadius(num);
   };
@@ -77,7 +75,7 @@ const Filter = () => {
           selection
           search
           placeholder="publisher"
-          options={publishers.map((p) => {
+          options={publishers.map(p => {
             return { text: p.name, key: p.id, value: p };
           })}
         />
@@ -92,20 +90,12 @@ const Filter = () => {
           }}
         />
         <Form.Field
-          id="photoTagsField"
-          control={Dropdown}
-          value={selectedPhotoTags}
+          control={PhotoTagsSelection}
           label="Photo Tags"
-          search
-          selection
           multiple
-          placeholder="photo tag"
-          onChange={(e, { value }) => {
-            setSelectedPhotoTags(value);
-          }}
-          options={photoTagsMock.map((p) => {
-            return { text: p.title, key: p.id, value: p };
-          })}
+          placeholder="photo tags"
+          selectedTags={selectedPhotoTags}
+          onSelect={tag => setSelectedPhotoTags(tag)}
         />
         <Form.Field
           id="groupsField"
@@ -119,16 +109,12 @@ const Filter = () => {
           selection
           label="Groups"
           placeholder="groups"
-          options={groupsMock.map((g) => {
+          options={groupsMock.map(g => {
             return { text: g.name, key: g.id, value: g };
           })}
         />
         <Form.Group floated="right">
-          <Form.Button
-            onClick={() => {}}
-            style={{ backgroundColor: "#7EB1CC" }}
-            content="Filter"
-          />
+          <Form.Button onClick={() => {}} style={{ backgroundColor: "#7EB1CC" }} content="Filter" />
           <Form.Button onClick={onClearClick} content="Clear" />
         </Form.Group>
       </Form>

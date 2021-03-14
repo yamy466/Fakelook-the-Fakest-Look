@@ -12,7 +12,7 @@ router.post(
       const data = await controller.login(name, password.toString());
       res.send(data);
     } catch (error) {
-      res.status(401).send(error);
+      res.status(400).send(error);
       // error = errorHandler(error);
       // res.status(error.status).send(error)
     }

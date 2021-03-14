@@ -1,20 +1,16 @@
 import { useState, useEffect } from "react";
-import { Form, Image, Input, Segment } from "semantic-ui-react";
+import { Form, FormField, Image, Input, Segment } from "semantic-ui-react";
 import { connect } from "react-redux";
-import { selectLocation, addPost } from "../../actions";
+import { selectLocation, addPost, getTagsByQuery } from "../../actions";
 import env from "../../enviroments/enviroment";
-import PostsService from "../../services/postsService";
+import PhotoTagsSelection from "../photoTagsSelection/photoTagsSelection";
 
 const friendsMock = [
   { name: "shiki", id: 1 },
   { name: "almog", id: 2 },
 ];
-const Publish = (props) => {
+const Publish = props => {
   const [photo, setPhoto] = useState("");
-  const [photoTagsMock, setPhotoTasgMock] = useState([
-    { title: "new", id: 1 },
-    { title: "food", id: 2 },
-  ]);
   const [selectedPhotoTags, setSelectedPhotoTags] = useState([]);
   const [selectedFriends, setSelectedFriends] = useState([]);
   const [isMyLocation, setIsMyLocation] = useState(false);
@@ -27,11 +23,11 @@ const Publish = (props) => {
   const getCurrentLocation = () =>
     navigator.geolocation.getCurrentPosition(success, error, options);
 
-  const success = (position) => {
+  const success = position => {
     let location = position.coords;
-    let lon = location.longitude;
+    let lng = location.longitude;
     let lat = location.latitude;
-    setCurrentLocation({ lat, lng: lon });
+    setCurrentLocation({ lat, lng });
   };
 
   const error = () => {
@@ -45,7 +41,7 @@ const Publish = (props) => {
     };
   };
 
-  const onPhotoChange = (e) => {
+  const onPhotoChange = e => {
     setPhoto("");
     if (e.target.files[0]) {
       const reader = new FileReader();
@@ -60,18 +56,6 @@ const Publish = (props) => {
     setPhoto("");
     setSelectedPhotoTags([]);
     setSelectedFriends([]);
-  };
-
-  const onAddTag = (tag) => {
-    if (photoTagsMock.find((t) => t.title === tag)) return;
-    const newId = Math.max(...photoTagsMock.map(({ id }) => id)) + 1;
-    const newTag = { title: tag, id: newId };
-    setPhotoTasgMock([...photoTagsMock, newTag]);
-    setSelectedPhotoTags([...selectedPhotoTags, newTag]);
-  };
-
-  const onSelectedPhotoTagsChange = (tag) => {
-    setSelectedPhotoTags(tag);
   };
 
   const createPost = () => {
@@ -90,7 +74,7 @@ const Publish = (props) => {
     return post;
   };
 
-  const onPublishClick = async (e) => {
+  const onPublishClick = async e => {
     const post = createPost();
     console.log("post created");
     props.addPost(post);
@@ -99,34 +83,22 @@ const Publish = (props) => {
   return (
     <Segment attached>
       <Form size="large">
-        <Form.Input
-          label="Upload Photo"
-          type="file"
-          accept="image/*"
-          onChange={onPhotoChange}
-        />
+        <Form.Input label="Upload Photo" type="file" accept="image/*" onChange={onPhotoChange} />
         {photo && <Form.Field control={Image} src={photo} size="medium" />}
-        <Form.Dropdown
-          search
-          selection
-          allowAdditions
-          multiple
-          options={photoTagsMock.map((t) => {
-            return { text: t.title, key: t.id, value: t };
-          })}
-          onAddItem={(e, data) => onAddTag(data.value)}
+        <FormField
+          control={PhotoTagsSelection}
+          addition
           label="Photo Tags"
+          multiple
           placeholder="photo tags"
-          value={selectedPhotoTags}
-          onChange={(e, { value }) => {
-            onSelectedPhotoTagsChange(value);
-          }}
+          selectedTags={selectedPhotoTags}
+          onSelect={(tags) => setSelectedPhotoTags(tags)}
         />
         <Form.Dropdown
           search
           selection
           multiple
-          options={friendsMock.map((f) => {
+          options={friendsMock.map(f => {
             return { text: f.name, key: f.id, value: f };
           })}
           label="Friends Tags"
@@ -165,9 +137,10 @@ const Publish = (props) => {
   );
 };
 
-const mapStateToProps = ({ selectedLocation }) => {
+const mapStateToProps = ({ selectedLocation, login }) => {
   return {
     selectedLocation,
+    accessToken: login.accessToken,
   };
 };
 
