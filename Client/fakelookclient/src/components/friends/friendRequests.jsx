@@ -38,22 +38,15 @@ class FriendRequests extends Component {
               <Card.Header>Friend Request!</Card.Header>
               <Card.Meta>from {username}</Card.Meta>
               <Card.Description>
-                You've recieved a new friend request from {username}, will you
-                accept?
+                You've recieved a new friend request from {username}, will you accept?
               </Card.Description>
             </Card.Content>
             <Card.Content extra>
               <div className="ui two buttons">
-                <Button
-                  name={username}
-                  color="green"
-                  onClick={this.acceptRequest}>
+                <Button name={username} color="green" onClick={this.acceptRequest}>
                   Approve
                 </Button>
-                <Button
-                  name={username}
-                  color="red"
-                  onClick={this.declineRequest}>
+                <Button name={username} color="red" onClick={this.declineRequest}>
                   Decline
                 </Button>
               </div>

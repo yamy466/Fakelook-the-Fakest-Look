@@ -29,10 +29,7 @@ class Friends extends Component {
             onClick={this.handleItemClick}>
             Add New Friends
           </MenuItem>
-          <MenuItem
-            name="groups"
-            active={activeItem === "groups"}
-            onClick={this.handleItemClick}>
+          <MenuItem name="groups" active={activeItem === "groups"} onClick={this.handleItemClick}>
             Groups
           </MenuItem>
           <MenuItem
@@ -40,19 +37,14 @@ class Friends extends Component {
             active={activeItem === "requests"}
             onClick={this.handleItemClick}>
             Friend Requests
-            {reqsExist && (
-              <Label color="teal">{this.props.requests.length}</Label>
-            )}
+            {reqsExist && <Label color="teal">{this.props.requests.length}</Label>}
           </MenuItem>
         </Menu>
         {(() => {
           switch (activeItem) {
             case "requests":
               return (
-                <FriendRequests
-                  requests={this.props.requests}
-                  currentUser={this.props.username}
-                />
+                <FriendRequests requests={this.props.requests} currentUser={this.props.username} />
               );
             case "groups":
               return <Groups />;

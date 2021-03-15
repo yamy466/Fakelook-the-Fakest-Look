@@ -15,24 +15,19 @@ import {
 import actionErrorHandler from "../helpers/actionsErrorHandler";
 
 export const fetchPosts = () => async (dispatch, getState) => {
-  const fetch = async () =>
-    await PostsService.getAllPosts(getState().login.accessToken);
+  const fetch = async () => await PostsService.getAllPosts(getState().login.accessToken);
   let res;
   try {
     res = await fetch();
   } catch ({ response }) {
     res = await actionErrorHandler(response, fetch, null, dispatch, getState);
   }
-  if (res?.status < 400)
-    dispatch({ type: types.FETCH_POSTS, payload: res.data });
+  if (res?.status < 400) dispatch({ type: types.FETCH_POSTS, payload: res.data });
 };
 
 export const fetchFriendRequests = () => async (dispatch, getState) => {
   const fetch = async () =>
-    await SocialServices.getFriendRequests(
-      getState().login.username,
-      getState().login.accessToken
-    );
+    await SocialServices.getFriendRequests(getState().login.username, getState().login.accessToken);
   let res;
   try {
     res = await fetch();
@@ -40,8 +35,7 @@ export const fetchFriendRequests = () => async (dispatch, getState) => {
   } catch ({ response }) {
     res = await actionErrorHandler(response, fetch, null, dispatch, getState);
   }
-  if (res?.status < 400)
-    dispatch({ type: types.FETCH_REQUESTS, payload: res.data });
+  if (res?.status < 400) dispatch({ type: types.FETCH_REQUESTS, payload: res.data });
 };
 
 export const selectLocation = (location) => async (dispatch) => {
@@ -49,19 +43,12 @@ export const selectLocation = (location) => async (dispatch) => {
 };
 
 export const addPost = (post) => async (dispatch, getState) => {
-  const sendPost = async () =>
-    await PostsService.addNewPost(getState().login.accessToken, post);
+  const sendPost = async () => await PostsService.addNewPost(getState().login.accessToken, post);
   let res;
   try {
     res = await sendPost();
   } catch ({ response }) {
-    res = await actionErrorHandler(
-      response,
-      sendPost,
-      null,
-      dispatch,
-      getState
-    );
+    res = await actionErrorHandler(response, sendPost, null, dispatch, getState);
   }
   if (res?.status < 400)
     dispatch({
@@ -72,22 +59,12 @@ export const addPost = (post) => async (dispatch, getState) => {
 
 export const addFriend = (friend) => async (dispatch, getState) => {
   const sendFriend = async () =>
-    await SocialServices.addNewFriend(
-      getState().login.accessToken,
-      username,
-      friend
-    );
+    await SocialServices.addNewFriend(getState().login.accessToken, username, friend);
   let res;
   try {
     res = await sendFriend();
   } catch ({ response }) {
-    res = await actionErrorHandler(
-      response,
-      sendFriend,
-      null,
-      dispatch,
-      getState
-    );
+    res = await actionErrorHandler(response, sendFriend, null, dispatch, getState);
   }
   if (res?.status < 400)
     dispatch({
@@ -125,72 +102,42 @@ export const register = (user) => async (dispatch) => {
 };
 
 export const getTagsByQuery = (query) => async (dispatch, getState) => {
-  const fetchTags = async () =>
-    await getTagsByQueryService(query, getState().login.accessToken);
+  const fetchTags = async () => await getTagsByQueryService(query, getState().login.accessToken);
   let res;
   try {
     res = await fetchTags();
   } catch ({ response }) {
-    if (response)
-      res = await actionErrorHandler(
-        response,
-        fetchTags,
-        null,
-        dispatch,
-        getState
-      );
+    if (response) res = await actionErrorHandler(response, fetchTags, null, dispatch, getState);
   }
-  if (res?.status < 400)
-    dispatch({ type: types.TAGS_CHANGE, payload: res.data });
+  if (res?.status < 400) dispatch({ type: types.TAGS_CHANGE, payload: res.data });
 };
 
 export const addPhotoTag = (tag) => async (dispatch, getState) => {
-  const addTag = async () =>
-    await addTagService(tag, getState().login.accessToken);
+  const addTag = async () => await addTagService(tag, getState().login.accessToken);
   let res;
   try {
     res = await addTag();
   } catch ({ response }) {
-    if (response)
-      res = await actionErrorHandler(
-        response,
-        addTag,
-        null,
-        dispatch,
-        getState
-      );
+    if (response) res = await actionErrorHandler(response, addTag, null, dispatch, getState);
   }
   if (res?.status < 400) dispatch({ type: types.NEW_PHOTO_TAG, payload: tag });
 };
 
 export const getUsersByQuery = (query) => async (dispatch, getState) => {
-  const getUsers = async () =>
-    await getUsersByQueryService(query, getState().login.accessToken);
+  const getUsers = async () => await getUsersByQueryService(query, getState().login.accessToken);
   let res;
   try {
     res = await getUsers();
   } catch ({ response }) {
-    if (response)
-      res = await actionErrorHandler(
-        response,
-        getUsers,
-        null,
-        dispatch,
-        getState
-      );
+    if (response) res = await actionErrorHandler(response, getUsers, null, dispatch, getState);
   }
-  if (res?.status < 400)
-    dispatch({ type: types.USERS_CHANGE, payload: res.data });
+  if (res?.status < 400) dispatch({ type: types.USERS_CHANGE, payload: res.data });
 };
 
-export const getFilteredPosts = (
-  fromDate,
-  toDate,
-  publishers,
-  tags,
-  groups,
-  radius
-) => async (dispatch, getState) => {
+export const getFilteredPosts = (fromDate, toDate, publishers, tags, groups, radius) => async (
+  dispatch,
+  getState
+) => {
   const getPosts = async () =>
     await PostsService.getFilteredPosts(
       { fromDate, toDate, publishers, tags, groups, radius },
@@ -200,15 +147,7 @@ export const getFilteredPosts = (
   try {
     res = await getPosts();
   } catch ({ response }) {
-    if (response)
-      res = await actionErrorHandler(
-        response,
-        getPosts,
-        null,
-        dispatch,
-        getState
-      );
+    if (response) res = await actionErrorHandler(response, getPosts, null, dispatch, getState);
   }
-  if (res?.status < 400)
-    dispatch({ type: types.FETCH_POSTS, payload: res.data });
+  if (res?.status < 400) dispatch({ type: types.FETCH_POSTS, payload: res.data });
 };
