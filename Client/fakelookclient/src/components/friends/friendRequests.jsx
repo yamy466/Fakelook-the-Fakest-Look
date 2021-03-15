@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import { Button, Card } from "semantic-ui-react";
+import { connect } from "react-redux";
+import { addFriend } from "../../actions";
 import "./request.css";
+
 class FriendRequests extends Component {
   constructor(props) {
     super(props);
@@ -14,6 +17,7 @@ class FriendRequests extends Component {
       "your name is ",
       this.props.currentUser
     );
+    this.props.addFriend(this.props.currentUser, e.currentTarget.name);
   };
 
   declineRequest = (e) => {
@@ -28,7 +32,7 @@ class FriendRequests extends Component {
   renderRequests = () => {
     return this.props.requests?.map((username) => {
       return (
-        <div className="card">
+        <div className="card" key={username}>
           <Card>
             <Card.Content>
               <Card.Header>Friend Request!</Card.Header>
@@ -64,4 +68,9 @@ class FriendRequests extends Component {
     return <div>{this.renderRequests()}</div>;
   }
 }
-export default FriendRequests;
+const mapStateToProps = ({ social }) => {
+  return {
+    reqs: social,
+  };
+};
+export default connect(mapStateToProps, { addFriend })(FriendRequests);

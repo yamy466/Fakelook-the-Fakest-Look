@@ -12,10 +12,14 @@ class Friends extends Component {
     this.state = {};
     props.fetchFriendRequests();
   }
+
   handleItemClick = (e, { name }) => this.setState({ activeItem: name });
 
   render() {
     const { activeItem } = this.state;
+    let reqsExist = true;
+    if (this.props.requests.length > 0) reqsExist = true;
+    else reqsExist = false;
     return (
       <div>
         <Menu secondary tabular>
@@ -36,7 +40,7 @@ class Friends extends Component {
             active={activeItem === "requests"}
             onClick={this.handleItemClick}>
             Friend Requests
-            {this.props.requests && (
+            {reqsExist && (
               <Label color="teal">{this.props.requests.length}</Label>
             )}
           </MenuItem>

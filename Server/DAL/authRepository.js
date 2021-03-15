@@ -15,7 +15,7 @@ class AuthRepository {
   }
 
   async getUsernameByID(userId) {
-    //gets an array of id's and returns the usernames of the users as an array
+    //gets an id and returns the user
     let user = await Users.findOne({
       where: {
         id: userId,
