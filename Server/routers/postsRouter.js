@@ -35,4 +35,16 @@ router.post(
   })
 );
 
+router.post(
+  "/filter",
+  asyncHandler(async (req, res) => {
+    try {
+      const posts = await controller.getFilteredPosts(req.body);
+      res.send(posts);
+    } catch (error) {
+      res.status(400).send(error);
+    }
+  })
+);
+
 module.exports = router;

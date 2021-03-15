@@ -23,6 +23,20 @@ const PostsService = {
       }
     );
   },
+
+  async getFilteredPosts(filters, token) {
+    return await http.post(
+      `${serverRoute}filter`,
+      {
+        ...filters,
+      },
+      {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      }
+    );
+  },
 };
 
 export default PostsService;

@@ -1,5 +1,6 @@
 const { Posts } = require("./config/dbconfig");
-const {writeFile,readFile, readFileSync} = require("fs");
+const { writeFile, readFile, readFileSync } = require("fs");
+const tag = require("../Models/tag");
 const photosDirectory = "./DAL/photos";
 class PostsRepository {
   async getAllPosts() {
@@ -7,43 +8,46 @@ class PostsRepository {
     return result;
   }
 
-  readPhoto(url){
+  readPhoto(url) {
     let res;
-    res = readFileSync(`${photosDirectory}/${url}.png`,{encodeURI: "BASE64"},(err,data) => {
-      if(err) throw err
-    })
-    return res
+    res = readFileSync(`${photosDirectory}/${url}.png`, { encodeURI: "BASE64" }, (err, data) => {
+      if (err) throw err;
+    });
+    return `data:image/png;base64,${res.toString("base64")}`;
   }
 
-  async createNewPost({publisher,tags,taggedFriends,location,text,photo}) {
+  async createNewPost({ publisher, tags, taggedFriends, location, text, photo }) {
     const createdPost = await Posts.create({
       publisher: publisher,
       postedTime: new Date(),
-      tags: tags.map(t => t.title),
-      taggedUsers: taggedFriends.map(t => t.name),
-      location :  `(${location.lat},${location.lng})`,
+      tags,
+      taggedUsers: taggedFriends,
+      location: `(${location.lat},${location.lng})`,
       photoURL: -1,
-      text: text
-    })
+      text: text,
+    });
     createdPost.photoURL = createdPost.id;
     await createdPost.save();
     const data = photo.replace(/^data:image\/\w+;base64,/, "");
-    const buf = new Buffer.from(data, 'base64');
-    writeFile(`${photosDirectory}/${createdPost.photoURL}.png`,buf,(err) => {
-      if(err) throw err
-     })
-    return {...createdPost}
+    const buf = new Buffer.from(data, "base64");
+    writeFile(`${photosDirectory}/${createdPost.photoURL}.png`, buf, err => {
+      if (err) throw err;
+    });
+    return { ...createdPost };
   }
 
-  // async getPostsByRadius(origin,radius){
-  //   const res = Posts.findAll({
-  //     where: {
-  //       location: {
-
-  //       }
-  //     }
-  //   })
-  // }
+  async getFilteredPosts({ fromDate, toDate, publishers, tags, groups, radius }) {
+    let posts = await Posts.findAll({});
+    if (fromDate && toDate)
+      posts = posts.filter(p => p.postedTime >= fromDate && p.postedTime <= toDate);
+    if (fromDate && !toDate) posts = posts.filter(p => p.postedTime >= fromDate);
+    if (toDate && !fromDate) posts = posts.filter(p => p.postedTime <= toDate);
+    if (publishers && publishers.length > 0)
+      posts = posts.filter(p => publishers.includes(p.publisher));
+    if (tags && tags.length > 0) posts = posts.filter(p => p.tags.some(t => tags.includes(t)));
+    //groups and radius filter here
+    return posts;
+  }
 }
 
 module.exports = new PostsRepository();

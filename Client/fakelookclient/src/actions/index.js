@@ -23,7 +23,7 @@ export const fetchPosts = () => async (dispatch, getState) => {
   } catch ({ response }) {
     res = await actionErrorHandler(response, fetch, null, dispatch, getState);
   }
-  if (res.status < 400)
+  if (res?.status < 400)
     dispatch({ type: types.FETCH_POSTS, payload: res.data });
 };
 
@@ -63,13 +63,14 @@ export const addPost = (post) => async (dispatch, getState) => {
       getState
     );
   }
-  if (res.status < 400)
+  if (res?.status < 400)
     dispatch({
       type: types.ADD_POST,
       payload: { ...res.data.dataValues, photoURL: post.photo },
     });
 };
-export const addFriend = (username, friend) => async (dispatch, getState) => {
+
+export const addFriend = (friend) => async (dispatch, getState) => {
   const sendFriend = async () =>
     await SocialServices.addNewFriend(
       getState().login.accessToken,
@@ -121,7 +122,6 @@ export const register = (user) => async (dispatch) => {
   } catch (error) {
     dispatch({ type: types.REGISTER_ERROR, payload: error.response });
   }
-  // res.status > 399
 };
 
 export const getTagsByQuery = (query) => async (dispatch, getState) => {
@@ -140,7 +140,7 @@ export const getTagsByQuery = (query) => async (dispatch, getState) => {
         getState
       );
   }
-  if (res.status < 400)
+  if (res?.status < 400)
     dispatch({ type: types.TAGS_CHANGE, payload: res.data });
 };
 
@@ -181,4 +181,34 @@ export const getUsersByQuery = (query) => async (dispatch, getState) => {
   }
   if (res?.status < 400)
     dispatch({ type: types.USERS_CHANGE, payload: res.data });
+};
+
+export const getFilteredPosts = (
+  fromDate,
+  toDate,
+  publishers,
+  tags,
+  groups,
+  radius
+) => async (dispatch, getState) => {
+  const getPosts = async () =>
+    await PostsService.getFilteredPosts(
+      { fromDate, toDate, publishers, tags, groups, radius },
+      getState().login.accessToken
+    );
+  let res;
+  try {
+    res = await getPosts();
+  } catch ({ response }) {
+    if (response)
+      res = await actionErrorHandler(
+        response,
+        getPosts,
+        null,
+        dispatch,
+        getState
+      );
+  }
+  if (res?.status < 400)
+    dispatch({ type: types.FETCH_POSTS, payload: res.data });
 };

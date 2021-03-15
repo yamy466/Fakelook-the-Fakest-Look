@@ -6,12 +6,11 @@ import env from "../../enviroments/enviroment";
 import PhotoTagsSelection from "../photoTagsSelection/photoTagsSelection";
 
 const friendsMock = [
-  { name: "shiki", id: 1 },
-  { name: "almog", id: 2 },
+ "shiki","almog"
 ];
 const Publish = (props) => {
   const [photo, setPhoto] = useState("");
-  const [postText, setText] = useState("");
+  const [postText, setPostText] = useState("");
   const [selectedPhotoTags, setSelectedPhotoTags] = useState([]);
   const [selectedFriends, setSelectedFriends] = useState([]);
   const [isMyLocation, setIsMyLocation] = useState(false);
@@ -61,7 +60,7 @@ const Publish = (props) => {
 
   const onTextChange = (e) => {
     let text = e.target.value;
-    setText(text);
+    setPostText(text);
   };
 
   const createPost = () => {
@@ -84,19 +83,15 @@ const Publish = (props) => {
   const onPublishClick = async (e) => {
     const post = createPost();
     props.addPost(post);
+    onClearClick()
   };
 
   return (
     <Segment attached>
       <Form size="large">
-        <Form.Input
-          label="Upload Photo"
-          type="file"
-          accept="image/*"
-          onChange={onPhotoChange}
-        />
-        <Form.Input label="Text" onChange={onTextChange} />
+        <Form.Input label="Upload Photo" type="file" accept="image/*" onChange={onPhotoChange} />
         {photo && <Form.Field control={Image} src={photo} size="medium" />}
+        <Form.Input label="Text" onChange={onTextChange} value={postText} placeholder="text" />
         <FormField
           control={PhotoTagsSelection}
           addition
@@ -111,7 +106,7 @@ const Publish = (props) => {
           selection
           multiple
           options={friendsMock.map((f) => {
-            return { text: f.name, key: f.id, value: f };
+            return { text: f, key: f, value: f };
           })}
           label="Friends Tags"
           placeholder="friends tags"
