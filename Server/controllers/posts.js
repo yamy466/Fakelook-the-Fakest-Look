@@ -3,15 +3,21 @@ const db = require("../DAL/postsRepository");
 class PostsController {
   // Get Posts
   async getAllPosts() {
-    let posts = await db.getAllPosts();
-    posts = posts.map(p => {
-      return { ...p.dataValues, photoURL: `data:image/png;base64,${db.readPhoto(p.photoURL).toString("base64")}` };
+    const posts = await db.getAllPosts();
+    return posts.map(p => {
+      return { ...p.dataValues, photoURL: db.readPhoto(p.photoURL) };
     });
-    return posts;
   }
 
   async addPost(post) {
     return db.createNewPost(post);
+  }
+
+  async getFilteredPosts(filters){
+    const posts = await db.getFilteredPosts(filters)
+    return posts.map(p => {
+      return { ...p.dataValues, photoURL: db.readPhoto(p.photoURL) };
+    });
   }
 }
 

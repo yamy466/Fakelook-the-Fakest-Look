@@ -8,7 +8,7 @@ class AuthRepository {
   async getUserByUsername(username) {
     let user = await Users.findOne({
       where: {
-        username,
+        username
       },
     });
     return user;

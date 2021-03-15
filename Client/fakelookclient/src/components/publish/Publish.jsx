@@ -6,8 +6,7 @@ import env from "../../enviroments/enviroment";
 import PhotoTagsSelection from "../photoTagsSelection/photoTagsSelection";
 
 const friendsMock = [
-  { name: "shiki", id: 1 },
-  { name: "almog", id: 2 },
+ "shiki","almog"
 ];
 const Publish = (props) => {
   const [photo, setPhoto] = useState("");
@@ -107,7 +106,7 @@ const Publish = (props) => {
           selection
           multiple
           options={friendsMock.map((f) => {
-            return { text: f.name, key: f.id, value: f };
+            return { text: f, key: f, value: f };
           })}
           label="Friends Tags"
           placeholder="friends tags"

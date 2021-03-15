@@ -1,10 +1,13 @@
 import { Dropdown, Form, Input, Segment } from "semantic-ui-react";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
+import { connect } from 'react-redux'
 import { useState } from "react";
 import DatesRangeAccordion from "../datesRangeAcconrdion/datesRangeAccordion";
 import PhotoTagsSelection from "../photoTagsSelection/photoTagsSelection";
 import PublisherSelection from "../publisherSelection/PublisherSelection";
+import env from "../../enviroments/enviroment";
+import {getFilteredPosts} from "../../actions"
 
 const MAX_RADIUS = 100;
 
@@ -13,7 +16,7 @@ const groupsMock = [
   { name: "Gamers", id: 2 },
 ];
 
-const Filter = () => {
+const Filter = props => {
   const [datesRange, setDatesRange] = useState([
     {
       startDate: null,
@@ -25,6 +28,11 @@ const Filter = () => {
   const [radius, setRadius] = useState("");
   const [selectedPhotoTags, setSelectedPhotoTags] = useState([]);
   const [selectedGroups, setSelectedGroups] = useState([]);
+  
+  const onFilterClick = () => {
+    console.log(props);
+    props.getFilteredPosts(datesRange[0].startDate,datesRange[0].endDate,selectedPublishers,selectedPhotoTags,null,null)
+  }
 
   const onClearClick = () => {
     setSelectedGroups([]);
@@ -62,7 +70,7 @@ const Filter = () => {
         <Form.Field
           control={PublisherSelection}
           selectedPublishers={selectedPublishers}
-          label="Publisher"
+          label="Publishers"
           multiple
           placeholder="publishers"
           onSelect={publisher => setSelectedPublishers(publisher)}
@@ -101,8 +109,8 @@ const Filter = () => {
             return { text: g.name, key: g.id, value: g };
           })}
         />
-        <Form.Group floated="right">
-          <Form.Button onClick={() => {}} style={{ backgroundColor: "#7EB1CC" }} content="Filter" />
+        <Form.Group>
+          <Form.Button onClick={() => onFilterClick()} style={{ backgroundColor: env.mainColor }} content="Filter" />
           <Form.Button onClick={onClearClick} content="Clear" />
         </Form.Group>
       </Form>
@@ -110,4 +118,8 @@ const Filter = () => {
   );
 };
 
-export default Filter;
+const mapStateToProps = (state) => {
+  return state
+}
+
+export default connect(mapStateToProps,{getFilteredPosts})(Filter);
