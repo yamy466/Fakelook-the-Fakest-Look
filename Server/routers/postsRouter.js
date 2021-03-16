@@ -35,6 +35,15 @@ router.post(
   })
 );
 
+router.post("/like",asyncHandler(async (req,res) => {
+  try {
+    const data = await controller.addLike(req.body.userId,req.body.postId);
+    res.send(data)
+  } catch (error) {
+    res.status(400).send(error)
+  }
+}))
+
 router.post(
   "/filter",
   asyncHandler(async (req, res) => {

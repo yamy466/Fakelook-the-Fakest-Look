@@ -48,6 +48,17 @@ class PostsRepository {
     //groups and radius filter here
     return posts;
   }
+
+  async addLike(userId,postId){
+    const post = await Posts.findOne({
+      where: {
+        id: postId
+      }
+    })
+    post.likes = post.likes ? [...post.likes,userId] : [userId]
+    post.save();
+    return post;
+  }
 }
 
 module.exports = new PostsRepository();

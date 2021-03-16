@@ -250,7 +250,7 @@ const Register = (props) => {
                 loading={props.registerStatus === "loading"}
                 disabled={!isFormValid()}
                 content="Submit"
-                onClick={onSubmitClick}
+                onClick={() => {if(isFormValid()) onSubmitClick()}}
                 style={{ backgroundColor: env.mainColor, marginTop: "30px" }}
               />
             </FormField>

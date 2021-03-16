@@ -148,3 +148,15 @@ export const getFilteredPosts = (fromDate, toDate, publishers, tags, groups, rad
   }
   if (res?.status < 400) dispatch({ type: types.FETCH_POSTS, payload: res.data });
 };
+
+export const addLike = postId => async (dispatch, getState) => {
+  const like = async () =>
+    await PostsService.addLike(getState().login.userId, postId, getState().login.accessToken);
+  let res;
+  try {
+    res = await like();
+  } catch ({ response }) {
+    if (response) res = await actionErrorHandler(response, like, null, dispatch, getState);
+  }
+  if (res?.status < 400) dispatch({ type: types.ADD_LIKE, payload: { userId:getState().login.userId, postId } });
+};

@@ -30,7 +30,7 @@ module.exports = (connection, sequelize) => {
         allowNull: false,
       },
       likes: {
-        type: sequelize.ARRAY(sequelize.TEXT),
+        type: sequelize.ARRAY(sequelize.INTEGER),
         allowNull: true,
       },
       tags: {

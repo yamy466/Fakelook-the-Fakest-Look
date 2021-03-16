@@ -19,6 +19,10 @@ class PostsController {
       return { ...p.dataValues, photoURL: db.readPhoto(p.photoURL) };
     });
   }
+
+  async addLike(userId,postId){
+    return await db.addLike(userId,postId);
+  }
 }
 
 module.exports = new PostsController();

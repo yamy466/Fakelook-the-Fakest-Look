@@ -37,6 +37,21 @@ const PostsService = {
       }
     );
   },
+
+  async addLike(userId, postId, token) {
+    return await http.post(
+      `${serverRoute}like`,
+      {
+        userId,
+        postId,
+      },
+      {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      }
+    );
+  },
 };
 
 export default PostsService;
