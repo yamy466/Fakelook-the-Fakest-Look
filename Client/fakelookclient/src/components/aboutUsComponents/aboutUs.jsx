@@ -5,8 +5,8 @@ function AboutUs() {
     <div>
       <div>
         <p>
-          FakeLook is the fakest social network on earth... seriously it's fake
-          as fuck, it's just a small project
+          FakeLook is the fakest social network on earth... seriously it's fake as Duck, it's just a
+          small project
         </p>
         <img src={fakelookLogo} height={100} width={100} />
       </div>

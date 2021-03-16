@@ -11,11 +11,26 @@ const SocialServices = {
     });
   },
 
-  async addNewFriend(token, friend) {
+  async addNewFriend(token, username, friend) {
     return await http.post(
       serverRoute + "addFriend",
       {
         friend: friend,
+        username: username,
+      },
+      {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      }
+    );
+  },
+  async declineFriendRequest(token, username, declinedUsername) {
+    return await http.post(
+      serverRoute + "declineRequest",
+      {
+        declinedUsername: declinedUsername,
+        username: username,
       },
       {
         headers: {

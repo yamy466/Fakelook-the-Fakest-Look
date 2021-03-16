@@ -31,18 +31,17 @@ export const fetchFriendRequests = () => async (dispatch, getState) => {
   let res;
   try {
     res = await fetch();
-    console.log(res.data, "actions");
   } catch ({ response }) {
     res = await actionErrorHandler(response, fetch, null, dispatch, getState);
   }
   if (res?.status < 400) dispatch({ type: types.FETCH_REQUESTS, payload: res.data });
 };
 
-export const selectLocation = location => async dispatch => {
+export const selectLocation = (location) => async (dispatch) => {
   dispatch({ type: types.SELECTED_LOCATION, payload: location });
 };
 
-export const addPost = post => async (dispatch, getState) => {
+export const addPost = (post) => async (dispatch, getState) => {
   const sendPost = async () => await PostsService.addNewPost(getState().login.accessToken, post);
   let res;
   try {
@@ -51,12 +50,15 @@ export const addPost = post => async (dispatch, getState) => {
     res = await actionErrorHandler(response, sendPost, null, dispatch, getState);
   }
   if (res?.status < 400)
-    dispatch({ type: types.ADD_POST, payload: { ...res.data.dataValues, photoURL: post.photo } });
+    dispatch({
+      type: types.ADD_POST,
+      payload: { ...res.data.dataValues, photoURL: post.photo },
+    });
 };
 
-export const addFriend = friend => async (dispatch, getState) => {
+export const addFriend = (username, friend) => async (dispatch, getState) => {
   const sendFriend = async () =>
-    await SocialServices.addNewFriend(getState().login.accessToken, friend);
+    await SocialServices.addNewFriend(getState().login.accessToken, username, friend);
   let res;
   try {
     res = await sendFriend();
@@ -66,11 +68,31 @@ export const addFriend = friend => async (dispatch, getState) => {
   if (res?.status < 400)
     dispatch({
       type: types.ADD_FRIEND,
-      payload: { ...res.data.dataValues },
+      payload: res.data,
     });
 };
 
-export const login = (name, password) => async dispatch => {
+export const declineRequest = (username, declinedUsername) => async (dispatch, getState) => {
+  const deleteRequest = async () =>
+    await SocialServices.declineFriendRequest(
+      getState().login.accessToken,
+      username,
+      declinedUsername
+    );
+  let res;
+  try {
+    res = await deleteRequest();
+  } catch ({ response }) {
+    res = await actionErrorHandler(response, deleteRequest, null, dispatch, getState);
+  }
+  if (res?.status < 400)
+    dispatch({
+      type: types.DECLINE_REQUEST,
+      payload: res.data,
+    });
+};
+
+export const login = (name, password) => async (dispatch) => {
   dispatch({ type: types.LOGIN_LOADING });
   try {
     const res = await loginService(name, password);
@@ -88,7 +110,7 @@ export const logout = () => async (dispatch, getState) => {
   dispatch({ type: types.LOGOUT });
 };
 
-export const register = user => async dispatch => {
+export const register = (user) => async (dispatch) => {
   dispatch({ type: types.REGISTER_LOADING });
   try {
     const res = await registerService(user);
@@ -98,7 +120,7 @@ export const register = user => async dispatch => {
   }
 };
 
-export const getTagsByQuery = query => async (dispatch, getState) => {
+export const getTagsByQuery = (query) => async (dispatch, getState) => {
   const fetchTags = async () => await getTagsByQueryService(query, getState().login.accessToken);
   let res;
   try {
@@ -109,7 +131,7 @@ export const getTagsByQuery = query => async (dispatch, getState) => {
   if (res?.status < 400) dispatch({ type: types.TAGS_CHANGE, payload: res.data });
 };
 
-export const addPhotoTag = tag => async (dispatch, getState) => {
+export const addPhotoTag = (tag) => async (dispatch, getState) => {
   const addTag = async () => await addTagService(tag, getState().login.accessToken);
   let res;
   try {
@@ -120,7 +142,7 @@ export const addPhotoTag = tag => async (dispatch, getState) => {
   if (res?.status < 400) dispatch({ type: types.NEW_PHOTO_TAG, payload: tag });
 };
 
-export const getUsersByQuery = query => async (dispatch, getState) => {
+export const getUsersByQuery = (query) => async (dispatch, getState) => {
   const getUsers = async () => await getUsersByQueryService(query, getState().login.accessToken);
   let res;
   try {

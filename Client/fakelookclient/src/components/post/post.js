@@ -22,7 +22,7 @@ const Post = props => {
         <CardHeader>{text}</CardHeader>
         <CardMeta>{new Date(postedTime).toLocaleDateString("en-UK")}</CardMeta>
         <CardDescription>
-          {tags.map(t => {
+          {tags.map((t) => {
             return (
               <span>
                 #<span style={{ color: env.mainColor }}>{t} </span>
@@ -30,7 +30,6 @@ const Post = props => {
             );
           })}
         </CardDescription>
-        {console.log(post)}
         <CardDescription>by {publisher}</CardDescription>
         <CardDescription>
           {taggedUsers && taggedUsers.length > 0 ? `with ${taggedUsers.join(", ")}` : ""}
