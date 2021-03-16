@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Button, Card } from "semantic-ui-react";
 import { connect } from "react-redux";
-import { addFriend } from "../../actions";
+import { addFriend, declineRequest } from "../../actions";
 import "./request.css";
 
 class FriendRequests extends Component {
@@ -11,22 +11,11 @@ class FriendRequests extends Component {
   }
 
   acceptRequest = (e) => {
-    console.log(
-      "accepted! a request from",
-      e.currentTarget.name,
-      "your name is ",
-      this.props.currentUser
-    );
     this.props.addFriend(this.props.currentUser, e.currentTarget.name);
   };
 
   declineRequest = (e) => {
-    console.log(
-      "Declined! a request from",
-      e.currentTarget.name,
-      "your name is ",
-      this.props.currentUser
-    );
+    this.props.declineRequest(this.props.currentUser, e.currentTarget.name);
   };
 
   renderRequests = () => {
@@ -66,4 +55,4 @@ const mapStateToProps = ({ social }) => {
     reqs: social,
   };
 };
-export default connect(mapStateToProps, { addFriend })(FriendRequests);
+export default connect(mapStateToProps, { addFriend, declineRequest })(FriendRequests);

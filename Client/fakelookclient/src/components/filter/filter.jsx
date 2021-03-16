@@ -1,13 +1,13 @@
 import { Dropdown, Form, Input, Segment } from "semantic-ui-react";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
-import { connect } from 'react-redux'
+import { connect } from "react-redux";
 import { useState } from "react";
 import DatesRangeAccordion from "../datesRangeAcconrdion/datesRangeAccordion";
 import PhotoTagsSelection from "../photoTagsSelection/photoTagsSelection";
 import PublisherSelection from "../publisherSelection/PublisherSelection";
 import env from "../../enviroments/enviroment";
-import {getFilteredPosts} from "../../actions"
+import { getFilteredPosts } from "../../actions";
 
 const MAX_RADIUS = 100;
 
@@ -16,7 +16,7 @@ const groupsMock = [
   { name: "Gamers", id: 2 },
 ];
 
-const Filter = props => {
+const Filter = (props) => {
   const [datesRange, setDatesRange] = useState([
     {
       startDate: null,
@@ -28,11 +28,17 @@ const Filter = props => {
   const [radius, setRadius] = useState("");
   const [selectedPhotoTags, setSelectedPhotoTags] = useState([]);
   const [selectedGroups, setSelectedGroups] = useState([]);
-  
+
   const onFilterClick = () => {
-    console.log(props);
-    props.getFilteredPosts(datesRange[0].startDate,datesRange[0].endDate,selectedPublishers,selectedPhotoTags,null,null)
-  }
+    props.getFilteredPosts(
+      datesRange[0].startDate,
+      datesRange[0].endDate,
+      selectedPublishers,
+      selectedPhotoTags,
+      null,
+      null
+    );
+  };
 
   const onClearClick = () => {
     setSelectedGroups([]);
@@ -48,7 +54,7 @@ const Filter = props => {
     ]);
   };
 
-  const onRadiusChange = num => {
+  const onRadiusChange = (num) => {
     if (!/^\d*$/.test(num)) {
       num = num.slice(0, num.length - 1);
     }
@@ -73,7 +79,7 @@ const Filter = props => {
           label="Publishers"
           multiple
           placeholder="publishers"
-          onSelect={publisher => setSelectedPublishers(publisher)}
+          onSelect={(publisher) => setSelectedPublishers(publisher)}
         />
         <Form.Field
           id="radiusField"
@@ -91,7 +97,7 @@ const Filter = props => {
           multiple
           placeholder="photo tags"
           selectedTags={selectedPhotoTags}
-          onSelect={tag => setSelectedPhotoTags(tag)}
+          onSelect={(tag) => setSelectedPhotoTags(tag)}
         />
         <Form.Field
           id="groupsField"
@@ -105,12 +111,16 @@ const Filter = props => {
           selection
           label="Groups"
           placeholder="groups"
-          options={groupsMock.map(g => {
+          options={groupsMock.map((g) => {
             return { text: g.name, key: g.id, value: g };
           })}
         />
         <Form.Group>
-          <Form.Button onClick={() => onFilterClick()} style={{ backgroundColor: env.mainColor }} content="Filter" />
+          <Form.Button
+            onClick={() => onFilterClick()}
+            style={{ backgroundColor: env.mainColor }}
+            content="Filter"
+          />
           <Form.Button onClick={onClearClick} content="Clear" />
         </Form.Group>
       </Form>
@@ -119,7 +129,7 @@ const Filter = props => {
 };
 
 const mapStateToProps = (state) => {
-  return state
-}
+  return state;
+};
 
-export default connect(mapStateToProps,{getFilteredPosts})(Filter);
+export default connect(mapStateToProps, { getFilteredPosts })(Filter);

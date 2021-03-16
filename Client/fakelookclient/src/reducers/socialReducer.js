@@ -5,7 +5,9 @@ const social = (state = [], action) => {
     case types.FETCH_REQUESTS:
       return action.payload;
     case types.ADD_FRIEND:
-      return [...state, action.payload];
+      return action.payload;
+    case types.DECLINE_REQUEST:
+      return action.payload;
     default:
       break;
   }

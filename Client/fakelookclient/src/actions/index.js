@@ -31,7 +31,6 @@ export const fetchFriendRequests = () => async (dispatch, getState) => {
   let res;
   try {
     res = await fetch();
-    console.log(res.data, "actions");
   } catch ({ response }) {
     res = await actionErrorHandler(response, fetch, null, dispatch, getState);
   }
@@ -57,7 +56,7 @@ export const addPost = (post) => async (dispatch, getState) => {
     });
 };
 
-export const addFriend = (friend) => async (dispatch, getState) => {
+export const addFriend = (username, friend) => async (dispatch, getState) => {
   const sendFriend = async () =>
     await SocialServices.addNewFriend(getState().login.accessToken, username, friend);
   let res;
@@ -69,7 +68,27 @@ export const addFriend = (friend) => async (dispatch, getState) => {
   if (res?.status < 400)
     dispatch({
       type: types.ADD_FRIEND,
-      payload: { ...res.data.dataValues },
+      payload: res.data,
+    });
+};
+
+export const declineRequest = (username, declinedUsername) => async (dispatch, getState) => {
+  const deleteRequest = async () =>
+    await SocialServices.declineFriendRequest(
+      getState().login.accessToken,
+      username,
+      declinedUsername
+    );
+  let res;
+  try {
+    res = await deleteRequest();
+  } catch ({ response }) {
+    res = await actionErrorHandler(response, deleteRequest, null, dispatch, getState);
+  }
+  if (res?.status < 400)
+    dispatch({
+      type: types.DECLINE_REQUEST,
+      payload: res.data,
     });
 };
 

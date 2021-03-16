@@ -21,6 +21,15 @@ class UsersRepository {
     });
     return user.id;
   }
+
+  async getUsernameByID(id) {
+    let user = await Users.findOne({
+      where: {
+        id,
+      },
+    });
+    return user.username;
+  }
 }
 
 module.exports = new UsersRepository();

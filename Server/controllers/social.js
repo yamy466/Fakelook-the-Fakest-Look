@@ -5,12 +5,16 @@ const usersDB = require("../DAL/usersRepository");
 class SocialController {
   // Get friend requests
   async getFriendRequests(username) {
-    let requestsIds = await socialDB.getAllFriendRequests(username);
-    let user = "";
+    let requests = await socialDB.getAllFriendRequests(username);
+    return await this.getFriendRequestsAsUsernames(requests);
+  }
+
+  async getFriendRequestsAsUsernames(requestsArray) {
+    let username = "";
     let users = [];
-    for (let i = 0; i < requestsIds.length; i++) {
-      user = await authDB.getUsernameByID(requestsIds[i]);
-      users.push(user.username);
+    for (let i = 0; i < requestsArray.length; i++) {
+      username = await usersDB.getUsernameByID(requestsArray[i]);
+      users.push(username);
     }
     return users;
   }
@@ -21,16 +25,17 @@ class SocialController {
     try {
       await socialDB.addFriend(user, friendUser);
       await socialDB.deleteRequest(user, friendUser.id);
-      return user.id;
+      return await this.getFriendRequestsAsUsernames(user.requests);
     } catch (error) {
       return error;
     }
   }
 
   async declineRequest(username, declinedUsername) {
-    let user = authDB.getUserByUsername(username);
-    let declinedUserID = usersDB.getUserIdByUsername(declinedUsername);
-    return await socialDB.deleteRequest(user, declinedUserID);
+    let user = await authDB.getUserByUsername(username);
+    let declinedUserID = await usersDB.getUserIdByUsername(declinedUsername);
+    await socialDB.deleteRequest(user, declinedUserID);
+    return await this.getFriendRequestsAsUsernames(user.requests);
   }
 }
 

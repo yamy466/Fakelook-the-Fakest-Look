@@ -4,7 +4,7 @@ const AuthRepository = require("./authRepository");
 class SocialRepository {
   async getAllFriendRequests(username) {
     //returns an array of all the users who sent a friend request
-    const user = await AuthRepository.getUserByUsername(username);
+    let user = await AuthRepository.getUserByUsername(username);
     if (user.requests === null) return 0;
     else return user.requests;
   }
@@ -20,10 +20,7 @@ class SocialRepository {
     let currentFriends = [];
     if (user.friends !== null) currentFriends = user.friends;
     currentFriends.push(friend.id);
-    await Users.update(
-      { friends: currentFriends },
-      { where: { username: user.username } }
-    );
+    await Users.update({ friends: currentFriends }, { where: { username: user.username } });
   }
 
   async deleteRequest(user, userId) {
@@ -46,10 +43,7 @@ class SocialRepository {
         break;
       }
     }
-    await Users.update(
-      { friends: currrentFriends },
-      { where: { id: user.id } }
-    );
+    await Users.update({ friends: currrentFriends }, { where: { id: user.id } });
     return user.id;
   }
 }
