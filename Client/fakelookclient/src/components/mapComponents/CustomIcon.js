@@ -10,8 +10,8 @@ const customIcon = (
   return new L.Icon({
     iconUrl: iconUrl,
     iconRetinaUrl: null,
-    iconAnchor: [22, 94],
-    popupAnchor: [13, -70],
+    iconAnchor: null,
+    popupAnchor: [0, 0],
     shadowUrl: null,
     shadowSize: null,
     shadowAnchor: null,
