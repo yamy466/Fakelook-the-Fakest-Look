@@ -25,12 +25,27 @@ const SocialServices = {
       }
     );
   },
+
   async declineFriendRequest(token, username, declinedUsername) {
     return await http.post(
       serverRoute + "declineRequest",
       {
         declinedUsername: declinedUsername,
         username: username,
+      },
+      {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      }
+    );
+  },
+
+  async sendNewRequest(token, userToAdd) {
+    return await http.post(
+      serverRoute + "createNewRequest",
+      {
+        userToAdd: userToAdd,
       },
       {
         headers: {

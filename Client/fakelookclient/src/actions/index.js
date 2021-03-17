@@ -56,6 +56,21 @@ export const addPost = (post) => async (dispatch, getState) => {
     });
 };
 
+export const sendFriendRequest = (userToAdd) => async (dispatch, getState) => {
+  const sendRequest = async () =>
+    await SocialServices.sendNewRequest(getState().login.accessToken, userToAdd);
+  let res;
+  try {
+    res = await sendRequest();
+  } catch ({ response }) {
+    res = await actionErrorHandler(response, sendRequest, null, dispatch, getState);
+  }
+  if (res?.status < 400) {
+    if (res.data === "request exists") alert("You already sent a request to this user");
+    else alert("Sent successfully");
+  }
+};
+
 export const addFriend = (username, friend) => async (dispatch, getState) => {
   const sendFriend = async () =>
     await SocialServices.addNewFriend(getState().login.accessToken, username, friend);
@@ -175,7 +190,7 @@ export const getFilteredPosts = (fromDate, toDate, publishers, tags, groups, rad
   }
 };
 
-export const addLike = postId => async (dispatch, getState) => {
+export const addLike = (postId) => async (dispatch, getState) => {
   const like = async () =>
     await PostsService.addLike(getState().login.userId, postId, getState().login.accessToken);
   let res;
@@ -184,5 +199,6 @@ export const addLike = postId => async (dispatch, getState) => {
   } catch ({ response }) {
     if (response) res = await actionErrorHandler(response, like, null, dispatch, getState);
   }
-  if (res?.status < 400) dispatch({ type: types.ADD_LIKE, payload: { userId:getState().login.userId, postId } });
+  if (res?.status < 400)
+    dispatch({ type: types.ADD_LIKE, payload: { userId: getState().login.userId, postId } });
 };
