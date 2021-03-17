@@ -2,14 +2,17 @@ const { Users } = require("./config/dbconfig");
 const { Op } = require("sequelize");
 
 class UsersRepository {
-  async getUsersByQuery(query) {
+  async getUsersByQuery(query, currentUsername) {
+    let where = {
+      username: {
+        [Op.like]: `${query}%`,
+      },
+    };
+    if (currentUsername) where.username[Op.not] = currentUsername;
+
     return await Users.findAll({
       limit: 10,
-      where: {
-        username: {
-          [Op.like]: `${query}%`,
-        },
-      },
+      where: where,
     });
   }
 

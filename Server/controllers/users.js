@@ -1,8 +1,8 @@
 const db = require("../DAL/usersRepository")
 
 class UsersController{
-    async getUsersByQuery(query){
-        return await db.getUsersByQuery(query);
+    async getUsersByQuery(query,currentUsername){
+        return await db.getUsersByQuery(query,currentUsername);
     }
 }
 
