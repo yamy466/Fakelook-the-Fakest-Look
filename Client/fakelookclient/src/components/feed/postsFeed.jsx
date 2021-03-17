@@ -21,7 +21,10 @@ class Feed extends Component {
   };
 
   renderPosts = () => {
-    return this.props.posts?.reverse().map((post) => {
+    return this.props.posts?.sort((a,b) => {
+      if(new Date(a.postedTime) > new Date(b.postedTime)) return -1;
+      else return 1
+    }).map((post) => {
       return (
         <div>
           <Post post={post} />
