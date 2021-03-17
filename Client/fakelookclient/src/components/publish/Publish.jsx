@@ -4,15 +4,12 @@ import { connect } from "react-redux";
 import { selectLocation, addPost, getTagsByQuery } from "../../actions";
 import env from "../../enviroments/enviroment";
 import PhotoTagsSelection from "../photoTagsSelection/photoTagsSelection";
-
-const friendsMock = [
- "shiki","almog"
-];
+import UsersSelection from "../UsersSelection/UsersSelection";
 const Publish = (props) => {
   const [photo, setPhoto] = useState("");
   const [postText, setPostText] = useState("");
   const [selectedPhotoTags, setSelectedPhotoTags] = useState([]);
-  const [selectedFriends, setSelectedFriends] = useState([]);
+  const [selectedUsers, setSelectedUsers] = useState([]);
   const [isMyLocation, setIsMyLocation] = useState(false);
   const [currentLocation, setCurrentLocation] = useState("");
 
@@ -55,7 +52,7 @@ const Publish = (props) => {
   const onClearClick = () => {
     setPhoto("");
     setSelectedPhotoTags([]);
-    setSelectedFriends([]);
+    setSelectedUsers([]);
   };
 
   const onTextChange = (e) => {
@@ -72,7 +69,7 @@ const Publish = (props) => {
     }
     const post = {
       tags: selectedPhotoTags,
-      taggedFriends: selectedFriends,
+      taggedFriends: selectedUsers,
       photo,
       location,
       text: postText,
@@ -101,19 +98,13 @@ const Publish = (props) => {
           selectedTags={selectedPhotoTags}
           onSelect={(tags) => setSelectedPhotoTags(tags)}
         />
-        <Form.Dropdown
-          search
-          selection
-          multiple
-          options={friendsMock.map((f) => {
-            return { text: f, key: f, value: f };
-          })}
-          label="Friends Tags"
-          placeholder="friends tags"
-          onChange={(e, { value }) => {
-            setSelectedFriends(value);
-          }}
-          value={selectedFriends}
+        <FormField
+        control={UsersSelection}
+        label="People Tags"
+        multiple
+        placeholder="people tags"
+        selectedUsers={selectedUsers}
+        onSelect={(users) => setSelectedUsers(users)}
         />
         <Segment compact>
           <Form.Checkbox

@@ -2,8 +2,8 @@ import { connect } from "react-redux";
 import { Dropdown } from "semantic-ui-react";
 import { getUsersByQuery } from "../../actions";
 
-const PublisherSelection = props => {
-  const { multiple, placeholder, users, onSelect, selectedPublishers } = props;
+const UsersSelection = props => {
+  const { multiple, placeholder, users, onSelect, selectedUsers } = props;
   let publisherSearchQuery = "";
 
   const onSearchChange = query => {
@@ -20,11 +20,11 @@ const PublisherSelection = props => {
       search
       selection
       multiple={multiple}
-      options={[...users, ...selectedPublishers].map(p => {
+      options={[...users, ...selectedUsers].map(p => {
         return { text: p, key: p, value: p };
       })}
       placeholder={placeholder}
-      value={selectedPublishers}
+      value={selectedUsers}
       onChange={(e, { value }) => onSelect(value)}
       onSearchChange={({ target }) => onSearchChange(target.value)}
     />
@@ -35,4 +35,4 @@ const mapStateToProps = ({ users }) => {
   return { users };
 };
 
-export default connect(mapStateToProps, { getUsersByQuery })(PublisherSelection);
+export default connect(mapStateToProps, { getUsersByQuery })(UsersSelection);

@@ -13,15 +13,15 @@ class SocialController {
     let username = "";
     let users = [];
     for (let i = 0; i < requestsArray.length; i++) {
-      username = await usersDB.getUsernameByID(requestsArray[i]);
+      username = await usersDB.getUserByUsernameOrId(null,requestsArray[i]).username;
       users.push(username);
     }
     return users;
   }
 
-  async addFriend(username, friend) {
-    let user = await authDB.getUserByUsername(username);
-    let friendUser = await authDB.getUserByUsername(friend);
+  async addFriend(username, friendUsername) {
+    let user = await usersDB.getUserByUsernameOrId(username);
+    let friendUser = await usersDB.getUserByUsernameOrId(friendUsername);
     try {
       await socialDB.addFriend(user, friendUser);
       await socialDB.deleteRequest(user, friendUser.id);
@@ -32,9 +32,9 @@ class SocialController {
   }
 
   async declineRequest(username, declinedUsername) {
-    let user = await authDB.getUserByUsername(username);
-    let declinedUserID = await usersDB.getUserIdByUsername(declinedUsername);
-    await socialDB.deleteRequest(user, declinedUserID);
+    let user = await usersDB.getUserByUsernameOrId(username);
+    let declinedUser = await usersDB.getUserByUsernameOrId(declinedUsername);
+    await socialDB.deleteRequest(user, declinedUser.id);
     return await this.getFriendRequestsAsUsernames(user.requests);
   }
 }

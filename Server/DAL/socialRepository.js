@@ -1,10 +1,10 @@
 const { Users } = require("./config/dbconfig");
-const AuthRepository = require("./authRepository");
+const usersDB = require("./usersRepository");
 
 class SocialRepository {
   async getAllFriendRequests(username) {
     //returns an array of all the users who sent a friend request
-    let user = await AuthRepository.getUserByUsername(username);
+    let user = await usersDB.getUserByUsernameOrId(username);
     if (user.requests === null) return 0;
     else return user.requests;
   }
