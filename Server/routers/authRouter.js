@@ -13,8 +13,6 @@ router.post(
       res.send(data);
     } catch (error) {
       res.status(400).send(error);
-      // error = errorHandler(error);
-      // res.status(error.status).send(error)
     }
   })
 );
