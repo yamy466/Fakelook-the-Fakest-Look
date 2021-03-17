@@ -15,23 +15,22 @@ class Feed extends Component {
   }
 
   initPosts = () => {
-    this.props.posts?.data?.map((res) => {
+    this.props.posts?.data?.map(res => {
       this.setState({ posts: res });
     });
   };
 
   renderPosts = () => {
-    return this.props.posts?.sort((a,b) => {
-      if(new Date(a.postedTime) > new Date(b.postedTime)) return -1;
-      else return 1
-    }).map((post) => {
-      return (
-        <div>
-          <Post post={post} />
-          <br />
-        </div>
-      );
-    });
+    return this.props.posts
+      ?.sort((a, b) => (a.postedTime > b.postedTime ? -1 : 1))
+      .map(post => {
+        return (
+          <div>
+            <Post post={post} />
+            <br />
+          </div>
+        );
+      });
   };
 
   render() {

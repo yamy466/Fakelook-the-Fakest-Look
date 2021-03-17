@@ -172,6 +172,7 @@ export const getFilteredPosts = (fromDate, toDate, publishers, tags, groups, rad
   dispatch,
   getState
 ) => {
+  dispatch({type: types.FILTER_LOADING})
   const getPosts = async () =>
     await PostsService.getFilteredPosts(
       { fromDate, toDate, publishers, tags, groups, radius },
@@ -183,7 +184,10 @@ export const getFilteredPosts = (fromDate, toDate, publishers, tags, groups, rad
   } catch ({ response }) {
     if (response) res = await actionErrorHandler(response, getPosts, null, dispatch, getState);
   }
-  if (res?.status < 400) dispatch({ type: types.FETCH_POSTS, payload: res.data });
+  if (res?.status < 400){
+    dispatch({ type: types.FETCH_POSTS, payload: res.data });
+    dispatch({type: types.FILTER_SUCCESS})
+  }
 };
 
 export const addLike = (postId) => async (dispatch, getState) => {

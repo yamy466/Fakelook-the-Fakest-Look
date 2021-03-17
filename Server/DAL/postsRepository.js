@@ -1,6 +1,7 @@
 const { Posts } = require("./config/dbconfig");
 const { writeFile, readFile, readFileSync } = require("fs");
 const tag = require("../Models/tag");
+const { Op } = require("sequelize");
 const photosDirectory = "./DAL/photos";
 class PostsRepository {
   async getAllPosts() {
@@ -37,25 +38,24 @@ class PostsRepository {
   }
 
   async getFilteredPosts({ fromDate, toDate, publishers, tags, groups, radius }) {
-    let posts = await Posts.findAll({});
+    let where = {};
     if (fromDate && toDate)
-      posts = posts.filter(p => p.postedTime >= fromDate && p.postedTime <= toDate);
-    if (fromDate && !toDate) posts = posts.filter(p => p.postedTime >= fromDate);
-    if (toDate && !fromDate) posts = posts.filter(p => p.postedTime <= toDate);
-    if (publishers && publishers.length > 0)
-      posts = posts.filter(p => publishers.includes(p.publisher));
-    if (tags && tags.length > 0) posts = posts.filter(p => p.tags.some(t => tags.includes(t)));
-    //groups and radius filter here
-    return posts;
+      where.postedTime = { [Op.and]: { [Op.gte]: fromDate, [Op.lte]: toDate } };
+    if (fromDate && !toDate) where.postedTime = { [Op.gte]: fromDate };
+    if (toDate && !fromDate) where.postedTime = { [Op.lte]: toDate };
+    if (publishers && publishers.length > 0) where.publisher = publishers;
+    if (tags && tags.length > 0) where.tags = { [Op.overlap]: tags };
+
+    return await Posts.findAll({ where });
   }
 
-  async addLike(userId,postId){
+  async addLike(userId, postId) {
     const post = await Posts.findOne({
       where: {
-        id: postId
-      }
-    })
-    post.likes = post.likes ? [...post.likes,userId] : [userId]
+        id: postId,
+      },
+    });
+    post.likes = post.likes ? [...post.likes, userId] : [userId];
     post.save();
     return post;
   }
