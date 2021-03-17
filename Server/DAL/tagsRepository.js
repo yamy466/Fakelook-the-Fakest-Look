@@ -7,7 +7,7 @@ class TagsRepository{
             limit: 10,
             where: {
                 tag: {
-                    [Op.like]: `%${query}%`
+                    [Op.like]: `${query}%`
                 }
             }
         })

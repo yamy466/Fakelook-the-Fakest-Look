@@ -17,6 +17,7 @@ const types = {
   TAGS_CHANGE: "TAGS_CHANGE",
   NEW_PHOTO_TAG: "NEW_PHOTO_TAG",
   USERS_CHANGE: "USERS_CHANGE",
+  ADD_LIKE: "ADD_LIKE"
 };
 
 export default types;

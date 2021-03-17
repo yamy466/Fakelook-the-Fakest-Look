@@ -6,6 +6,10 @@ const posts = (state = [], action) => {
       return action.payload;
     case types.ADD_POST:
       return [...state, action.payload];
+    case types.ADD_LIKE:
+     const post = state.find(p => p.id === action.payload.postId);
+     post.likes = post.likes ? [...post.likes,action.payload.userId] : [action.payload.userId]
+      return [...state,post];
     default:
       break;
   }

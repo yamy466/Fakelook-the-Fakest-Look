@@ -7,7 +7,7 @@ class UsersRepository {
       limit: 10,
       where: {
         username: {
-          [Op.like]: `%${query}%`,
+          [Op.like]: `${query}%`,
         },
       },
     });

@@ -1,5 +1,4 @@
 import {
-  Button,
   Card,
   CardContent,
   CardDescription,
@@ -9,9 +8,13 @@ import {
 } from "semantic-ui-react";
 import env from "../../enviroments/enviroment";
 import logo from "../../logo/logo_transparent.png";
+import { connect } from "react-redux";
+import { addLike } from "../../actions";
 
-const Post = ({ post }) => {
+const Post = props => {
+  const {post,userId} = props;
   const { publisher, text, photoURL, postedTime, tags, likes, taggedUsers } = post;
+  const alreadyLiked = likes?.includes(userId)
   return (
     <Card>
       <Image src={photoURL || logo} />
@@ -33,13 +36,23 @@ const Post = ({ post }) => {
         </CardDescription>
       </CardContent>
       <CardContent extra>
-        <Button>
-          <i class="fas fa-thumbs-up" style={{ color: env.mainColorDark }}></i>
-        </Button>
+        <i
+          className={`${alreadyLiked ? "fas" : "far"} fa-thumbs-up`}
+          onClick={() => alreadyLiked ? null : props.addLike(post.id)}
+          style={{ cursor: `${alreadyLiked ? "" : "pointer"}`, color: env.mainColorDark, fontSize: 20 }}
+        ></i>
+
         {likes ? likes.length : 0}
       </CardContent>
     </Card>
   );
 };
 
-export default Post;
+const mapStateToProps = ({ posts,login }) => {
+  return {
+    posts,
+    userId: login.userId
+  };
+};
+
+export default connect(mapStateToProps, { addLike })(Post);
