@@ -1,5 +1,6 @@
 const { Users } = require("./config/dbconfig");
 const AuthRepository = require("./authRepository");
+const UsersRepository = require("./usersRepository");
 
 class SocialRepository {
   async getAllFriendRequests(username) {
@@ -13,7 +14,7 @@ class SocialRepository {
     //updates the users as eachother friends and then removes the sent request from the friend
     await this.pushNewFriend(user, friendUser);
     await this.pushNewFriend(friendUser, user);
-    return user.id;
+    return [user.id];
   }
 
   async pushNewFriend(user, friend) {
@@ -32,7 +33,7 @@ class SocialRepository {
       }
     }
     await Users.update({ requests: newRequests }, { where: { id: user.id } });
-    return user.id;
+    return [user.id];
   }
 
   async deleteFriend(user, userId) {
@@ -44,8 +45,46 @@ class SocialRepository {
       }
     }
     await Users.update({ friends: currrentFriends }, { where: { id: user.id } });
-    return user.id;
+    return [user.id];
   }
+
+  async createNewRequest(userToAdd, currentUsername) {
+    let addedUser = await AuthRepository.getUserByUsername(userToAdd);
+    let currentUserID = await UsersRepository.getUserIdByUsername(currentUsername);
+    let reqs = addedUser.requests;
+    if (reqs === null) reqs = [];
+    else if (
+      this.isRequestExists(addedUser, currentUserID) ||
+      this.isFriend(addedUser, currentUserID)
+    )
+      return "request exists";
+    reqs.push(currentUserID);
+    await Users.update({ requests: reqs }, { where: { id: addedUser.id } });
+  }
+
+  isRequestExists = (user, requestingUserID) => {
+    let isExist = false;
+    for (let i = 0; i < user.requests.length; i++) {
+      let req = user.requests[i];
+      if (req === requestingUserID) {
+        isExist = true;
+        break;
+      }
+    }
+    return isExist;
+  };
+
+  isFriend = (addedUser, currentUserID) => {
+    let isExist = false;
+    for (let i = 0; i < addedUser.friends.length; i++) {
+      let friend = addedUser.friends[i];
+      if (friend === currentUserID) {
+        isExist = true;
+        break;
+      }
+    }
+    return isExist;
+  };
 }
 
 module.exports = new SocialRepository();

@@ -37,6 +37,10 @@ class SocialController {
     await socialDB.deleteRequest(user, declinedUserID);
     return await this.getFriendRequestsAsUsernames(user.requests);
   }
+
+  async createNewRequest(userToAdd, currentUsername) {
+    return await socialDB.createNewRequest(userToAdd, currentUsername);
+  }
 }
 
 module.exports = new SocialController();
