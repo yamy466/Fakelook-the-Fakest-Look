@@ -2,22 +2,21 @@ import { connect } from "react-redux";
 import { Dropdown } from "semantic-ui-react";
 import { getTagsByQuery, addPhotoTag } from "../../actions";
 
-const PhotoTagsSelection = props => {
+const PhotoTagsSelection = (props) => {
   const { addition, multiple, placeholder, photoTags, selectedTags, onSelect } = props;
   let photoTagsSearchQuery = "";
 
-  const onPhotoTagsSearchChange = query => {
+  const onPhotoTagsSearchChange = (query) => {
     photoTagsSearchQuery = query;
     setTimeout(async () => {
       if (query === photoTagsSearchQuery) {
-        console.log("searching for: ", query);
         props.getTagsByQuery(query);
       }
     }, 300);
   };
 
   const onAddTag = (e, tag) => {
-    if (props.photoTags.find(t => t === tag)) return;
+    if (props.photoTags.find((t) => t === tag)) return;
     props.addPhotoTag(tag);
     onSelect([...selectedTags, tag]);
   };
@@ -29,7 +28,7 @@ const PhotoTagsSelection = props => {
       allowAdditions={addition}
       onAddItem={(e, { value }) => onAddTag(e, value)}
       multiple={multiple}
-      options={[...photoTags, ...selectedTags]?.map(t => {
+      options={[...photoTags, ...selectedTags]?.map((t) => {
         return { text: t, key: t, value: t };
       })}
       placeholder={placeholder}
