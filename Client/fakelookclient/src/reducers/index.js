@@ -7,6 +7,7 @@ import path from "./pathReducer";
 import social from "./socialReducer";
 import photoTags from "./tagsReducer";
 import users from "./usersReducer";
+import status from "./statusReducer";
 
 export default combineReducers({
   posts,
@@ -17,4 +18,5 @@ export default combineReducers({
   social,
   photoTags,
   users,
+  status
 });

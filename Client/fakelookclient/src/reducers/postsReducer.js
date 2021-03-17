@@ -7,10 +7,14 @@ const posts = (state = [], action) => {
     case types.ADD_POST:
       return [...state, action.payload];
     case types.ADD_LIKE:
-      const {postId,userId} = action.payload;
-     const post = state.find(p => p.id === postId);
-     post.likes = post.likes ? [...post.likes,userId] : [userId]
-     state.splice(state.findIndex(p => p.id === postId),1,post)
+      const { postId, userId } = action.payload;
+      const post = state.find(p => p.id === postId);
+      post.likes = post.likes ? [...post.likes, userId] : [userId];
+      state.splice(
+        state.findIndex(p => p.id === postId),
+        1,
+        post
+      );
       return [...state];
     default:
       break;

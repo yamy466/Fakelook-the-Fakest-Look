@@ -65,7 +65,7 @@ const Filter = (props) => {
 
   return (
     <Segment attached>
-      <Form size="large">
+      <Form size="large" loading={props.filterStatus === "loading" ? true : false}>
         <Form.Field
           id="datesRangeField"
           control={DatesRangeAccordion}
@@ -128,8 +128,10 @@ const Filter = (props) => {
   );
 };
 
-const mapStateToProps = (state) => {
-  return state;
+const mapStateToProps = ({status}) => {
+  return {
+    filterStatus: status.filterStatus
+  };
 };
 
 export default connect(mapStateToProps, { getFilteredPosts })(Filter);
