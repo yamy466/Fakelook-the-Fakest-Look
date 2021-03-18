@@ -57,8 +57,8 @@ class SocialRepository {
   }
 
   async createNewRequest(userToAdd, currentUsername) {
-    let addedUser = await AuthRepository.getUserByUsername(userToAdd);
-    let currentUserID = await UsersRepository.getUserIdByUsername(currentUsername);
+    let addedUser = await UsersRepository.getUserByUsernameOrId(userToAdd);
+    let currentUserID = await UsersRepository.getUserByUsernameOrId(currentUsername);
     let reqs = addedUser.requests;
     if (reqs === null) reqs = [];
     else if (
