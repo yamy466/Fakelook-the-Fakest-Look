@@ -4,44 +4,17 @@ import { connect } from "react-redux";
 import { selectLocation, addPost, getTagsByQuery } from "../../actions";
 import env from "../../enviroments/enviroment";
 import PhotoTagsSelection from "../photoTagsSelection/photoTagsSelection";
-
-const friendsMock = [
- "shiki","almog"
-];
-const Publish = (props) => {
+import UsersSelection from "../UsersSelection/UsersSelection";
+import getUsersLocation from "../../helpers/getUsersLocation";
+const Publish = props => {
   const [photo, setPhoto] = useState("");
   const [postText, setPostText] = useState("");
   const [selectedPhotoTags, setSelectedPhotoTags] = useState([]);
-  const [selectedFriends, setSelectedFriends] = useState([]);
+  const [selectedUsers, setSelectedUsers] = useState([]);
   const [isMyLocation, setIsMyLocation] = useState(false);
   const [currentLocation, setCurrentLocation] = useState("");
 
-  useEffect(() => {
-    getCurrentLocation();
-  }, []);
-
-  const getCurrentLocation = () =>
-    navigator.geolocation.getCurrentPosition(success, error, options);
-
-  const success = (position) => {
-    let location = position.coords;
-    let lng = location.longitude;
-    let lat = location.latitude;
-    setCurrentLocation({ lat, lng });
-  };
-
-  const error = () => {
-    alert("Error! Could not determine your current location");
-  };
-
-  const options = () => {
-    return {
-      enableHighAccuracy: true,
-      timeout: 5000,
-    };
-  };
-
-  const onPhotoChange = (e) => {
+  const onPhotoChange = e => {
     setPhoto("");
     if (e.target.files[0]) {
       const reader = new FileReader();
@@ -55,24 +28,24 @@ const Publish = (props) => {
   const onClearClick = () => {
     setPhoto("");
     setSelectedPhotoTags([]);
-    setSelectedFriends([]);
+    setSelectedUsers([]);
   };
 
-  const onTextChange = (e) => {
+  const onTextChange = e => {
     let text = e.target.value;
     setPostText(text);
   };
 
   const createPost = () => {
     let location = "";
-    if (isMyLocation) {
+    if (isMyLocation && currentLocation) {
       location = currentLocation;
     } else {
       location = props.selectedLocation;
     }
     const post = {
       tags: selectedPhotoTags,
-      taggedFriends: selectedFriends,
+      taggedFriends: selectedUsers,
       photo,
       location,
       text: postText,
@@ -80,10 +53,10 @@ const Publish = (props) => {
     return post;
   };
 
-  const onPublishClick = async (e) => {
+  const onPublishClick = async e => {
     const post = createPost();
     props.addPost(post);
-    onClearClick()
+    onClearClick();
   };
 
   return (
@@ -99,21 +72,15 @@ const Publish = (props) => {
           multiple
           placeholder="photo tags"
           selectedTags={selectedPhotoTags}
-          onSelect={(tags) => setSelectedPhotoTags(tags)}
+          onSelect={tags => setSelectedPhotoTags(tags)}
         />
-        <Form.Dropdown
-          search
-          selection
+        <FormField
+          control={UsersSelection}
+          label="People Tags"
           multiple
-          options={friendsMock.map((f) => {
-            return { text: f, key: f, value: f };
-          })}
-          label="Friends Tags"
-          placeholder="friends tags"
-          onChange={(e, { value }) => {
-            setSelectedFriends(value);
-          }}
-          value={selectedFriends}
+          placeholder="people tags"
+          selectedUsers={selectedUsers}
+          onSelect={users => setSelectedUsers(users)}
         />
         <Segment compact>
           <Form.Checkbox
@@ -121,7 +88,10 @@ const Publish = (props) => {
             toggle
             name="locationRG"
             checked={isMyLocation}
-            onChange={() => setIsMyLocation(true)}
+            onChange={() => {
+              getUsersLocation(setCurrentLocation);
+              setIsMyLocation(true)
+            }}
           />
           <Form.Checkbox
             label="Selected Location"

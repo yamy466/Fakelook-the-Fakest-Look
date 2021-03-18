@@ -1,28 +1,6 @@
-const { Users, Tokens } = require("./config/dbconfig");
+const { Tokens } = require("./config/dbconfig");
 
 class AuthRepository {
-  async addUser(user) {
-    return await Users.create({ ...user });
-  }
-
-  async getUserByUsername(username) {
-    let user = await Users.findOne({
-      where: {
-        username,
-      },
-    });
-    return user;
-  }
-
-  async getUserByID(userId) {
-    //gets an id and returns the user
-    let user = await Users.findOne({
-      where: {
-        id: userId,
-      },
-    });
-    return user;
-  }
 
   async deleteToken(token) {
     await Tokens.destroy({

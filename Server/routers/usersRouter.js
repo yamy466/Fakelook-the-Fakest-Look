@@ -7,10 +7,10 @@ router.get(
   "/search",
   asyncHandler(async (req, res) => {
     try {
-        const users = await controller.getUsersByQuery(req.query.query,req.user.username);
-        res.send(users.map(u => u.username))
+      const users = await controller.getUsersByQuery(req.query.query, req.user.username);
+      res.send(users.map(u => u.username));
     } catch (error) {
-        res.status(400).send(error);
+      res.status(400).send(error);
     }
   })
 );

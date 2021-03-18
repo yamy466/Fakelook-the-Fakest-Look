@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import {
   MapContainer,
   Marker,
@@ -10,7 +9,6 @@ import "./map.css";
 import ShowPosts from "./showPosts";
 import LocationMarker from "./locationMarker";
 import {connect} from "react-redux"
-import { Button } from "semantic-ui-react";
 import MyLocation from "./MyLocation.jsx";
 
 const FakelookMap = (props) => {
@@ -29,9 +27,6 @@ const FakelookMap = (props) => {
         <Marker position={props.selectedLocation || defaultLocation}>
           <Popup>selected location</Popup>
         </Marker>
-        <Button onClick={() => {}}>
-      <i className="fas fa-compass" style={{fontSize:20}}></i>
-      </Button>
         <ShowPosts />
       </MapContainer>
     );

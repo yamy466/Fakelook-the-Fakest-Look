@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import { useState } from "react";
 import DatesRangeAccordion from "../datesRangeAcconrdion/datesRangeAccordion";
 import PhotoTagsSelection from "../photoTagsSelection/photoTagsSelection";
-import PublisherSelection from "../publisherSelection/PublisherSelection";
+import UsersSelection from "../UsersSelection/UsersSelection";
 import env from "../../enviroments/enviroment";
 import { getFilteredPosts } from "../../actions";
 
@@ -74,12 +74,12 @@ const Filter = (props) => {
           label="Dates Range"
         />
         <Form.Field
-          control={PublisherSelection}
-          selectedPublishers={selectedPublishers}
+          control={UsersSelection}
+          selectedUsers={selectedPublishers}
           label="Publishers"
           multiple
           placeholder="publishers"
-          onSelect={(publisher) => setSelectedPublishers(publisher)}
+          onSelect={(publishers) => setSelectedPublishers(publishers)}
         />
         <Form.Field
           id="radiusField"

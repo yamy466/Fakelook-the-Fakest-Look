@@ -1,4 +1,5 @@
 require("dotenv").config();
+const usersRepository = require("../DAL/usersRepository")
 const authRepository = require("../DAL/authRepository");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
@@ -8,7 +9,7 @@ class AuthContoller {
   async register(user) {
     const hashedPassword = await bcrypt.hash(user.password, 10);
     user.password = hashedPassword;
-    user = await authRepository.addUser(user);
+    user = await usersRepository.addUser(user);
     const accessToken = this.generateAccessToken(user);
     const refreshToken = this.generateRefreshToken(user);
     await authRepository.addRefreshToken(refreshToken);
@@ -16,7 +17,7 @@ class AuthContoller {
   }
 
   async login(name, password) {
-    const user = await authRepository.getUserByUsername(name);
+    const user = await usersRepository.getUserByUsernameOrId(name);
     if (!user || !(await bcrypt.compare(password, user.password)))
       throw "incorrect username or password";
 
