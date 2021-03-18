@@ -8,6 +8,7 @@ import PhotoTagsSelection from "../photoTagsSelection/photoTagsSelection";
 import UsersSelection from "../UsersSelection/UsersSelection";
 import env from "../../enviroments/enviroment";
 import { getFilteredPosts } from "../../actions";
+import getUsersLocation from "../../helpers/getUsersLocation";
 
 const MAX_RADIUS = 100;
 
@@ -16,7 +17,7 @@ const groupsMock = [
   { name: "Gamers", id: 2 },
 ];
 
-const Filter = (props) => {
+const Filter = props => {
   const [datesRange, setDatesRange] = useState([
     {
       startDate: null,
@@ -30,13 +31,16 @@ const Filter = (props) => {
   const [selectedGroups, setSelectedGroups] = useState([]);
 
   const onFilterClick = () => {
-    props.getFilteredPosts(
-      datesRange[0].startDate,
-      datesRange[0].endDate,
-      selectedPublishers,
-      selectedPhotoTags,
-      null,
-      null
+    getUsersLocation(location =>
+      props.getFilteredPosts(
+        datesRange[0].startDate,
+        datesRange[0].endDate,
+        selectedPublishers,
+        selectedPhotoTags,
+        null,
+        radius,
+        location
+      )
     );
   };
 
@@ -54,7 +58,7 @@ const Filter = (props) => {
     ]);
   };
 
-  const onRadiusChange = (num) => {
+  const onRadiusChange = num => {
     if (!/^\d*$/.test(num)) {
       num = num.slice(0, num.length - 1);
     }
@@ -79,7 +83,7 @@ const Filter = (props) => {
           label="Publishers"
           multiple
           placeholder="publishers"
-          onSelect={(publishers) => setSelectedPublishers(publishers)}
+          onSelect={publishers => setSelectedPublishers(publishers)}
         />
         <Form.Field
           id="radiusField"
@@ -97,7 +101,7 @@ const Filter = (props) => {
           multiple
           placeholder="photo tags"
           selectedTags={selectedPhotoTags}
-          onSelect={(tag) => setSelectedPhotoTags(tag)}
+          onSelect={tag => setSelectedPhotoTags(tag)}
         />
         <Form.Field
           id="groupsField"
@@ -111,7 +115,7 @@ const Filter = (props) => {
           selection
           label="Groups"
           placeholder="groups"
-          options={groupsMock.map((g) => {
+          options={groupsMock.map(g => {
             return { text: g.name, key: g.id, value: g };
           })}
         />
@@ -128,9 +132,9 @@ const Filter = (props) => {
   );
 };
 
-const mapStateToProps = ({status}) => {
+const mapStateToProps = ({ status }) => {
   return {
-    filterStatus: status.filterStatus
+    filterStatus: status.filterStatus,
   };
 };
 

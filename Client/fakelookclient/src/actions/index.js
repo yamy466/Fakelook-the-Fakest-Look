@@ -168,14 +168,14 @@ export const getUsersByQuery = (query) => async (dispatch, getState) => {
   if (res?.status < 400) dispatch({ type: types.USERS_CHANGE, payload: res.data });
 };
 
-export const getFilteredPosts = (fromDate, toDate, publishers, tags, groups, radius) => async (
+export const getFilteredPosts = (fromDate, toDate, publishers, tags, groups, radius,location) => async (
   dispatch,
   getState
 ) => {
   dispatch({type: types.FILTER_LOADING})
   const getPosts = async () =>
     await PostsService.getFilteredPosts(
-      { fromDate, toDate, publishers, tags, groups, radius },
+      { fromDate, toDate, publishers, tags, groups, radius, location },
       getState().login.accessToken
     );
   let res;

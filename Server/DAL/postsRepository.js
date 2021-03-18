@@ -2,6 +2,7 @@ const { Posts } = require("./config/dbconfig");
 const { writeFile, readFile, readFileSync } = require("fs");
 const tag = require("../Models/tag");
 const { Op } = require("sequelize");
+const sequelize = require("sequelize");
 const photosDirectory = "./DAL/photos";
 class PostsRepository {
   async getAllPosts() {
@@ -37,7 +38,7 @@ class PostsRepository {
     return { ...createdPost };
   }
 
-  async getFilteredPosts({ fromDate, toDate, publishers, tags, groups, radius }) {
+  async getFilteredPosts({ fromDate, toDate, publishers, tags, groups, radius ,location }) {
     let where = {};
     if (fromDate && toDate)
       where.postedTime = { [Op.and]: { [Op.gte]: fromDate, [Op.lte]: toDate } };
@@ -45,6 +46,7 @@ class PostsRepository {
     if (toDate && !fromDate) where.postedTime = { [Op.lte]: toDate };
     if (publishers && publishers.length > 0) where.publisher = publishers;
     if (tags && tags.length > 0) where.tags = { [Op.overlap]: tags };
+    // if(radius && location) where.location = sequelize.fn('ST_DWithin', sequelize.col('location'), sequelize.fn('ST_SetSRID', sequelize.fn('ST_MakePoint',  location.lat, location.lng), 4326), parseFloat(radius), false)
 
     return await Posts.findAll({ where });
   }

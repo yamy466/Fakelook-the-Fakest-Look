@@ -89,8 +89,10 @@ const Publish = props => {
             name="locationRG"
             checked={isMyLocation}
             onChange={() => {
-              getUsersLocation(setCurrentLocation);
-              setIsMyLocation(true)
+              getUsersLocation(loc => {
+                setCurrentLocation(loc);
+                setIsMyLocation(true);
+              });
             }}
           />
           <Form.Checkbox
