@@ -26,8 +26,7 @@ export const fetchPosts = () => async (dispatch, getState) => {
 };
 
 export const fetchFriendRequests = () => async (dispatch, getState) => {
-  const fetch = async () =>
-    await SocialServices.getFriendRequests(getState().login.username, getState().login.accessToken);
+  const fetch = async () => await SocialServices.getFriendRequests(getState().login.accessToken);
   let res;
   try {
     res = await fetch();
@@ -35,6 +34,17 @@ export const fetchFriendRequests = () => async (dispatch, getState) => {
     res = await actionErrorHandler(response, fetch, null, dispatch, getState);
   }
   if (res?.status < 400) dispatch({ type: types.FETCH_REQUESTS, payload: res.data });
+};
+
+export const fetchFriends = () => async (dispatch, getState) => {
+  const fetch = async () => await SocialServices.getFriends(getState().login.accessToken);
+  let res;
+  try {
+    res = await fetch();
+  } catch ({ response }) {
+    res = await actionErrorHandler(response, fetch, null, dispatch, getState);
+  }
+  if (res?.status < 400) dispatch({ type: types.FETCH_FRIENDS, payload: res.data });
 };
 
 export const selectLocation = (location) => async (dispatch) => {
@@ -172,7 +182,7 @@ export const getFilteredPosts = (fromDate, toDate, publishers, tags, groups, rad
   dispatch,
   getState
 ) => {
-  dispatch({type: types.FILTER_LOADING})
+  dispatch({ type: types.FILTER_LOADING });
   const getPosts = async () =>
     await PostsService.getFilteredPosts(
       { fromDate, toDate, publishers, tags, groups, radius, location },
@@ -184,9 +194,9 @@ export const getFilteredPosts = (fromDate, toDate, publishers, tags, groups, rad
   } catch ({ response }) {
     if (response) res = await actionErrorHandler(response, getPosts, null, dispatch, getState);
   }
-  if (res?.status < 400){
+  if (res?.status < 400) {
     dispatch({ type: types.FETCH_POSTS, payload: res.data });
-    dispatch({type: types.FILTER_SUCCESS})
+    dispatch({ type: types.FILTER_SUCCESS });
   }
 };
 

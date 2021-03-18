@@ -8,7 +8,19 @@ router.get(
   "/getRequests",
   asyncHandler(async (req, res) => {
     try {
-      const data = await controller.getFriendRequests(req.query.username);
+      const data = await controller.getFriendRequests(req.user.username);
+      res.send(data);
+    } catch (error) {
+      res.status(400).send(error);
+    }
+  })
+);
+
+router.get(
+  "/getFriends",
+  asyncHandler(async (req, res) => {
+    try {
+      const data = await controller.getFriends(req.user.username);
       res.send(data);
     } catch (error) {
       res.status(400).send(error);

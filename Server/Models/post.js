@@ -15,11 +15,11 @@ module.exports = (connection, sequelize) => {
         type: sequelize.TEXT,
         allowNull: true,
       },
-      
+
       location: {
         type: "Point",
         allowNull: false,
-        column: DataTypes.GEOMETRY("Point",4326)
+        column: DataTypes.GEOMETRY("Point", 4326),
       },
       publisher: {
         type: sequelize.TEXT,
@@ -43,13 +43,12 @@ module.exports = (connection, sequelize) => {
       },
       photoURL: {
         type: sequelize.BIGINT,
-        allowNull: true
-      }
+        allowNull: true,
+      },
     },
     {
       tableName: "Posts",
       timestamps: false,
-      
     }
   );
 };

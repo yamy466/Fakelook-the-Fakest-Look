@@ -10,11 +10,19 @@ class SocialRepository {
     else return user.requests;
   }
 
+  async getAllFriends(username) {
+    //returns an array of all the users who sent a friend request
+    let user = await UsersRepository.getUserByUsernameOrId(username);
+    if (user.friends === null)
+      Users.update({ friends: {} }, { where: { username: user.username } });
+    return user.friends;
+  }
+
   async addFriend(user, friendUser) {
     //updates the users as eachother friends and then removes the sent request from the friend
     await this.pushNewFriend(user, friendUser);
     await this.pushNewFriend(friendUser, user);
-    return [user.id];
+    return [friendUser.id];
   }
 
   async pushNewFriend(user, friend) {
@@ -49,8 +57,8 @@ class SocialRepository {
   }
 
   async createNewRequest(userToAdd, currentUsername) {
-    let addedUser = await AuthRepository.getUserByUsername(userToAdd);
-    let currentUserID = await UsersRepository.getUserIdByUsername(currentUsername);
+    let addedUser = await UsersRepository.getUserByUsernameOrId(userToAdd);
+    let currentUserID = await UsersRepository.getUserByUsernameOrId(currentUsername);
     let reqs = addedUser.requests;
     if (reqs === null) reqs = [];
     else if (

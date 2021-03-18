@@ -42,7 +42,7 @@ const UsersSearch = (props) => {
           }}
         />
       </div>
-      <Button icon labelPosition="left" onClick={sendNewRequest}>
+      <Button primary icon labelPosition="left" onClick={sendNewRequest}>
         <Icon name="add user" />
         Add User
       </Button>

@@ -1,5 +1,16 @@
-.searchbar{
-    width: 50%;
-    border: 3px;
-    padding: 10px;
-  }
+.searchbar {
+  width: 50%;
+  border: 3px;
+  padding: 10px;
+}
+
+.padded {
+  margin-top: 2%;
+  padding: 5px;
+  border: 1px;
+}
+
+.friendCard {
+  width: 30%;
+  padding: 10px;
+}

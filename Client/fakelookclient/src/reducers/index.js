@@ -5,6 +5,8 @@ import login from "./loginReducer";
 import register from "./registerReducer";
 import path from "./pathReducer";
 import social from "./socialReducer";
+import friends from "./friendsReducer";
+import groups from "./groupsReducer";
 import photoTags from "./tagsReducer";
 import users from "./usersReducer";
 import status from "./statusReducer";
@@ -18,5 +20,7 @@ export default combineReducers({
   social,
   photoTags,
   users,
-  status
+  status,
+  friends,
+  groups,
 });
