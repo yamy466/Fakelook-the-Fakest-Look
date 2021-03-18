@@ -3,8 +3,16 @@ import http from "./httpService";
 const serverRoute = "/api/Social/";
 
 const SocialServices = {
-  async getFriendRequests(username, token) {
-    return await http.get(serverRoute + "getRequests/?username=" + username, {
+  async getFriendRequests(token) {
+    return await http.get(serverRoute + "getRequests", {
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    });
+  },
+
+  async getFriends(token) {
+    return await http.get(serverRoute + "getFriends", {
       headers: {
         Authorization: "Bearer " + token,
       },

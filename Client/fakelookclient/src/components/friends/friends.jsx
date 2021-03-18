@@ -18,11 +18,10 @@ class Friends extends Component {
   render() {
     const { activeItem } = this.state;
     let reqsExist = true;
-    if (this.props.requests.length > 0) reqsExist = true;
-    else reqsExist = false;
+    if (this.props.requests.length <= 0) reqsExist = false;
     return (
       <div>
-        <Menu secondary tabular>
+        <Menu pointing secondary>
           <MenuItem
             name="newFriends"
             active={activeItem === "newFriends"}
@@ -30,7 +29,7 @@ class Friends extends Component {
             Add New Friends
           </MenuItem>
           <MenuItem name="groups" active={activeItem === "groups"} onClick={this.handleItemClick}>
-            Groups
+            Groups&Friends
           </MenuItem>
           <MenuItem
             name="requests"

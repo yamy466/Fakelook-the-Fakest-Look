@@ -51,8 +51,6 @@ class FriendRequests extends Component {
   }
 }
 const mapStateToProps = ({ social }) => {
-  return {
-    reqs: social,
-  };
+  return { reqs: social };
 };
 export default connect(mapStateToProps, { addFriend, declineRequest })(FriendRequests);
