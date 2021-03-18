@@ -58,15 +58,15 @@ class SocialRepository {
 
   async createNewRequest(userToAdd, currentUsername) {
     let addedUser = await UsersRepository.getUserByUsernameOrId(userToAdd);
-    let currentUserID = await UsersRepository.getUserByUsernameOrId(currentUsername);
+    let currentUser = await UsersRepository.getUserByUsernameOrId(currentUsername);
     let reqs = addedUser.requests;
-    if (reqs === null) reqs = [];
+    if (!reqs) reqs = [];
     else if (
-      this.isRequestExists(addedUser, currentUserID) ||
-      this.isFriend(addedUser, currentUserID)
+      this.isRequestExists(addedUser, currentUser.id) ||
+      this.isFriend(addedUser, currentUser.id)
     )
       return "request exists";
-    reqs.push(currentUserID);
+    reqs.push(currentUser.id);
     await Users.update({ requests: reqs }, { where: { id: addedUser.id } });
   }
 

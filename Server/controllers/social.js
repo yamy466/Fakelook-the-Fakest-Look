@@ -14,12 +14,12 @@ class SocialController {
     return await this.getIdArrayAsUsernames(friends);
   }
 
-  async getIdArrayAsUsernames(array) {
-    let username = "";
+  async getIdArrayAsUsernames(requests) {
+    let user = {};
     let users = [];
-    for (let i = 0; i < requestsArray.length; i++) {
-      username = await usersDB.getUserByUsernameOrId(null, requestsArray[i]).username;
-      users.push(username);
+    for (let i = 0; i < requests.length; i++) {
+      user = await usersDB.getUserByUsernameOrId(null, requests[i]);
+      users.push(user.username);
     }
     return users;
   }
@@ -38,8 +38,8 @@ class SocialController {
 
   async declineRequest(username, declinedUsername) {
     let user = await usersDB.getUserByUsernameOrId(username);
-    let declinedUserID = await usersDB.getUserByUsernameOrId(declinedUsername).id;
-    await socialDB.deleteRequest(user, declinedUserID);
+    let declinedUser = await usersDB.getUserByUsernameOrId(declinedUsername);
+    await socialDB.deleteRequest(user, declinedUser.id);
     return await this.getIdArrayAsUsernames(user.requests);
   }
 
