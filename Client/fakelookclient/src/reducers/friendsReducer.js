@@ -4,6 +4,8 @@ const friends = (state = [], action) => {
   switch (action.type) {
     case types.FETCH_FRIENDS:
       return action.payload;
+    case types.DELETE_FRIEND:
+      return action.payload;
     default:
       break;
   }
