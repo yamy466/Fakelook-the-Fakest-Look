@@ -1,5 +1,4 @@
 const socialDB = require("../DAL/socialRepository");
-const authDB = require("../DAL/authRepository");
 const usersDB = require("../DAL/usersRepository");
 
 class SocialController {
@@ -41,6 +40,13 @@ class SocialController {
     let declinedUser = await usersDB.getUserByUsernameOrId(declinedUsername);
     await socialDB.deleteRequest(user, declinedUser.id);
     return await this.getIdArrayAsUsernames(user.requests);
+  }
+
+  async deleteFriend(username, deletedUsername) {
+    let user = await usersDB.getUserByUsernameOrId(username);
+    let deletedUser = await usersDB.getUserByUsernameOrId(deletedUsername);
+    await socialDB.removeFriend(user, deletedUser);
+    return this.getIdArrayAsUsernames(user.friends);
   }
 
   async createNewRequest(userToAdd, currentUsername) {

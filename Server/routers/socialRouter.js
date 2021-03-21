@@ -53,6 +53,18 @@ router.post(
 );
 
 router.post(
+  "/deleteFriend",
+  asyncHandler(async (req, res) => {
+    try {
+      const data = await controller.deleteFriend(req.user.username, req.body.deletedUser);
+      res.send(data);
+    } catch (err) {
+      res.status(400).send(error);
+    }
+  })
+);
+
+router.post(
   "/createNewRequest",
   asyncHandler(async (req, res) => {
     try {

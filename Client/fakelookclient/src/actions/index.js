@@ -117,6 +117,22 @@ export const declineRequest = (username, declinedUsername) => async (dispatch, g
     });
 };
 
+export const deleteAFriend = (deletedUser) => async (dispatch, getState) => {
+  const deleteFriend = async () =>
+    await SocialServices.deleteFriend(getState().login.accessToken, deletedUser);
+  let res;
+  try {
+    res = await deleteFriend();
+  } catch ({ response }) {
+    res = await actionErrorHandler(response, deleteFriend, null, dispatch, getState);
+  }
+  if (res?.status < 400)
+    dispatch({
+      type: types.DELETE_FRIEND,
+      payload: res.data,
+    });
+};
+
 export const login = (name, password) => async (dispatch) => {
   dispatch({ type: types.LOGIN_LOADING });
   try {
@@ -178,10 +194,15 @@ export const getUsersByQuery = (query) => async (dispatch, getState) => {
   if (res?.status < 400) dispatch({ type: types.USERS_CHANGE, payload: res.data });
 };
 
-export const getFilteredPosts = (fromDate, toDate, publishers, tags, groups, radius,location) => async (
-  dispatch,
-  getState
-) => {
+export const getFilteredPosts = (
+  fromDate,
+  toDate,
+  publishers,
+  tags,
+  groups,
+  radius,
+  location
+) => async (dispatch, getState) => {
   dispatch({ type: types.FILTER_LOADING });
   const getPosts = async () =>
     await PostsService.getFilteredPosts(

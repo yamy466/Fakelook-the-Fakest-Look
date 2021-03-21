@@ -49,6 +49,20 @@ const SocialServices = {
     );
   },
 
+  async deleteFriend(token, deletedUser) {
+    return await http.post(
+      serverRoute + "deleteFriend",
+      {
+        deletedUser: deletedUser,
+      },
+      {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      }
+    );
+  },
+
   async sendNewRequest(token, userToAdd) {
     return await http.post(
       serverRoute + "createNewRequest",

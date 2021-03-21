@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { fetchFriends } from "../../actions";
+import { fetchFriends, deleteAFriend } from "../../actions";
 import { Card, Button, Header } from "semantic-ui-react";
 import "./friends.css";
 
@@ -10,6 +10,11 @@ class ShowFriends extends Component {
     this.state = {};
     props.fetchFriends();
   }
+
+  removeFriend = (e) => {
+    this.props.deleteAFriend(e.currentTarget.name);
+  };
+
   render() {
     return (
       <div>
@@ -18,8 +23,8 @@ class ShowFriends extends Component {
           {this.props.friends.map((f) => {
             return (
               <div className="friendCard">
-                <Card header={f}></Card>
-                <Button name={f} onClick={this.props.removeFriend} color="red">
+                <Card key={f} header={f}></Card>
+                <Button name={f} onClick={this.removeFriend} color="red">
                   Remove
                 </Button>
               </div>
@@ -37,4 +42,4 @@ const mapStateToProps = ({ friends }) => {
   };
 };
 
-export default connect(mapStateToProps, { fetchFriends })(ShowFriends);
+export default connect(mapStateToProps, { fetchFriends, deleteAFriend })(ShowFriends);

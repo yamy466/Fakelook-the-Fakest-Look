@@ -44,28 +44,29 @@ class SocialRepository {
     return [user.id];
   }
 
-  async deleteFriend(user, userId) {
+  async removeFriend(user, deletedUser) {
+    await this.deleteFriend(user, deletedUser.id);
+    await this.deleteFriend(deletedUser, user.id);
+  }
+
+  async deleteFriend(user, userID) {
     let currrentFriends = user.friends;
     for (let i = 0; i < currrentFriends.length; i++) {
-      if (currrentFriends[i] === userId) {
+      if (currrentFriends[i] === userID) {
         currrentFriends.splice(i, 1);
         break;
       }
     }
     await Users.update({ friends: currrentFriends }, { where: { id: user.id } });
-    return [user.id];
   }
 
   async createNewRequest(userToAdd, currentUsername) {
     let addedUser = await UsersRepository.getUserByUsernameOrId(userToAdd);
     let currentUser = await UsersRepository.getUserByUsernameOrId(currentUsername);
     let reqs = addedUser.requests;
-    if (!reqs) reqs = [];
-    else if (
-      this.isRequestExists(addedUser, currentUser.id) ||
-      this.isFriend(addedUser, currentUser.id)
-    )
+    if (this.isFriend(addedUser, currentUser.id) | this.isRequestExists(addedUser, currentUser.id))
       return "request exists";
+    if (!reqs) reqs = [];
     reqs.push(currentUser.id);
     await Users.update({ requests: reqs }, { where: { id: addedUser.id } });
   }

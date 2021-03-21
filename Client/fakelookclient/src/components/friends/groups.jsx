@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Menu, Button, Segment, Grid } from "semantic-ui-react";
+import { Button } from "semantic-ui-react";
 import "./friends.css";
 import ShowFriends from "./showFriends";
 import ShowGroups from "./showGroups";
@@ -11,10 +11,6 @@ class Groups extends Component {
   }
 
   friendsGroupsSwitch = () => this.setState({ showFriends: !this.state.showFriends });
-
-  removeFriend = (e) => {
-    console.log(e.currentTarget.name);
-  };
 
   render() {
     return (
