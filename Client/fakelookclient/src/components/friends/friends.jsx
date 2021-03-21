@@ -23,6 +23,7 @@ class Friends extends Component {
       <div>
         <Menu pointing secondary>
           <MenuItem
+          
             name="newFriends"
             active={activeItem === "newFriends"}
             onClick={this.handleItemClick}>
