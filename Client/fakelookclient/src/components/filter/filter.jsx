@@ -10,7 +10,7 @@ import env from "../../enviroments/enviroment";
 import { getFilteredPosts } from "../../actions";
 import getUsersLocation from "../../helpers/getUsersLocation";
 
-const MAX_RADIUS = 100;
+const MAX_RADIUS = 1000;
 
 const groupsMock = [
   { name: "NBA Lovers", id: 1 },
@@ -90,7 +90,7 @@ const Filter = props => {
           control={Input}
           value={radius}
           label="Radius"
-          placeholder="0 - 100"
+          placeholder="0 - 1000"
           onChange={({ target }) => {
             onRadiusChange(target.value);
           }}
