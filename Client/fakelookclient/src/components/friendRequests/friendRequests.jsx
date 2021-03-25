@@ -24,8 +24,8 @@ const FriendRequests = props => {
   }, []);
 
   const acceptRequest = async targetName => {
-    const requests = await addNewFriend(props.username, targetName);
-    setRequests(requests);
+    const res = await addNewFriend(props.username, targetName);
+    setRequests(res.data);
   };
 
   const declineRequest = async targetName => {

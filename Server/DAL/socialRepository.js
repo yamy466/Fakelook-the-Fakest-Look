@@ -5,7 +5,7 @@ class SocialRepository {
   async getAllFriendRequests(username) {
     //returns an array of all the users who sent a friend request
     let user = await UsersRepository.getUserByUsernameOrId(username);
-    if (user.requests === null) return 0;
+    if (user.requests === null) return [];
     else return user.requests;
   }
 
@@ -71,27 +71,13 @@ class SocialRepository {
   }
 
   isRequestExists = (user, requestingUserID) => {
-    let isExist = false;
-    for (let i = 0; i < user.requests.length; i++) {
-      let req = user.requests[i];
-      if (req === requestingUserID) {
-        isExist = true;
-        break;
-      }
-    }
-    return isExist;
+    if(!user.requests) return false;
+    return user.requests.includes(r => r === requestingUserID)
   };
 
   isFriend = (addedUser, currentUserID) => {
-    let isExist = false;
-    for (let i = 0; i < addedUser.friends.length; i++) {
-      let friend = addedUser.friends[i];
-      if (friend === currentUserID) {
-        isExist = true;
-        break;
-      }
-    }
-    return isExist;
+    if(!addedUser.friends) return false 
+    return addedUser.friends.includes(f => f === currentUserID)
   };
 }
 
