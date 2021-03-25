@@ -1,28 +1,30 @@
 import React, { useState } from "react";
 import { Button, Dropdown, Icon } from "semantic-ui-react";
-import { connect } from "react-redux";
-import { getUsersByQuery, sendFriendRequest } from "../../actions";
+import { getUsersByQuery } from "../../services/usersService";
 import "./friends.css";
+import { sendNewRequest } from "../../services/socialServices";
 
-const UsersSearch = (props) => {
+const UsersSearch = () => {
   let searchQuery = "";
   const [selectedUser, setSelectedUser] = useState("");
+  const [users, setUsers] = useState([]);
 
-  const onSearchChange = (value) => {
+  const onSearchChange = value => {
     searchQuery = value;
     setTimeout(async () => {
       if (value === searchQuery && value !== "") {
-        props.getUsersByQuery(value);
+        const res = await getUsersByQuery(value);
+        setUsers(res.data);
       }
     }, 350);
   };
 
-  const onSelect = (value) => {
+  const onSelect = value => {
     setSelectedUser(value);
   };
 
-  const sendNewRequest = () => {
-    if (selectedUser !== "") props.sendFriendRequest(selectedUser);
+  const onSendRequestClick = async () => {
+    if (selectedUser !== "") await sendNewRequest(selectedUser);
     else alert("Please select a user!");
   };
 
@@ -33,7 +35,7 @@ const UsersSearch = (props) => {
           placeholder="Search User..."
           fluid
           search
-          options={props.users?.map((u) => {
+          options={users?.map(u => {
             return { text: u, key: u, value: u };
           })}
           onChange={(e, { value }) => onSelect(value)}
@@ -42,7 +44,7 @@ const UsersSearch = (props) => {
           }}
         />
       </div>
-      <Button primary icon labelPosition="left" onClick={sendNewRequest}>
+      <Button primary icon labelPosition="left" onClick={onSendRequestClick}>
         <Icon name="add user" />
         Add User
       </Button>
@@ -50,10 +52,4 @@ const UsersSearch = (props) => {
   );
 };
 
-const mapStateToProps = ({ users }) => {
-  return {
-    users: users,
-  };
-};
-
-export default connect(mapStateToProps, { getUsersByQuery, sendFriendRequest })(UsersSearch);
+export default UsersSearch;

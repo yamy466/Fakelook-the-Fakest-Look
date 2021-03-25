@@ -30,7 +30,7 @@ class AuthContoller {
   async refreshToken(refreshToken) {
     const expiredRefreshTokenError = new CustomError(
       "expiredRefreshToken",
-      403,
+      401,
       "the given refresh token dosn't exist"
     );
     let token = await authRepository.checkRefreshToken(refreshToken);
@@ -49,7 +49,7 @@ class AuthContoller {
 
   generateAccessToken = ({ username }) =>
     jwt.sign({ username }, process.env.ACCESS_TOKEN_SECRET, {
-      expiresIn: "10s",
+      expiresIn: "30s",
     });
 
   generateRefreshToken = ({ username }) =>

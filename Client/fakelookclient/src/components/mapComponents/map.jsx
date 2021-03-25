@@ -1,17 +1,12 @@
-import {
-  MapContainer,
-  Marker,
-  Popup,
-  TileLayer,
-} from "react-leaflet";
+import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import RecenterMap from "./mapRecenter";
 import "./map.css";
 import ShowPosts from "./showPosts";
 import LocationMarker from "./locationMarker";
-import {connect} from "react-redux"
+import { connect } from "react-redux";
 import MyLocation from "./MyLocation.jsx";
 
-const FakelookMap = (props) => {
+const FakelookMap = ({ movedToMyLocation, selectedLocation, myLocationClicked }) => {
   const defaultLocation = [32.09754044645131, 34.826256097397454];
 
   function renderMap() {
@@ -22,9 +17,9 @@ const FakelookMap = (props) => {
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         />
         <RecenterMap default={defaultLocation} />
-        <MyLocation movedToMyLocation={props.movedToMyLocation} myLocationClicked={props.myLocationClicked}/>
-        <LocationMarker/>
-        <Marker position={props.selectedLocation || defaultLocation}>
+        <MyLocation movedToMyLocation={movedToMyLocation} myLocationClicked={myLocationClicked} />
+        <LocationMarker />
+        <Marker position={selectedLocation || defaultLocation}>
           <Popup>selected location</Popup>
         </Marker>
         <ShowPosts />
@@ -35,9 +30,9 @@ const FakelookMap = (props) => {
   return <div>{renderMap()}</div>;
 };
 
-const mapStateToProps = ({selectedLocation}) => {
+const mapStateToProps = ({ selectedLocation }) => {
   return {
-    selectedLocation
+    selectedLocation,
   };
 };
 

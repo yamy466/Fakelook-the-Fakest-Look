@@ -1,23 +1,6 @@
 import http from "./httpService";
 const serverRoute = "/api/tags/";
 
-const getTagsByQuery = async (query, token) => {
-  return await http.get(`${serverRoute}search/?query=${query}`, {
-    headers: {
-      Authorization: "Bearer " + token,
-    },
-  });
-};
+export const getTagsByQuery = async query => await http.get(`${serverRoute}search/?query=${query}`);
 
-const addTag = async (tag,token) => {
-  return await http.post(`${serverRoute}add`, {
-    tag,
-  },
-  {
-    headers: {
-      Authorization: "Bearer " + token,
-    },
-  })
-}
-
-export { getTagsByQuery,addTag };
+export const addTag = async tag => await http.post(`${serverRoute}add`, { tag });

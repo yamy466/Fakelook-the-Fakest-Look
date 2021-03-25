@@ -2,32 +2,30 @@ import { Component } from "react";
 import Home from "../homeComponents/home";
 import AboutUs from "../aboutUsComponents/aboutUs";
 import { Switch, Route } from "react-router-dom";
-import MapFeed from "../mapFeed/mapFeed";
 import { connect } from "react-redux";
+import MapFeed from "../mapFeed/mapFeed";
 import Feed from "../feed/postsFeed";
 
 class Routes extends Component {
   render() {
     return (
-      <div>
-        <Switch>
-          <Route exact path="/" component={Home} />
-          <Route exact path="/aboutus" component={AboutUs} />
-          {this.props.accessToken && (
-            <>
-              <Route exact path="/map" component={MapFeed} />
-              <Route exact path="/feed" component={Feed} />
-            </>
-          )}
-        </Switch>
-      </div>
+      <Switch>
+        {this.props.username && (
+          <>
+            <Route exact path="/map" component={MapFeed} />
+            <Route exact path="/feed" component={Feed} />
+          </>
+        )}
+        <Route exact path="/aboutus" component={AboutUs} />
+        <Route path="/" component={Home} />
+      </Switch>
     );
   }
 }
 
 const mapStateToProps = ({ login }) => {
   return {
-    accessToken: login.accessToken,
+    username: login.username,
   };
 };
 

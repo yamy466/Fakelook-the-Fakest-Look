@@ -39,7 +39,7 @@ class PostsRepository {
     return { ...createdPost };
   }
 
-  async getFilteredPosts({ fromDate, toDate, publishers, tags, groups, radius, location }) {
+  async getFilteredPosts({fromDate = null, toDate = null, publishers = null, tags = null, group = null, radius = null, location = null}) {
     let where = {};
     if (fromDate && toDate)
       where.postedTime = { [Op.and]: { [Op.gte]: fromDate, [Op.lte]: toDate } };

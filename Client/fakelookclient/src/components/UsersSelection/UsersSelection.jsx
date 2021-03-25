@@ -1,16 +1,18 @@
-import { connect } from "react-redux";
+import { useState } from "react";
 import { Dropdown } from "semantic-ui-react";
-import { getUsersByQuery } from "../../actions";
+import { getUsersByQuery } from "../../services/usersService";
 
 const UsersSelection = props => {
-  const { multiple, placeholder, users, onSelect, selectedUsers } = props;
+  const [users, setUsers] = useState([]);
+  const { multiple, placeholder, onSelect, selectedUsers } = props;
   let publisherSearchQuery = "";
 
   const onSearchChange = query => {
     publisherSearchQuery = query;
-    setTimeout(() => {
+    setTimeout(async () => {
       if (query === publisherSearchQuery) {
-        props.getUsersByQuery(query);
+        const res = await getUsersByQuery(query);
+        setUsers(res.data);
       }
     }, 300);
   };
@@ -31,8 +33,4 @@ const UsersSelection = props => {
   );
 };
 
-const mapStateToProps = ({ users }) => {
-  return { users };
-};
-
-export default connect(mapStateToProps, { getUsersByQuery })(UsersSelection);
+export default UsersSelection;

@@ -1,5 +1,4 @@
 const { Users } = require("./config/dbconfig");
-const AuthRepository = require("./authRepository");
 const UsersRepository = require("./usersRepository");
 
 class SocialRepository {
@@ -14,7 +13,7 @@ class SocialRepository {
     //returns an array of all the users who sent a friend request
     let user = await UsersRepository.getUserByUsernameOrId(username);
     if (user.friends === null)
-      Users.update({ friends: {} }, { where: { username: user.username } });
+     Users.update({ friends: {} }, { where: { username: user.username } });
     return user.friends;
   }
 
@@ -64,7 +63,7 @@ class SocialRepository {
     let addedUser = await UsersRepository.getUserByUsernameOrId(userToAdd);
     let currentUser = await UsersRepository.getUserByUsernameOrId(currentUsername);
     let reqs = addedUser.requests;
-    if (this.isFriend(addedUser, currentUser.id) | this.isRequestExists(addedUser, currentUser.id))
+    if (this.isFriend(addedUser, currentUser.id) || this.isRequestExists(addedUser, currentUser.id))
       return "request exists";
     if (!reqs) reqs = [];
     reqs.push(currentUser.id);

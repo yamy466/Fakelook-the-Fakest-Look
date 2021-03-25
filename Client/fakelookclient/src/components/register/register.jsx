@@ -14,7 +14,7 @@ import {
   Modal,
   ModalContent,
 } from "semantic-ui-react";
-import { register } from "../../actions";
+import { register } from "../../actions/authActions";
 import env from "../../enviroments/enviroment";
 import {
   usernameValidation,
@@ -23,19 +23,14 @@ import {
   emailValidation,
 } from "../../services/validationService";
 
-const [
-  AT_LEAST_2_LETTERS,
-  PASSWORD_NOT_MATCH_REQUIREMENTS,
-  PASSWORDS_NOT_MATCH,
-  INVALID_EMAIL,
-] = [
+const [AT_LEAST_2_LETTERS, PASSWORD_NOT_MATCH_REQUIREMENTS, PASSWORDS_NOT_MATCH, INVALID_EMAIL] = [
   "at least 2 letters",
   "the password dosn't match the requirements",
   "password dosn't match",
   "invalid email",
 ];
 
-const Register = (props) => {
+const Register = props => {
   const [username, setUsername] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -49,26 +44,18 @@ const Register = (props) => {
   const [passwordError, setPasswordError] = useState("");
   const [repeatedPasswordError, setRepeatedPasswordError] = useState("");
   const [emailError, setEmailError] = useState("");
-  const [serverErrors, setServerErrors] = useState([])
-
-
+  const [serverErrors, setServerErrors] = useState([]);
 
   useEffect(() => {
-    if(!props.registerError) return;
+    if (!props.registerError) return;
     const errors = [];
     const { fields } = props.registerError?.data;
     if (fields?.email) errors.push("email already in use");
     if (fields?.username) errors.push("username already in use");
-    setServerErrors(errors)
+    setServerErrors(errors);
   }, [props.registerError]);
 
-  const onFieldChange = (
-    val,
-    setter,
-    errorSetter,
-    maxLength = null,
-    trim = false
-  ) => {
+  const onFieldChange = (val, setter, errorSetter, maxLength = null, trim = false) => {
     errorSetter("");
     if (trim) val = val.trim();
     if (maxLength) {
@@ -102,12 +89,7 @@ const Register = (props) => {
   }, [props.registerStatus]);
 
   return (
-    <Modal
-      closeIcon
-      onClose={props.onClose}
-      open={props.open}
-      style={{ maxWidth: 750 }}
-    >
+    <Modal closeIcon onClose={props.onClose} open={props.open} style={{ maxWidth: 750 }}>
       <ModalContent>
         <Header textAlign="center">Welcome To Fakelook!</Header>
         <Form>
@@ -119,18 +101,10 @@ const Register = (props) => {
               value={firstName}
               error={firstNameError || null}
               onChange={({ target }) =>
-                onFieldChange(
-                  target.value,
-                  setFirstName,
-                  setFirstNameError,
-                  41,
-                  true
-                )
+                onFieldChange(target.value, setFirstName, setFirstNameError, 41, true)
               }
               onBlur={() =>
-                firstName.length > 2
-                  ? setFirstNameError("")
-                  : setFirstNameError(AT_LEAST_2_LETTERS)
+                firstName.length > 2 ? setFirstNameError("") : setFirstNameError(AT_LEAST_2_LETTERS)
               }
             />
             <Form.Field
@@ -140,18 +114,10 @@ const Register = (props) => {
               value={lastName}
               error={lastNameError || null}
               onChange={({ target }) =>
-                onFieldChange(
-                  target.value,
-                  setLastName,
-                  setLastNameError,
-                  41,
-                  true
-                )
+                onFieldChange(target.value, setLastName, setLastNameError, 41, true)
               }
               onBlur={() =>
-                lastName.length > 2
-                  ? setLastNameError("")
-                  : setLastNameError(AT_LEAST_2_LETTERS)
+                lastName.length > 2 ? setLastNameError("") : setLastNameError(AT_LEAST_2_LETTERS)
               }
             />
           </FormGroup>
@@ -163,18 +129,10 @@ const Register = (props) => {
               value={username}
               error={usernameError || null}
               onChange={({ target }) =>
-                onFieldChange(
-                  target.value,
-                  setUsername,
-                  setUsernameError,
-                  31,
-                  true
-                )
+                onFieldChange(target.value, setUsername, setUsernameError, 31, true)
               }
               onBlur={() =>
-                username.length > 2
-                  ? setUsernameError("")
-                  : setUsernameError(AT_LEAST_2_LETTERS)
+                username.length > 2 ? setUsernameError("") : setUsernameError(AT_LEAST_2_LETTERS)
               }
             />
             <FormField
@@ -182,13 +140,9 @@ const Register = (props) => {
               id="emailField"
               label="Email"
               value={email}
-              onChange={({ target }) =>
-                onFieldChange(target.value, setEmail, setEmailError)
-              }
+              onChange={({ target }) => onFieldChange(target.value, setEmail, setEmailError)}
               onBlur={() =>
-                emailValidation(email)
-                  ? setEmailError("")
-                  : setEmailError(INVALID_EMAIL)
+                emailValidation(email) ? setEmailError("") : setEmailError(INVALID_EMAIL)
               }
               error={emailError || null}
             />
@@ -216,7 +170,7 @@ const Register = (props) => {
                 seccuss
                 control={Input}
                 type="Password"
-                disabled={passwordError}
+                disabled={passwordError ? true : false}
                 id="repeatPasswordField"
                 label="Repeat Password"
                 onBlur={() =>
@@ -227,11 +181,7 @@ const Register = (props) => {
                 value={repeatedPassword}
                 error={repeatedPasswordError || null}
                 onChange={({ target }) =>
-                  onFieldChange(
-                    target.value,
-                    setRepeatedPassword,
-                    setRepeatedPasswordError
-                  )
+                  onFieldChange(target.value, setRepeatedPassword, setRepeatedPasswordError)
                 }
               />
               {serverErrors.length > 0 && (
@@ -250,7 +200,9 @@ const Register = (props) => {
                 loading={props.registerStatus === "loading"}
                 disabled={!isFormValid()}
                 content="Submit"
-                onClick={() => {if(isFormValid()) onSubmitClick()}}
+                onClick={() => {
+                  if (isFormValid()) onSubmitClick();
+                }}
                 style={{ backgroundColor: env.mainColor, marginTop: "30px" }}
               />
             </FormField>
@@ -258,9 +210,7 @@ const Register = (props) => {
               <Message floating>
                 <MessageHeader>password requirements:</MessageHeader>
                 <MessageList>
-                  <MessageItem>
-                    password length has to be between 8 to 30
-                  </MessageItem>
+                  <MessageItem>password length has to be between 8 to 30</MessageItem>
                   <MessageItem>
                     the password must contain at least:{" "}
                     <MessageList>
@@ -279,11 +229,9 @@ const Register = (props) => {
   );
 };
 
-const mapStateToProps = ({ login, register }) => {
-  const { accessToken } = login;
+const mapStateToProps = ({ register }) => {
   const { registerStatus, registerError } = register;
   return {
-    accessToken,
     registerStatus,
     registerError,
   };

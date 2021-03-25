@@ -22,9 +22,9 @@ router.post(
   asyncHandler(async (req, res) => {
     try {
       const { refreshToken } = req.body;
-      if (!refreshToken) res.sendStatus(401);
+      if (!refreshToken) res.sendStatus(403);
       const token = await controller.refreshToken(refreshToken);
-      res.send(token);
+      res.status(201).send(token);
     } catch (error) {
       res.status(400).send(error);
       // error = errorHandler(error);

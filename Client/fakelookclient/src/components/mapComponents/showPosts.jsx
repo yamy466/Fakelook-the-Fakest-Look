@@ -2,7 +2,7 @@ import { Marker, Popup } from "react-leaflet";
 import React, { Component } from "react";
 import customIcon from "./CustomIcon";
 import { connect } from "react-redux";
-import { fetchPosts } from "../../actions";
+import { fetchPosts } from "../../actions/postsActions";
 import Post from "../post/post";
 
 class ShowPosts extends Component {

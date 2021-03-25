@@ -3,6 +3,8 @@ import { useHistory } from "react-router-dom";
 import { Image, MenuItem } from "semantic-ui-react";
 import logo from "../../logo/logo_transparent.png";
 import { connect } from "react-redux";
+import jwtService from "../../services/jwtService";
+const {getAccessToken} = jwtService
 
 const Navigation = (props) => {
   const [pathName, setPathName] = useState(window.location.pathname);
@@ -14,20 +16,16 @@ const Navigation = (props) => {
     history.push(path);
     setPathName(path);
   };
-
   useEffect(() => {
     history.push(props.path);
   }, [props.path]);
-
-  useEffect(() => {
-    setPathName(window.location.pathname);
-  }, [props.accessToken, history]);
-
-  return (
+  
+  
+  return ( 
     <>
       <Image src={logo} size="tiny" onClick={() => onItemClick("/")} />
 
-      {props.accessToken ? (
+      {getAccessToken() ? (
         <>
           <MenuItem
             name={map}
@@ -58,9 +56,8 @@ const Navigation = (props) => {
   );
 };
 
-const mapStateToProps = ({ login, path }) => {
+const mapStateToProps = ({ path }) => {
   return {
-    accessToken: login.accessToken,
     path,
   };
 };

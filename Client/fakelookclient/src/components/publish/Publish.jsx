@@ -1,7 +1,8 @@
-import { useState, useEffect } from "react";
-import { Form, FormField, Image, Input, Segment } from "semantic-ui-react";
+import { useState } from "react";
+import { Form, FormField, Image, Segment } from "semantic-ui-react";
 import { connect } from "react-redux";
-import { selectLocation, addPost, getTagsByQuery } from "../../actions";
+import { selectLocation } from "../../actions/locationActions";
+import { addPost } from "../../actions/postsActions";
 import env from "../../enviroments/enviroment";
 import PhotoTagsSelection from "../photoTagsSelection/photoTagsSelection";
 import UsersSelection from "../UsersSelection/UsersSelection";
@@ -118,8 +119,7 @@ const Publish = props => {
 
 const mapStateToProps = ({ selectedLocation, login }) => {
   return {
-    selectedLocation,
-    accessToken: login.accessToken,
+    selectedLocation
   };
 };
 

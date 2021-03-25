@@ -1,20 +1,22 @@
 import { useState } from "react";
-import { Button, Menu } from "semantic-ui-react";
+import { Menu } from "semantic-ui-react";
 import Login from "../loginComponents/login";
 import "./header.css";
 import { connect } from "react-redux";
 import Navigation from "../navigationComponents/navigation";
-import env from "../../enviroments/enviroment";
-import { login, logout } from "../../actions";
+import { logout } from "../../actions/authActions";
 import Register from "../register/register";
+import jwtService from "../../services/jwtService";
+import AuthHeader from "./authHeader";
+const { getAccessToken } = jwtService;
 
 const Header = props => {
   const [loginOpen, setLoginOpen] = useState(false);
   const [registerOpen, setRegisterOpen] = useState(false);
-  const { accessToken, logout } = props;
+  const { logout } = props;
 
   const onAuthClick = e => {
-    if (accessToken) {
+    if (getAccessToken()) {
       logout();
     } else {
       setLoginOpen(true);
@@ -27,27 +29,13 @@ const Header = props => {
 
   return (
     <Menu className="menu" tabular color="blue">
-      <Navigation />
-      <Menu.Menu position="right">
-        {!accessToken && (
-          <Button style={{ backgroundColor: env.mainColor }} onClick={onRegisterClick}>
-            Register
-          </Button>
-        )}
-        <Button className="right" onClick={onAuthClick}>
-          {accessToken ? "Logout" : "Login"}
-        </Button>
-      </Menu.Menu>
+      <Navigation/>
+      <AuthHeader onAuthClick={onAuthClick} onRegisterClick={onRegisterClick} />
       <Login open={loginOpen} onClose={() => setLoginOpen(false)} />
       <Register open={registerOpen} onClose={() => setRegisterOpen(false)} />
     </Menu>
   );
 };
 
-const mapStateToProps = ({ login }) => {
-  return {
-    accessToken: login.accessToken,
-  };
-};
 
-export default connect(mapStateToProps, { login, logout })(Header);
+export default connect(null, { logout })(Header);

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Button, Form, Header, Input, Message, Modal } from "semantic-ui-react";
 import env from "../../enviroments/enviroment";
 import { connect } from "react-redux";
-import { login } from "../../actions";
+import { login } from "../../actions/authActions";
 
 const Login = (props) => {
   const [name, setName] = useState("");

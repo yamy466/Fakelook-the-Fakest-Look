@@ -1,7 +1,7 @@
 import { connect } from 'react-redux'
 import { useEffect } from "react";
 import { useMapEvents } from "react-leaflet";
-import {selectLocation} from "../../actions"
+import {selectLocation} from "../../actions/locationActions"
 
 const LocationMarker = (props) => {
   const map = useMapEvents({

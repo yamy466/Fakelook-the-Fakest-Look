@@ -13,7 +13,7 @@ class SocialController {
     return await this.getIdArrayAsUsernames(friends);
   }
 
-  async getIdArrayAsUsernames(requests) {
+  async getIdArrayAsUsernames(requests = []) {
     let user = {};
     let users = [];
     for (let i = 0; i < requests.length; i++) {

@@ -6,10 +6,11 @@ const status = (state = [], action) => {
       return { filterStatus: "loading" };
     case types.FILTER_SUCCESS:
       return { filterStatus: "success" };
+    case types.FILTER_ERROR:
+      return { filterStatus: "error" };
     default:
-      break;
+      return state;
   }
-  return state;
 };
 
 export default status;

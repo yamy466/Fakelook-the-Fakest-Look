@@ -1,45 +1,48 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { fetchFriends, deleteAFriend } from "../../actions";
+import { useEffect, useState } from "react";
 import { Card, Button, Header } from "semantic-ui-react";
 import "./friends.css";
+import { deleteFriend, getFriends } from "../../services/socialServices";
 
-class ShowFriends extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-    props.fetchFriends();
-  }
+const ShowFriends = () => {
+  const [friends, setFriends] = useState([]);
 
-  removeFriend = (e) => {
-    this.props.deleteAFriend(e.currentTarget.name);
+  useEffect(() => {
+    (async () => {
+      try {
+        const res = await getFriends();
+        setFriends(res.data);
+      } catch (error) {
+        console.error(error);
+      }
+    })();
+  }, []);
+
+  const removeFriend = async name => {
+    try {
+      const res = await deleteFriend(name);
+      setFriends(res.data);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
-  render() {
-    return (
-      <div>
-        <Header as="h2">Your friends:</Header>
-        <Card.Group>
-          {this.props.friends.map((f) => {
-            return (
-              <div className="friendCard">
-                <Card key={f} header={f}></Card>
-                <Button name={f} onClick={this.removeFriend} color="red">
-                  Remove
-                </Button>
-              </div>
-            );
-          })}
-        </Card.Group>
-      </div>
-    );
-  }
-}
-
-const mapStateToProps = ({ friends }) => {
-  return {
-    friends: friends,
-  };
+  return (
+    <div>
+      <Header as="h2">Your friends:</Header>
+      <Card.Group>
+        {friends.map(f => {
+          return (
+            <div className="friendCard">
+              <Card key={f} header={f}></Card>
+              <Button onClick={() => removeFriend(f)} inverted color="red">
+                Remove
+              </Button>
+            </div>
+          );
+        })}
+      </Card.Group>
+    </div>
+  );
 };
 
-export default connect(mapStateToProps, { fetchFriends, deleteAFriend })(ShowFriends);
+export default ShowFriends;

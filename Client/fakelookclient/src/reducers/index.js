@@ -4,11 +4,6 @@ import selectedLocation from "./locationsReducer";
 import login from "./loginReducer";
 import register from "./registerReducer";
 import path from "./pathReducer";
-import social from "./socialReducer";
-import friends from "./friendsReducer";
-import groups from "./groupsReducer";
-import photoTags from "./tagsReducer";
-import users from "./usersReducer";
 import status from "./statusReducer";
 
 export default combineReducers({
@@ -17,10 +12,5 @@ export default combineReducers({
   login,
   register,
   path,
-  social,
-  photoTags,
-  users,
-  status,
-  friends,
-  groups,
-});
+  status
+})

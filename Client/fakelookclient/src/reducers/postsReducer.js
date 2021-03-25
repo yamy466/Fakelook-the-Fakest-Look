@@ -17,12 +17,8 @@ const posts = (state = [], action) => {
       );
       return [...state];
     default:
-      break;
+      return state;
   }
-  if (action.type === types.FETCH_POSTS) {
-  }
-
-  return state;
 };
 
 export default posts;

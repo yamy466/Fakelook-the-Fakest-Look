@@ -1,27 +1,18 @@
-import React, { Component } from "react";
+import { useEffect } from "react";
 import { connect } from "react-redux";
-import { fetchPosts } from "../../actions";
+import { fetchPosts } from "../../actions/postsActions";
 import { Segment, Sidebar, SidebarPusher } from "semantic-ui-react";
 import Post from "../post/post";
 import UserMenu from "../userMenu/userMenu";
 import "./feed.css";
 
-class Feed extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
+const Feed = props => {
+  useEffect(() => {
     props.fetchPosts();
-    this.initPosts();
-  }
+  }, []);
 
-  initPosts = () => {
-    this.props.posts?.data?.map(res => {
-      this.setState({ posts: res });
-    });
-  };
-
-  renderPosts = () => {
-    return this.props.posts
+  const renderPosts = () => {
+    return props.posts
       ?.sort((a, b) => (a.postedTime > b.postedTime ? -1 : 1))
       .map(post => {
         return (
@@ -33,23 +24,21 @@ class Feed extends Component {
       });
   };
 
-  render() {
-    return (
-      <div>
-        <Sidebar.Pushable as={Segment}>
-          <UserMenu
-            visible={true}
-            showClose={false}
-            setVisible={() => alert("Can not close the window here")}
-          />
-          <SidebarPusher>
-            <div className="Centered">{this.renderPosts()}</div>
-          </SidebarPusher>
-        </Sidebar.Pushable>
-      </div>
-    );
-  }
-}
+  return (
+    <div>
+      <Sidebar.Pushable as={Segment}>
+        <UserMenu
+          visible={true}
+          showClose={false}
+          setVisible={() => alert("Can not close the window here")}
+        />
+        <SidebarPusher>
+          <div className="Centered">{renderPosts()}</div>
+        </SidebarPusher>
+      </Sidebar.Pushable>
+    </div>
+  );
+};
 
 const mapStateToProps = ({ posts }) => {
   return {

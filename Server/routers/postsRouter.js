@@ -21,12 +21,7 @@ router.post(
   "/addPost",
   asyncHandler(async (req, res) => {
     try {
-      const authHeader = req.headers["authorization"];
-      const token = authHeader && authHeader.split(" ")[1];
-      if (!token) throw new Error("no token given");
-      const { username } = jwt.decode(token);
-      if (!username) throw new Error("didnt found username in token");
-      req.body.post.publisher = username;
+      req.body.post.publisher = req.user.username;
       const data = await controller.addPost(req.body.post);
       res.send(data);
     } catch (err) {
@@ -48,7 +43,7 @@ router.post(
   "/filter",
   asyncHandler(async (req, res) => {
     try {
-      const posts = await controller.getFilteredPosts(req.body);
+      const posts = await controller.getFilteredPosts(req.body.filters || {});
       res.send(posts);
     } catch (error) {
       res.status(400).send(error);

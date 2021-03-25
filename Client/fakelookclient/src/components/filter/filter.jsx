@@ -1,4 +1,4 @@
-import { Dropdown, Form, Input, Segment } from "semantic-ui-react";
+import { Dropdown, Form, Input, Message, Segment } from "semantic-ui-react";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
 import { connect } from "react-redux";
@@ -7,7 +7,7 @@ import DatesRangeAccordion from "../datesRangeAcconrdion/datesRangeAccordion";
 import PhotoTagsSelection from "../photoTagsSelection/photoTagsSelection";
 import UsersSelection from "../UsersSelection/UsersSelection";
 import env from "../../enviroments/enviroment";
-import { getFilteredPosts } from "../../actions";
+import { getFilteredPosts } from "../../actions/postsActions";
 import getUsersLocation from "../../helpers/getUsersLocation";
 
 const MAX_RADIUS = 1000;
@@ -32,19 +32,20 @@ const Filter = props => {
 
   const onFilterClick = () => {
     getUsersLocation(location =>
-      props.getFilteredPosts(
-        datesRange[0].startDate,
-        datesRange[0].endDate,
-        selectedPublishers,
-        selectedPhotoTags,
-        null,
+      props.getFilteredPosts({
+        fromDate: datesRange[0].startDate,
+        toDate: datesRange[0].endDate,
+        publishers: selectedPublishers,
+        tags: selectedPhotoTags,
+        groups: null,
         radius,
         location
-      )
+      })
     );
   };
 
   const onClearClick = () => {
+    props.getFilteredPosts()
     setSelectedGroups([]);
     setSelectedPublishers([]);
     setSelectedPhotoTags([]);
@@ -128,6 +129,7 @@ const Filter = props => {
           <Form.Button onClick={onClearClick} content="Clear" />
         </Form.Group>
       </Form>
+      <Message negative hidden={props.filterStatus !== "error"}>There was a problem. try again later</Message>
     </Segment>
   );
 };

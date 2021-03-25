@@ -1,23 +1,26 @@
-import { connect } from "react-redux";
+import { useState } from "react";
 import { Dropdown } from "semantic-ui-react";
-import { getTagsByQuery, addPhotoTag } from "../../actions";
+import { addTag, getTagsByQuery } from "../../services/tagsService";
 
-const PhotoTagsSelection = (props) => {
-  const { addition, multiple, placeholder, photoTags, selectedTags, onSelect } = props;
+const PhotoTagsSelection = props => {
+  const [photoTags, setPhotoTags] = useState([]);
+  const { addition, multiple, placeholder, selectedTags, onSelect } = props;
   let photoTagsSearchQuery = "";
 
-  const onPhotoTagsSearchChange = (query) => {
+  const onPhotoTagsSearchChange = query => {
     photoTagsSearchQuery = query;
     setTimeout(async () => {
       if (query === photoTagsSearchQuery) {
-        props.getTagsByQuery(query);
+       const res = await getTagsByQuery(query);
+       if(res.data) setPhotoTags(res.data)
       }
     }, 300);
   };
 
-  const onAddTag = (e, tag) => {
-    if (props.photoTags.find((t) => t === tag)) return;
-    props.addPhotoTag(tag);
+  const onAddTag = async (e, tag) => {
+    if (photoTags.find(t => t === tag)) return;
+    await addTag(tag);
+    setPhotoTags([...photoTags, tag]);
     onSelect([...selectedTags, tag]);
   };
 
@@ -28,7 +31,7 @@ const PhotoTagsSelection = (props) => {
       allowAdditions={addition}
       onAddItem={(e, { value }) => onAddTag(e, value)}
       multiple={multiple}
-      options={[...photoTags, ...selectedTags]?.map((t) => {
+      options={[...photoTags, ...selectedTags]?.map(t => {
         return { text: t, key: t, value: t };
       })}
       placeholder={placeholder}
@@ -41,8 +44,4 @@ const PhotoTagsSelection = (props) => {
   );
 };
 
-const mapStateToProps = ({ photoTags }) => {
-  return { photoTags };
-};
-
-export default connect(mapStateToProps, { getTagsByQuery, addPhotoTag })(PhotoTagsSelection);
+export default PhotoTagsSelection;

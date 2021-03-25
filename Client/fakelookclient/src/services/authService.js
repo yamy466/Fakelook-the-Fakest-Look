@@ -1,23 +1,29 @@
 import http from "./httpService";
+import jwtService from "./jwtService";
 
 const serviceRoute = "/api/auth";
 
 const login = async (name, password) => {
-  return await http.post(`${serviceRoute}/login`, { name, password });
+  const res = await http.post(`${serviceRoute}/login`, { name, password });
+  jwtService.setAccessToken(res.data.accessToken);
+  jwtService.setRefreshToken(res.data.refreshToken);
+  return res;
 };
 
-const register = async (user) => {
-  //add to redux and add errors handlers!!
-  return await http.post(`${serviceRoute}/register`, user);
+const register = async user => {
+  const res = await http.post(`${serviceRoute}/register`, user);
+  jwtService.setAccessToken(res.data.accessToken);
+  jwtService.setRefreshToken(res.data.refreshToken);
+  return res;
 };
 
-const logout = async (token) => {
-  return await http.delete(`${serviceRoute}/logout`, { data: { token } });
-  //add in server (delete token of ) and full implementation in the redux!
-};
+const logout = async () =>{
+  await http.delete(`${serviceRoute}/logout`, { data:{ token: jwtService.getRefreshToken() }});
+  jwtService.setAccessToken("");
+  jwtService.setRefreshToken(""); 
+}
 
-const refreshToken = async (refreshToken) => {
-  return await http.post(`${serviceRoute}/token`, { refreshToken });
-};
+const refreshToken = async () =>
+  await http.post(`${serviceRoute}/token`, { refreshToken: jwtService.getRefreshToken() });
 
 export { login, register, refreshToken, logout };

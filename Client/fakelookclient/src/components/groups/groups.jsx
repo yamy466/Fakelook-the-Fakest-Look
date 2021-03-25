@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Button } from "semantic-ui-react";
-import "./friends.css";
-import ShowFriends from "./showFriends";
+import ShowFriends from "../friends/showFriends";
 import ShowGroups from "./showGroups";
 
 class Groups extends Component {
@@ -20,10 +19,10 @@ class Groups extends Component {
             case true:
               return (
                 <div>
-                  <div className="padded">
+                  <div>
                     <ShowFriends removeFriend={this.removeFriend} />
                   </div>
-                  <div className="padded">
+                  <div>
                     <Button primary onClick={this.friendsGroupsSwitch}>
                       Show your groups
                     </Button>
