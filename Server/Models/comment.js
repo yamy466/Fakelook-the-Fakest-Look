@@ -13,7 +13,7 @@ module.exports = (connection, sequelize) => {
         allowNull: false,
       },
       writer: {
-        type: sequelize.TEXT,
+        type: sequelize.INTEGER,
         allowNull: false,
       },
       createdAt: {
