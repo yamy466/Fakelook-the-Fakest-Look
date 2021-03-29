@@ -24,7 +24,7 @@ axiosCreate.interceptors.response.use(
   response => {
     return response;
   },
-  error => {
+  async error => {
     const originalRequest = error.config;
 
     if (

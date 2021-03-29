@@ -1,23 +1,23 @@
 import { Marker, Popup } from "react-leaflet";
-import React, { Component } from "react";
+import { Component } from "react";
 import customIcon from "./CustomIcon";
 import { connect } from "react-redux";
 import { fetchPosts } from "../../actions/postsActions";
-import Post from "../post/post";
+import Post from "../post/post.jsx";
 
 class ShowPosts extends Component {
   constructor(props) {
     super(props);
     this.state = {};
-      props.fetchPosts();
+    props.fetchPosts();
   }
 
-  createLocation = (location) => {
+  createLocation = location => {
     return { lat: location.x, lon: location.y };
   };
 
   renderLocations = () => {
-    return this.props.posts?.map((post) => {
+    return this.props.posts?.map(post => {
       return (
         <Marker
           key={post.id}

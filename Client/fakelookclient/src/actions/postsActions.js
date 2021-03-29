@@ -40,9 +40,9 @@ export const getFilteredPosts = filters => async (dispatch, getState) => {
   }
 };
 
-export const addLike = postId => async (dispatch, getState) => {
+export const addLike = (postId,type) => async (dispatch, getState) => {
   try {
-    await addLikeService(getState().login.userId, postId);
+    await addLikeService(postId,type);
     dispatch({ type: types.ADD_LIKE, payload: { userId: getState().login.userId, postId } });
   } catch (err) {
     console.error(err);

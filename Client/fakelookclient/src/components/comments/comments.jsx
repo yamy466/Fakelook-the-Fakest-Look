@@ -1,12 +1,16 @@
-import { List } from "semantic-ui-react"
+import { CardGroup } from "semantic-ui-react";
+import MyComment from "./comment";
 
-const Comments = (props) => {
-    const {post} = props
-    return (
-        <List>
-            
-        </List>
-    )
-}
+const Comments = ({ comments }) => {
+  return (
+    <CardGroup>
+      {comments &&
+        comments.length > 0 &&
+        comments
+          .sort((a, b) => (a.createdAt > b.createdAt ? -1 : 1))
+          .map(c => <MyComment comment={c} />)}
+    </CardGroup>
+  );
+};
 
-export default Comments
+export default Comments;

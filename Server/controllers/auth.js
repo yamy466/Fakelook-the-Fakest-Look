@@ -1,5 +1,5 @@
 require("dotenv").config();
-const usersRepository = require("../DAL/usersRepository")
+const usersRepository = require("../DAL/usersRepository");
 const authRepository = require("../DAL/authRepository");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
@@ -24,7 +24,7 @@ class AuthContoller {
     const accessToken = this.generateAccessToken(user);
     const refreshToken = this.generateRefreshToken(user);
     await authRepository.addRefreshToken(refreshToken);
-    return { accessToken, refreshToken, username: name , userId: user.id };
+    return { accessToken, refreshToken, username: name, userId: user.id };
   }
 
   async refreshToken(refreshToken) {
@@ -47,13 +47,13 @@ class AuthContoller {
     await authRepository.deleteToken(token);
   }
 
-  generateAccessToken = ({ username }) =>
-    jwt.sign({ username }, process.env.ACCESS_TOKEN_SECRET, {
+  generateAccessToken = ({ username, id }) =>
+    jwt.sign({ username, id }, process.env.ACCESS_TOKEN_SECRET, {
       expiresIn: "30s",
     });
 
-  generateRefreshToken = ({ username }) =>
-    jwt.sign({ username }, process.env.REFRESH_TOKEN_SECRET);
+  generateRefreshToken = ({ username, id }) =>
+    jwt.sign({ username, id }, process.env.REFRESH_TOKEN_SECRET);
 }
 
 module.exports = new AuthContoller();

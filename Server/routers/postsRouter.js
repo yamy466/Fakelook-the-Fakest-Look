@@ -30,14 +30,43 @@ router.post(
   })
 );
 
-router.post("/like",asyncHandler(async (req,res) => {
-  try {
-    const data = await controller.addLike(req.body.userId,req.body.postId);
-    res.send(data)
-  } catch (error) {
-    res.status(400).send(error)
-  }
-}))
+router.post(
+  "/like",
+  asyncHandler(async (req, res) => {
+    try {
+      const data = await controller.addLike(req.user.id, req.body.itemId, req.body.type);
+      res.send(data);
+    } catch (error) {
+      res.status(400).send(error);
+    }
+  })
+);
+
+router.post(
+  "/comment",
+  asyncHandler(async (req, res) => {
+    try {
+      const { comment } = req.body;
+      comment.writer = req.user.id;
+      const data = await controller.addComment(comment);
+      res.send(data);
+    } catch (error) {
+      res.status(400).send(error);
+    }
+  })
+);
+
+router.get(
+  "/comments",
+  asyncHandler(async (req, res) => {
+    try {
+      const comments = await controller.getPostComments(req.query.postId);
+      res.send(comments);
+    } catch (error) {
+      res.status(400).send(error);
+    }
+  })
+);
 
 router.post(
   "/filter",

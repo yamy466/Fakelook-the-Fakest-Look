@@ -1,4 +1,4 @@
-const { Posts } = require("./config/dbconfig");
+const { Posts, Comments } = require("./config/dbconfig");
 const { writeFile, readFile, readFileSync } = require("fs");
 const tag = require("../Models/tag");
 const { Op } = require("sequelize");
@@ -39,7 +39,15 @@ class PostsRepository {
     return { ...createdPost };
   }
 
-  async getFilteredPosts({fromDate = null, toDate = null, publishers = null, tags = null, group = null, radius = null, location = null}) {
+  async getFilteredPosts({
+    fromDate = null,
+    toDate = null,
+    publishers = null,
+    tags = null,
+    group = null,
+    radius = null,
+    location = null,
+  }) {
     let where = {};
     if (fromDate && toDate)
       where.postedTime = { [Op.and]: { [Op.gte]: fromDate, [Op.lte]: toDate } };
@@ -48,28 +56,54 @@ class PostsRepository {
     if (publishers && publishers.length > 0) where.publisher = publishers;
     if (tags && tags.length > 0) where.tags = { [Op.overlap]: tags };
     let posts = await Posts.findAll({ where });
-    if (radius && location){
-      radius = parseInt(radius) * 1000
+    if (radius && location) {
+      radius = parseInt(radius) * 1000;
       posts = posts.filter(p => {
-       return geo.getDistance(
-          { lat: location.lat, lon: location.lng },
-          { lat: p.location.x, lon: p.location.y }
-          ) <= radius;
-        });
-      }
+        return (
+          geo.getDistance(
+            { lat: location.lat, lon: location.lng },
+            { lat: p.location.x, lon: p.location.y }
+          ) <= radius
+        );
+      });
+    }
     return posts;
     // if(radius && location) where.location = sequelize.fn('ST_DWithin', sequelize.col('location'), sequelize.fn('ST_SetSRID', sequelize.fn('ST_MakePoint',  location.lat, location.lng), 4326), parseFloat(radius), false)
   }
 
-  async addLike(userId, postId) {
-    const post = await Posts.findOne({
-      where: {
-        id: postId,
-      },
+  async addLike(userId, itemId, type) {
+    let item;
+    if (type === "post") {
+      if (await this.isLikedAlready(userId, itemId)) throw "likes already";
+      item = await Posts.findOne({ where: { id: itemId } });
+    } else {
+      if (await this.isLikedAlready(userId, itemId)) throw "likes already";
+      item = await Comments.findOne({ where: { id: parseInt(itemId) } });
+    }
+
+    item.likes = item.likes ? [...item.likes, userId] : [userId];
+    item.save();
+    return item;
+  }
+
+  async isLikedAlready(userId, itemId) {
+    const res = await Comments.findOne({
+      where: { id: itemId, likes: { [Op.contains]: [userId] } },
     });
-    post.likes = post.likes ? [...post.likes, userId] : [userId];
-    post.save();
-    return post;
+    return res ? true : false;
+  }
+
+  async addComment({ text, writer, postId }) {
+    return await Comments.create({
+      text,
+      writer,
+      createdAt: new Date(),
+      postId,
+    });
+  }
+
+  async getPostComments(postId) {
+    return await Comments.findAll({ where: { postId } });
   }
 }
 

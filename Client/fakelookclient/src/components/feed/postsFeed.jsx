@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { connect } from "react-redux";
 import { fetchPosts } from "../../actions/postsActions";
 import { Segment, Sidebar, SidebarPusher } from "semantic-ui-react";
-import Post from "../post/post";
+import Post from "../post/post.jsx";
 import UserMenu from "../userMenu/userMenu";
 import "./feed.css";
 
