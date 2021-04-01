@@ -7,12 +7,11 @@ import {
   GridColumn,
   Label,
 } from "semantic-ui-react";
-import { connect } from "react-redux";
 import env from "../../enviroments/enviroment";
 import Like from "../like/Like";
 import FormattedDate from "../formattedDate/formattedDate";
 
-const PostContent = ({ post, userId }) => {
+const PostContent = ({ post }) => {
   const { publisher, text, postedTime, tags, taggedUsers } = post;
 
   return (
@@ -47,10 +46,4 @@ const PostContent = ({ post, userId }) => {
   );
 };
 
-const mapStateToProps = ({ login }) => {
-  return {
-    userId: login.userId,
-  };
-};
-
-export default connect(mapStateToProps)(PostContent);
+export default PostContent;

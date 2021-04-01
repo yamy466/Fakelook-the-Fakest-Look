@@ -11,10 +11,9 @@ const Like = ({ userId, item, type, addLike }) => {
 
   const onLikeClick = async () => {
     if (type === "post") addLike(id, type);
-    else {
-      await like(id, type);
-      setLikes(likes ? [...likes, userId] : [userId]);
-    }
+    else await like(id, type);
+
+    setLikes(likes ? [...likes, userId] : [userId]);
   };
 
   return (
