@@ -8,7 +8,7 @@ const Comments = ({ comments }) => {
         comments.length > 0 &&
         comments
           .sort((a, b) => (a.createdAt > b.createdAt ? -1 : 1))
-          .map(c => <MyComment comment={c} />)}
+          .map(c => <MyComment key={c.id} comment={c} />)}
     </CardGroup>
   );
 };
