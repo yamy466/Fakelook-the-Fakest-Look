@@ -1,15 +1,30 @@
 const express = require("express");
 const router = express.Router();
-const controller = require("../controllers/auth");
+const controller = require("../controllers/authController");
 const asyncHandler = require("../helpers/asyncHandler");
-const errorHandler = require("../helpers/errorHandler");
+const jwt = require("jsonwebtoken");
+
+router.get(
+  "/validate",
+  asyncHandler(async (req, res) => {
+    try {
+      const { token } = req.query;
+      jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+        if (err) throw err;
+        res.send(user);
+      });
+    } catch (error) {
+      res.status(401).send(error);
+    }
+  })
+);
 
 router.post(
   "/login",
   asyncHandler(async (req, res) => {
     try {
-      const { name, password } = req.body;
-      const data = await controller.login(name, password.toString());
+      const { user } = req.body;
+      const data = await controller.login(user);
       res.send(data);
     } catch (error) {
       res.status(400).send(error);
@@ -27,8 +42,6 @@ router.post(
       res.status(201).send(token);
     } catch (error) {
       res.status(400).send(error);
-      // error = errorHandler(error);
-      // res.status(error.status).send(error)
     }
   })
 );
@@ -37,7 +50,7 @@ router.post(
   "/register",
   asyncHandler(async (req, res) => {
     try {
-      const data = await controller.register({ ...req.body });
+      const data = await controller.register(req.body.user);
       res.send(data);
     } catch (error) {
       res.status(400).send(error);
@@ -53,8 +66,6 @@ router.delete(
       res.sendStatus(204);
     } catch (error) {
       res.status(400).send(error);
-      // error = errorHandler(error);
-      // res.status(error.status).send(error)
     }
   })
 );

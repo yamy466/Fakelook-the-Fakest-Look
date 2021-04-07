@@ -1,54 +1,26 @@
 const express = require("express");
 const router = express.Router();
-const controller = require("../controllers/posts");
+const controller = require("../controllers/usersController");
 const asyncHandler = require("../helpers/asyncHandler");
-const jwt = require("jsonwebtoken");
 
-// Get posts from db
 router.get(
-  "/getPosts",
+  "/search",
   asyncHandler(async (req, res) => {
     try {
-      const data = await controller.getAllPosts();
-      res.send(data);
+      const { query, username } = req.query;
+      const users = await controller.getUsersByQuery(query, username);
+      res.send(users.map(u => u.username));
     } catch (error) {
       res.status(400).send(error);
     }
   })
 );
 
-router.post(
-  "/addPost",
+router.get(
+  "/getByAuth",
   asyncHandler(async (req, res) => {
     try {
-      req.body.post.publisher = req.user.username;
-      const data = await controller.addPost(req.body.post);
-      res.send(data);
-    } catch (err) {
-      res.status(400).send(error);
-    }
-  })
-);
-
-router.post(
-  "/like",
-  asyncHandler(async (req, res) => {
-    try {
-      const data = await controller.addLike(req.user.id, req.body.itemId, req.body.type);
-      res.send(data);
-    } catch (error) {
-      res.status(400).send(error);
-    }
-  })
-);
-
-router.post(
-  "/comment",
-  asyncHandler(async (req, res) => {
-    try {
-      const { comment } = req.body;
-      comment.writer = req.user.id;
-      const data = await controller.addComment(comment);
+      const data = await controller.getUserByUsernameAndPassword(req.query);
       res.send(data);
     } catch (error) {
       res.status(400).send(error);
@@ -57,11 +29,11 @@ router.post(
 );
 
 router.get(
-  "/comments",
+  "/getByUsername",
   asyncHandler(async (req, res) => {
     try {
-      const comments = await controller.getPostComments(req.query.postId);
-      res.send(comments);
+      const user = await controller.getUserByUsername(req.query.username);
+      res.send(user);
     } catch (error) {
       res.status(400).send(error);
     }
@@ -69,11 +41,35 @@ router.get(
 );
 
 router.post(
-  "/filter",
+  "/getUsernamesByIds",
   asyncHandler(async (req, res) => {
     try {
-      const posts = await controller.getFilteredPosts(req.body.filters || {});
-      res.send(posts);
+      const data = await controller.getUsernamesByIds(req.body);
+      res.send(data);
+    } catch (error) {
+      res.status(400).send(error);
+    }
+  })
+);
+
+router.get(
+  "/getById",
+  asyncHandler(async (req, res) => {
+    try {
+      const user = await controller.getUserById(req.query.id);
+      res.send(user);
+    } catch (error) {
+      res.status(400).send(error);
+    }
+  })
+);
+
+router.post(
+  "/new",
+  asyncHandler(async (req, res) => {
+    try {
+      const data = await controller.addNewUser(req.body.user);
+      res.send(data);
     } catch (error) {
       res.status(400).send(error);
     }
