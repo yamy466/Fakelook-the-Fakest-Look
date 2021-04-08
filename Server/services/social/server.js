@@ -1,12 +1,12 @@
 const express = require("express");
 const app = express();
 const cors = require("cors");
-const postsRouter = require("./routes/postsRouter");
+const socialRouter = require("./routes/socialRouter");
 const { PORTS, URLS } = require("./settings/URLS");
 
 app.use(express.json({limit: '50mb'}));
 app.use(cors());
 
-app.listen(PORTS.postsPort, () => console.log(`posts service running at: ${URLS.postsURL}`));
+app.listen(PORTS.socialPort, () => console.log(`social service running at: ${URLS.socialURL}`));
 
-app.use(postsRouter);
+app.use(socialRouter);

@@ -1,17 +1,24 @@
 const { Users } = require("./config/dbconfig");
-const UsersRepository = require("./usersRepository");
 
 class SocialRepository {
   async getAllFriendRequests(username) {
     //returns an array of all the users who sent a friend request
-    let user = await UsersRepository.getUserByUsernameOrId(username);
+    let user = await this.getUserByUsernameOrId(username);
     if (user.requests === null) return [];
     else return user.requests;
   }
 
+  async getUserByUsernameOrId(username = null, id = null) {
+    if (!username && !id) throw "no id or username given in getUserByUsernameOrId method";
+    let where = {};
+    if (username) where.username = username;
+    else if (id) where.id = id;
+    return await Users.findOne({ where });
+  }
+
   async getAllFriends(username) {
     //returns an array of all the users who sent a friend request
-    let user = await UsersRepository.getUserByUsernameOrId(username);
+    let user = await this.getUserByUsernameOrId(username);
     if (user.friends === null)
      Users.update({ friends: {} }, { where: { username: user.username } });
     return user.friends;
@@ -60,8 +67,8 @@ class SocialRepository {
   }
 
   async createNewRequest(userToAdd, currentUsername) {
-    let addedUser = await UsersRepository.getUserByUsernameOrId(userToAdd);
-    let currentUser = await UsersRepository.getUserByUsernameOrId(currentUsername);
+    let addedUser = await this.getUserByUsernameOrId(userToAdd);
+    let currentUser = await this.getUserByUsernameOrId(currentUsername);
     let reqs = addedUser.requests;
     if (this.isFriend(addedUser, currentUser.id) || this.isRequestExists(addedUser, currentUser.id))
       return "request exists";

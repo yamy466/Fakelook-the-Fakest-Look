@@ -1,6 +1,5 @@
 const express = require("express");
 const router = express.Router();
-const controller = require("../controllers/posts");
 const asyncHandler = require("../helpers/asyncHandler");
 const axios = require("axios").default
 const {URLS} = require("../settings/URLS")
@@ -10,8 +9,8 @@ router.get(
   "/getPosts",
   asyncHandler(async (req, res) => {
     try {
-      const data = await controller.getAllPosts();
-      res.send(data);
+      const response = await axios.get(`${URLS.postsURL}/getPosts`)
+      res.send(response.data);
     } catch (error) {
       res.status(400).send(error);
     }
@@ -22,10 +21,11 @@ router.post(
   "/addPost",
   asyncHandler(async (req, res) => {
     try {
-      req.body.post.publisher = req.user.username;
-      const data = await controller.addPost(req.body.post);
-      res.send(data);
-    } catch (err) {
+      const {post} = req.body;
+      post.publisher = req.user.username;
+      const response = await axios.post(`${URLS.postsURL}/addPost`,post);
+      res.send(response.data);
+    } catch (error) {
       res.status(400).send(error);
     }
   })
@@ -35,8 +35,9 @@ router.post(
   "/like",
   asyncHandler(async (req, res) => {
     try {
-      const data = await controller.addLike(req.user.id, req.body.itemId, req.body.type);
-      res.send(data);
+      const {itemId,type} = req.body
+      const response = await axios.post(`${URLS.postsURL}/like`,{userId: req.user.id, itemId, type});
+      res.send(response.data);
     } catch (error) {
       res.status(400).send(error);
     }
@@ -47,10 +48,11 @@ router.post(
   "/comment",
   asyncHandler(async (req, res) => {
     try {
-      const { comment } = req.body;
+      let { comment } = req.body;
       comment.writer = req.user.id;
-      comment = await axios.post(`${URLS.postsURL}/comment`,comment)
-      const response = await axios.get(`${URLS.usersURL}/getById/?id=${req.user.id}`)
+      let response = await axios.post(`${URLS.postsURL}/comment`,comment)
+      comment = response.data
+      response = await axios.get(`${URLS.usersURL}/getById/?id=${req.user.id}`)
       comment.writer = response.data.username;
       res.send(comment);
     } catch (error) {
@@ -78,8 +80,8 @@ router.post(
   "/filter",
   asyncHandler(async (req, res) => {
     try {
-      const posts = await controller.getFilteredPosts(req.body.filters || {});
-      res.send(posts);
+      const response = await axios.post(`${URLS.postsURL}/filter`,req.body.filters);
+      res.send(response.data);
     } catch (error) {
       res.status(400).send(error);
     }

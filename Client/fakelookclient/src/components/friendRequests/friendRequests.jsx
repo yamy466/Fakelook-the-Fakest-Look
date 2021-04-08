@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import { connect } from "react-redux";
+import { useEffect, useState } from "react";
 import "./request.css";
 import {
   addNewFriend,
@@ -24,27 +23,24 @@ const FriendRequests = props => {
   }, []);
 
   const acceptRequest = async targetName => {
-    const res = await addNewFriend(props.username, targetName);
+    const res = await addNewFriend(targetName);
     setRequests(res.data);
   };
 
   const declineRequest = async targetName => {
-    const requests = await declineFriendRequest(props.username, targetName);
+    const requests = await declineFriendRequest(targetName);
     setRequests(requests);
   };
-
-  return requests?.map(username => (
-    <FriendRequest
-      key={username}
-      username={username}
-      acceptRequest={acceptRequest}
-      declineRequest={declineRequest}
-    />
-  ));
+  return requests && requests.length > 0
+    ? requests?.map(username => (
+        <FriendRequest
+          key={username}
+          username={username}
+          acceptRequest={acceptRequest}
+          declineRequest={declineRequest}
+        />
+      ))
+    : null;
 };
 
-const mapStateToProps = ({ login }) => {
-  return { username: login.username };
-};
-
-export default connect(mapStateToProps)(FriendRequests);
+export default FriendRequests;

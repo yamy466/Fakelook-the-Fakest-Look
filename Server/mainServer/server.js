@@ -1,4 +1,3 @@
-require("dotenv").config();
 const express = require("express");
 const app = express();
 const cors = require("cors");
@@ -9,10 +8,9 @@ const authRouter = require("./routers/authRouter");
 const tagsRouter = require("./routers/tagsRouter");
 const usersRouter = require("./routers/usersRouter");
 const {URLS,PORTS} = require("./settings/URLS");
-const bodyParser = require("body-parser");
 const axios = require("axios").default;
 
-app.use(bodyParser.json({ limit: "50mb" }));
+app.use(express.json({ limit: "50mb" }));
 app.use(cors());
 
 app.listen(PORTS.mainServerPort, () => {

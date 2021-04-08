@@ -1,5 +1,4 @@
-const socialDB = require("../DAL/socialRepository");
-const usersDB = require("../DAL/usersRepository");
+const socialDB = require("../dal/socialRepository");
 
 class SocialController {
   // Get friend requests
@@ -17,15 +16,15 @@ class SocialController {
     let user = {};
     let users = [];
     for (let i = 0; i < requests.length; i++) {
-      user = await usersDB.getUserByUsernameOrId(null, requests[i]);
+      user = await socialDB.getUserByUsernameOrId(null, requests[i]);
       users.push(user.username);
     }
     return users;
   }
 
   async addFriend(username, friendUsername) {
-    let user = await usersDB.getUserByUsernameOrId(username);
-    let friendUser = await usersDB.getUserByUsernameOrId(friendUsername);
+    let user = await socialDB.getUserByUsernameOrId(username);
+    let friendUser = await socialDB.getUserByUsernameOrId(friendUsername);
     try {
       await socialDB.addFriend(user, friendUser);
       await socialDB.deleteRequest(user, friendUser.id);
@@ -36,15 +35,15 @@ class SocialController {
   }
 
   async declineRequest(username, declinedUsername) {
-    let user = await usersDB.getUserByUsernameOrId(username);
-    let declinedUser = await usersDB.getUserByUsernameOrId(declinedUsername);
+    let user = await socialDB.getUserByUsernameOrId(username);
+    let declinedUser = await socialDB.getUserByUsernameOrId(declinedUsername);
     await socialDB.deleteRequest(user, declinedUser.id);
     return await this.getIdArrayAsUsernames(user.requests);
   }
 
   async deleteFriend(username, deletedUsername) {
-    let user = await usersDB.getUserByUsernameOrId(username);
-    let deletedUser = await usersDB.getUserByUsernameOrId(deletedUsername);
+    let user = await socialDB.getUserByUsernameOrId(username);
+    let deletedUser = await socialDB.getUserByUsernameOrId(deletedUsername);
     await socialDB.removeFriend(user, deletedUser);
     return this.getIdArrayAsUsernames(user.friends);
   }

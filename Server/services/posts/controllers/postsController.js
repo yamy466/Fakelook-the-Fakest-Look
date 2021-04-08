@@ -20,7 +20,7 @@ class PostsController {
     });
   }
 
-  async addLike(userId, itemId, type) {
+  async addLike({userId, itemId, type}) {
     return await db.addLike(userId, itemId, type);
   }
 
@@ -30,14 +30,6 @@ class PostsController {
 
   async getPostComments(postId) {
     let comments = await db.getPostComments(postId);
-    // comments = await Promise.all(
-    //   comments.map(c =>
-    //     usersRepository.getUserByUsernameOrId(null, c.writer).then(u => {
-    //       c.writer = u.username;
-    //       return c;
-    //     })
-    //   )
-    // );
     return comments;
   }
 }

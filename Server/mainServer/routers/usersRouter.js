@@ -1,6 +1,5 @@
 const express = require("express");
 const router = express.Router();
-const controller = require("../controllers/users");
 const asyncHandler = require("../helpers/asyncHandler");
 const axios = require("axios").default
 const {URLS} = require("../settings/URLS")

@@ -8,7 +8,7 @@ const axiosCreate = axios.create({ baseURL: environment.serverUrl });
 
 axiosCreate.interceptors.request.use(
   config => {
-    const token = jwtService.getAccessToken();
+    const token = jwtService.getAccessToken()
     if (token) {
       config.headers["Authorization"] = "Bearer " + token;
     }
